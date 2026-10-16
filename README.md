@@ -4,6 +4,10 @@
 
 后端采用 **JDK 21 + Spring Boot 4 MVC + MyBatis + Boot starter 4.0.0 + PostgreSQL + HikariCP + Flyway + Sa-Token + Redis**；前端采用 Vue 3、TypeScript、Vite、Pinia 和 Element Plus。MyBatis 负责 SQL 映射，HikariCP 管理连接池，PostgreSQL 保存身份及修订权威状态，Flyway 管理增量迁移。
 
+## 分支规范
+
+本地开发与测试均在 `dev` 分支进行；只有功能完好（自测通过、构建与测试通过、密钥扫描零命中）的代码才会合并并推送到 `main` 分支，`main` 始终保持可交付状态。详见 [AGENTS.md](AGENTS.md)。
+
 ## 分层结构
 
 按业务域组织，HTTP 入参、出参和数据库对象分别命名为 DTO、VO 和 DO：
