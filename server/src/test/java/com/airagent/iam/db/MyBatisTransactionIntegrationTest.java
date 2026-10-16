@@ -34,6 +34,9 @@ class MyBatisTransactionIntegrationTest {
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
 
+    @org.springframework.beans.factory.annotation.Value("${spring.datasource.username}")
+    private String appUsername;
+
     @Test
     void contextChangesShareTheSpringConnectionAndRollbackWithoutLeaking() {
         UUID userId = UUID.randomUUID();
@@ -54,7 +57,7 @@ class MyBatisTransactionIntegrationTest {
         assertEquals(backendPid, jdbcTemplate.queryForObject("SELECT pg_backend_pid()", Integer.class));
         String tenantContext = readTenantContext();
         assertTrue(tenantContext == null || tenantContext.isEmpty());
-        assertEquals("iam_app", jdbcTemplate.queryForObject("SELECT current_user", String.class));
+        assertEquals(appUsername, jdbcTemplate.queryForObject("SELECT current_user", String.class));
     }
 
     @Test

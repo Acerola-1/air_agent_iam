@@ -65,6 +65,8 @@ import tools.jackson.databind.ObjectMapper;
 @Service
 public class ServiceAccountServiceImpl implements ServiceAccountService {
 
+    private final com.airagent.iam.admin.ResourceGrantSupport grants;
+
     /** 服务账号与凭据管理的唯一权限码：本模块所有读写操作（含列表与详情）都要求它。 */
     static final String PERMISSION_SERVICE_WRITE = "platform:service:write";
     /** 账号有效期缺省天数（请求未给 expires_in_days 时），同时也是凭据的固定有效天数。 */
@@ -98,13 +100,14 @@ public class ServiceAccountServiceImpl implements ServiceAccountService {
      * @param mapper               审计 detail 序列化
      */
     public ServiceAccountServiceImpl(ServiceAccountMapper serviceAccountMapper, TenantMapper tenantMapper,
-                                     RequestContextMapper requestContextMapper, AdminEventMapper eventMapper, TransactionTemplate tx, ObjectMapper mapper) {
+                                     RequestContextMapper requestContextMapper, AdminEventMapper eventMapper, TransactionTemplate tx, ObjectMapper mapper, com.airagent.iam.admin.ResourceGrantSupport grants) {
         this.serviceAccountMapper = serviceAccountMapper;
         this.tenantMapper = tenantMapper;
         this.requestContextMapper = requestContextMapper;
         this.eventMapper = eventMapper;
         this.tx = tx;
         this.mapper = mapper;
+        this.grants = grants;
     }
 
     /**
@@ -147,6 +150,13 @@ public class ServiceAccountServiceImpl implements ServiceAccountService {
         try {
             return tx.execute(status -> {
                 setPlatformContext(actor.userId());
+                List<String> requested = sanitizeAudiences(req.permissions());
+                grants.lockWrite(actor, tenantId, requested, req.expectedContext(), req.expectedTenantRevision());
+                for (var permission : grants.permissions(requested)) {
+                    if (permission.resourceCode() != null && !grants.resourceAvailable(tenantId, permission)) {
+                        throw ApiException.conflict("资源未开通或已停用");
+                    }
+                }
                 TenantDO tenant = tenantMapper.selectTenant(tenantId);
                 if (tenant == null || !"active".equals(tenant.status())) {
                     throw ApiException.badRequest("目标企业未处于 active 状态");
@@ -503,7 +513,7 @@ public class ServiceAccountServiceImpl implements ServiceAccountService {
      *
      * <p>先经 {@link #sanitizeAudiences} 消毒（同一套字符规则兼用于受众与权限码），
      * 空集合直接返回空列表（等价于建档时不授予任何权限，不发 SQL）。数据库解析按
-     * “已启用 + 非资源型 + 企业域”过滤，命中数少于申请数即存在未知、停用、平台专属或
+     * “已启用 + 可下放 + 企业域”过滤；资源开通由写事务内统一检查，命中数少于申请数即存在未知、停用、平台专属或
      * 资源型权限码，整体 400 而不部分生效。
      *
      * <p>调用时机在开启事务之前，因此校验失败不会留下任何写入与审计。
@@ -519,7 +529,7 @@ public class ServiceAccountServiceImpl implements ServiceAccountService {
         }
         List<UUID> ids = serviceAccountMapper.resolvePermissions(requested);
         if (ids.size() != requested.size()) {
-            throw ApiException.badRequest("存在未知、停用、平台专属或资源型权限码，服务账号不可授予");
+            throw ApiException.badRequest("存在未知、停用、平台专属或不可下放权限码，服务账号不可授予");
         }
         return ids;
     }

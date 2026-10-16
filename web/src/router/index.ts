@@ -44,6 +44,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '平台角色', permission: 'platform:role:read' }
       },
       {
+        path: 'admin/platform/resources',
+        name: 'platform-resources',
+        component: () => import('@/views/platform/PlatformResourcesView.vue'),
+        meta: { title: '资源目录', permission: 'entitlement:manage' }
+      },
+      {
         path: 'admin/platform/service-accounts',
         name: 'service-accounts',
         component: () => import('@/views/platform/ServiceAccountsView.vue'),
@@ -72,6 +78,12 @@ const routes: RouteRecordRaw[] = [
         name: 'tenant-roles',
         component: () => import('@/views/tenant/TenantRolesView.vue'),
         meta: { title: '企业角色', permission: 'tenant:role:read', requireTenant: true }
+      },
+      {
+        path: 'admin/tenant/resources',
+        name: 'tenant-resources',
+        component: () => import('@/views/tenant/TenantResourcesView.vue'),
+        meta: { title: '企业资源', permission: 'tenant:role:read', requireTenant: true }
       },
       {
         path: 'admin/tenant/audit',

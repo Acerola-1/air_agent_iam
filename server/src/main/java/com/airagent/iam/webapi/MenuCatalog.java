@@ -94,6 +94,8 @@ public class MenuCatalog {
                 superAdmin || permissions.contains("platform:tenant:read")));
         children.add(item("platform-roles", "平台角色", "/admin/platform/roles", "Lock", 31,
                 superAdmin || permissions.contains("platform:role:read")));
+        children.add(item("platform-resources", "资源目录", "/admin/platform/resources", "Box", 36,
+                superAdmin || permissions.contains("entitlement:manage")));
         children.add(item("service-accounts", "服务账号", "/admin/platform/service-accounts", "Key", 41,
                 superAdmin || permissions.contains("platform:service:write")));
         children.add(item("platform-audit", "平台审计", "/admin/platform/audit", "Document", 51,
@@ -116,6 +118,8 @@ public class MenuCatalog {
         children.add(item("tenant-departments", "部门管理", "/admin/tenant/departments", "Connection", 71,
                 permissions.contains("tenant:department:read")));
         children.add(item("tenant-roles", "企业角色", "/admin/tenant/roles", "Avatar", 81,
+                permissions.contains("tenant:role:read")));
+        children.add(item("tenant-resources", "企业资源", "/admin/tenant/resources", "Box", 86,
                 permissions.contains("tenant:role:read")));
         children.add(item("tenant-audit", "企业审计", "/admin/tenant/audit", "Tickets", 91,
                 permissions.contains("tenant:audit:read")));

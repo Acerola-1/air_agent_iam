@@ -58,7 +58,7 @@ export function usePagedList<T>(
       if (e instanceof DOMException && e.name === 'AbortError') {
         return
       }
-      if (serial !== requestSerial) {
+      if (serial !== requestSerial || !isFresh(snapshot, auth.currentSnapshot)) {
         return
       }
       errorMessage.value = e instanceof ApiError ? e.message : '加载失败'
@@ -87,7 +87,14 @@ export function usePagedList<T>(
   }
 
   if (options.reloadKey) {
-    watch(options.reloadKey, () => reload(), { deep: true })
+    watch(options.reloadKey, () => {
+      items.value = []
+      cursorStack.length = 0
+      pageNumber.value = 1
+      hasMore.value = false
+      loaded.value = false
+      reload()
+    }, { deep: true })
   }
 
   onBeforeUnmount(() => controller?.abort())

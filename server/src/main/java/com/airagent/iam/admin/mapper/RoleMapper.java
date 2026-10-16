@@ -29,16 +29,17 @@ public interface RoleMapper {
     /**
      * keyset 分页：按 id 升序取 {@code afterId} 之后的至多 {@code fetchSize} 行角色。
      *
-     * <p>作用域过滤仅作用于 scope 列，与 RLS 是两条独立边界：不传 scope 时企业上下文同样会
-     * 返回内置模板与平台角色（两者企业列均为空）。服务层以 fetchSize = limit+1 探测下一页。
+     * <p>企业列表显式限制当前企业或全局企业模板；RLS还允许身份装配读取同一用户其他成员企业，
+     * 因而不能单独作为管理列表的当前企业过滤。服务层以 fetchSize = limit+1 探测下一页。
      *
      * @param scope     角色域过滤；仅 {@code platform} / {@code tenant} 有意义，{@code null} 不按域过滤
      * @param afterId   游标 id，仅返回 id 大于它的行；{@code null} 从头开始
      * @param fetchSize 实际取行数上限（含多取的一条探测行）
+     * @param tenantId 企业列表的明确目标；平台全局列表为null
      * @return 按 id 升序的角色列表；无匹配时为空列表，不返回 {@code null}
      */
     List<RoleDO> selectPage(@Param("scope") String scope, @Param("afterId") UUID afterId,
-                            @Param("fetchSize") int fetchSize);
+                            @Param("fetchSize") int fetchSize, @Param("tenantId") UUID tenantId);
 
     /**
      * 按主键读取角色（无行锁）。
@@ -132,6 +133,13 @@ public interface RoleMapper {
      * @return 删除的关联行数（无关联时为 0）
      */
     int deletePermissions(@Param("roleId") UUID roleId);
+
+    /** 授权目标在资源/企业锁之后锁定。 */
+    RoleDO lockById(@Param("id") UUID id);
+
+    int deletePermission(@Param("roleId") UUID roleId, @Param("code") String code);
+
+    int countActiveEntitlement(@Param("tenantId") UUID tenantId, @Param("resourceCode") String resourceCode);
 
     /**
      * 批量写入角色权限关联并记录授权人。

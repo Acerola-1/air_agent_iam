@@ -21,12 +21,13 @@
       <el-table-column prop="created_at" label="建档时间" min-width="170">
         <template #default="{ row }">{{ formatTime(row.created_at) }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="140" fixed="right">
+      <el-table-column label="操作" width="230" fixed="right">
         <template #default="{ row }">
           <el-button
             v-if="auth.hasPermission('platform:tenant:write')"
             link type="primary" @click="openEdit(row)"
           >名称/状态</el-button>
+          <el-button v-if="auth.hasPermission('entitlement:manage')" link type="primary" @click="openEntitlements(row)">资源开通</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -71,12 +72,14 @@
         <el-button type="primary" :loading="saving" @click="saveEdit">保存</el-button>
       </template>
     </el-dialog>
+    <TenantEntitlementDialog v-model="entitlementsVisible" :tenant="entitlementTarget" @changed="tenants.reload()" />
   </el-card>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import TenantEntitlementDialog from '@/components/TenantEntitlementDialog.vue'
 import CursorPager from '@/components/CursorPager.vue'
 import { tenantsApi } from '@/api/endpoints'
 import { ApiError } from '@/api/http'
@@ -91,6 +94,9 @@ const tenants = usePagedList<TenantView>(({ limit, cursor, signal }) =>
 onMounted(() => tenants.reload())
 
 const saving = ref(false)
+const entitlementsVisible = ref(false)
+const entitlementTarget = ref<TenantView | null>(null)
+function openEntitlements(row: TenantView) { entitlementTarget.value = row; entitlementsVisible.value = true }
 const createVisible = ref(false)
 const editVisible = ref(false)
 const editing = ref<TenantView | null>(null)

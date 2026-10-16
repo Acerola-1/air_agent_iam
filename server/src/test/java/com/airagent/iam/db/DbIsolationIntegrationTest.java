@@ -77,7 +77,7 @@ class DbIsolationIntegrationTest {
     void resetAndSeed() throws Exception {
         try (Connection con = DriverManager.getConnection(migrateJdbcUrl, migrateUser, migratePassword);
              Statement st = con.createStatement()) {
-            st.execute("TRUNCATE iam.tenants, iam.users CASCADE");
+            st.execute("TRUNCATE iam.resource_catalog, iam.tenants, iam.users CASCADE");
             st.execute("TRUNCATE iam.auth_sessions, iam.audit_logs, iam.outbox, iam.internal_clients, "
                     + "iam.sso_clients, iam.browser_handles, iam.bootstrap_meta CASCADE");
             String seedV2 = new String(
@@ -85,7 +85,15 @@ class DbIsolationIntegrationTest {
                             new org.springframework.core.io.ClassPathResource(
                                     "db/migration/V2__seed_catalog.sql").getInputStream()),
                     java.nio.charset.StandardCharsets.UTF_8);
-            st.execute(seedV2);
+            con.setAutoCommit(false);
+                st.execute("SELECT iam_auth.set_request_context(NULL, NULL, true)");
+                st.execute("INSERT INTO iam.resource_catalog(code,name_zh,sort,status,kind,parent_code) VALUES ('knowledge:lib:air','空气知识库',10,'active','leaf','knowledge') ON CONFLICT (code) DO NOTHING");
+                st.execute(seedV2);
+                st.execute("INSERT INTO iam.permissions(id,code,name_zh,scope,grantable_to_tenants,sort) VALUES "
+                        + "('01930000-0000-4000-8000-000000000211','tenant:resource:grant','企业资源授权管理','tenant',true,211) ON CONFLICT DO NOTHING");
+                st.execute("INSERT INTO iam.role_permissions(role_id,permission_id) SELECT r.id,p.id FROM iam.roles r "
+                        + "JOIN iam.permissions p ON p.code='tenant:resource:grant' WHERE r.code='tenant_admin' AND r.tenant_id IS NULL ON CONFLICT DO NOTHING");
+                con.commit();
         }
         inPlatformTx(con -> {
             for (Object[] u : new Object[][]{
@@ -152,15 +160,15 @@ class DbIsolationIntegrationTest {
     @Test
     void c04_seedCatalogCounts() throws Exception {
         inPlatformTx(con -> {
-            assertEquals(20L, count(con, "iam.permissions"));
+            assertEquals(21L, count(con, "iam.permissions"));
             assertEquals(4L, count(con, "iam.roles"));
-            assertEquals(27L, count(con, "iam.role_permissions"));
+            assertEquals(28L, count(con, "iam.role_permissions"));
             assertEquals(1L, count(con, "iam.resource_catalog"));
             try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(
                     "SELECT count(*) FROM iam.role_permissions rp JOIN iam.permissions p "
                             + "ON p.id = rp.permission_id WHERE p.resource_code IS NOT NULL")) {
                 rs.next();
-                assertEquals(0L, rs.getLong(1), "I1 阶段资源型权限不得授予");
+                assertEquals(0L, rs.getLong(1), "I1a 种子不预授资源型权限");
             }
         });
     }

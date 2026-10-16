@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.admin.mapper.EntitlementMapper">
+    <resultMap id="entitlement" type="com.airagent.iam.admin.entity.TenantEntitlementDO">
+        <constructor>
+            <idArg column="tenant_id" javaType="java.util.UUID"/>
+            <arg column="resource_code" javaType="String"/>
+            <arg column="status" javaType="String"/>
+            <arg column="revision" javaType="long"/>
+            <arg column="granted_at" javaType="java.time.Instant"/>
+            <arg column="revoked_at" javaType="java.time.Instant"/>
+            <arg column="updated_by" javaType="java.util.UUID"/>
+            <arg column="updated_at" javaType="java.time.Instant"/>
+        </constructor>
+    </resultMap>
+    <sql id="entitlementColumns">tenant_id, resource_code, status, revision, granted_at, revoked_at, updated_by, updated_at</sql>
+
+    <select id="selectByTenant" resultMap="entitlement" useCache="false">
+        SELECT <include refid="entitlementColumns"/> FROM iam.tenant_entitlements
+        WHERE tenant_id = #{tenantId}
+        <if test="afterResourceCode != null">AND resource_code &gt; #{afterResourceCode}</if>
+        ORDER BY resource_code ASC LIMIT #{fetchSize}
+    </select>
+
+    <select id="selectOne" resultMap="entitlement" useCache="false">
+        SELECT <include refid="entitlementColumns"/> FROM iam.tenant_entitlements
+        WHERE tenant_id = #{tenantId} AND resource_code = #{resourceCode}
+    </select>
+
+    <select id="selectTenantAuthRevision" resultType="long" useCache="false">
+        SELECT auth_revision FROM iam.tenants WHERE id = #{tenantId}
+    </select>
+    <select id="selectTenantStatus" resultType="String" useCache="false">
+        SELECT status FROM iam.tenants WHERE id = #{tenantId}
+    </select>
+    <select id="countAvailable" resultType="int" useCache="false">
+        SELECT count(*) FROM iam.tenant_entitlements te
+        JOIN iam.resource_catalog rc ON rc.code = te.resource_code
+        WHERE te.tenant_id = #{tenantId} AND te.resource_code = #{resourceCode}
+          AND te.status = 'active' AND rc.status = 'active'
+    </select>
+
+    <select id="selectActiveEntitledResources" resultType="String" useCache="false">
+        SELECT resource_code FROM iam.tenant_entitlements
+        WHERE tenant_id = #{tenantId} AND status = 'active'
+        ORDER BY resource_code
+    </select>
+
+    <update id="upsert" flushCache="true">
+        UPDATE iam.tenant_entitlements SET
+            status = #{status},
+            revision = revision + 1,
+            granted_at = CASE WHEN #{status} = 'active' THEN now() ELSE granted_at END,
+            revoked_at = CASE WHEN #{status} = 'revoked' THEN now() ELSE revoked_at END,
+            updated_by = #{updatedBy}
+        WHERE tenant_id = #{tenantId} AND resource_code = #{resourceCode}
+          AND revision = #{expectedRevision}
+    </update>
+
+    <insert id="insertIfAbsent" flushCache="true">
+        INSERT INTO iam.tenant_entitlements(tenant_id, resource_code, status, revision, granted_at, revoked_at, updated_by)
+        VALUES (#{tenantId}, #{resourceCode}, #{status}, 1,
+                CASE WHEN #{status} = 'active' THEN now() END,
+                CASE WHEN #{status} = 'revoked' THEN now() END,
+                #{updatedBy})
+        ON CONFLICT (tenant_id, resource_code) DO NOTHING
+    </insert>
+</mapper>

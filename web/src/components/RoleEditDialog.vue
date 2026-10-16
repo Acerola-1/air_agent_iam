@@ -15,7 +15,7 @@
           <el-input v-model="form.name" />
         </el-form-item>
         <el-form-item label="说明">
-          <el-input v-model="form.description" type="textarea" :rows="2" />
+          <el-input v-model="form.description" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" resize="none" />
         </el-form-item>
       </el-form>
 
@@ -40,6 +40,14 @@
           </el-checkbox>
         </el-checkbox-group>
       </div>
+      <div v-if="unavailable.length" class="grant-group">
+        <h4>已配置但当前不可新增（可保留或取消勾选以删除）</h4>
+        <el-checkbox-group v-model="form.permissionCodes">
+          <el-checkbox v-for="item in unavailable" :key="item.code" :value="item.code" :disabled="role?.builtin">
+            {{ item.code }} · {{ reasonLabel(item.reason) }}
+          </el-checkbox>
+        </el-checkbox-group>
+      </div>
       <el-empty v-if="!loading && !scopedGroups.length" description="当前范围没有可授予权限" :image-size="64" />
     </div>
     <template #footer>
@@ -54,6 +62,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { rolesApi } from '@/api/endpoints'
 import { ApiError } from '@/api/http'
+import { useWriteScope, type WriteScope } from '@/composables/useWriteScope'
 import type { GrantableTree, RoleView } from '@/api/types'
 
 const props = defineProps<{
@@ -67,6 +76,12 @@ const emit = defineEmits<{
   saved: []
 }>()
 
+const lease = ref<WriteScope | null>(null)
+const scopeGuard = useWriteScope(() => { lease.value = null; emit('update:modelValue', false) })
+const unavailable = computed(() => (props.role?.permission_states ?? []).filter(x => !x.effective || !x.grantable))
+function reasonLabel(reason: string | null) {
+  return ({ permission_disabled: '权限已停用', role_disabled: '角色已停用', resource_disabled: '资源已停用', not_entitled: '企业未开通', not_entitled_or_resource_disabled: '资源未开通或已停用' } as Record<string, string>)[reason ?? ''] ?? '当前不可新增'
+}
 const loading = ref(false)
 const saving = ref(false)
 const tree = ref<GrantableTree>({ groups: [] })
@@ -91,9 +106,13 @@ watch(
 )
 
 async function load(): Promise<void> {
+  const opened = scopeGuard.capture(); lease.value = opened
+  form.code = props.role?.code ?? ''; form.name = props.role?.name ?? ''; form.description = props.role?.description ?? ''
+  form.permissionCodes = [...(props.role?.permission_codes ?? [])]
   loading.value = true
   try {
-    tree.value = await rolesApi.grantableTree()
+    const result = await rolesApi.grantableTree()
+    if (scopeGuard.current(opened)) tree.value = result
   } catch (e) {
     ElMessage.error(e instanceof ApiError ? e.message : '可授权限树加载失败')
   } finally {
@@ -102,6 +121,9 @@ async function load(): Promise<void> {
 }
 
 async function save(): Promise<void> {
+  const opened = lease.value
+  if (saving.value || !scopeGuard.current(opened)) return
+  const context = { expected_context: opened.expected_context, expected_tenant_revision: opened.expected_tenant_revision }
   if (!form.code.trim() || !form.name.trim()) {
     ElMessage.warning('请填写角色编码与名称')
     return
@@ -110,15 +132,17 @@ async function save(): Promise<void> {
   try {
     if (props.role) {
       await rolesApi.update(props.role.id, {
+        ...context,
         name: form.name,
         description: form.description,
         status: props.role.status
       })
       if (!props.role.builtin) {
-        await rolesApi.replacePermissions(props.role.id, form.permissionCodes)
+        await rolesApi.replacePermissions(props.role.id, form.permissionCodes, context)
       }
     } else {
       await rolesApi.create({
+        ...context,
         scope: props.scope,
         code: form.code.trim(),
         name: form.name.trim(),
@@ -126,11 +150,12 @@ async function save(): Promise<void> {
         permission_codes: form.permissionCodes
       })
     }
+    if (!scopeGuard.current(opened)) return
     ElMessage.success('角色已保存')
     emit('update:modelValue', false)
     emit('saved')
   } catch (e) {
-    ElMessage.error(e instanceof ApiError ? e.message : '角色保存失败')
+    if (scopeGuard.current(opened)) ElMessage.error(e instanceof ApiError ? e.message : '角色保存失败')
   } finally {
     saving.value = false
   }

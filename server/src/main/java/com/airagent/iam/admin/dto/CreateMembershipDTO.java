@@ -26,6 +26,8 @@ import java.util.List;
  * @param password      新建账号的初始明文口令（8..256 字符，仅用于生成摘要）
  * @param departmentId  成员挂靠部门 UUID 文本；{@code null}/空白表示不挂靠
  * @param roleCodes     入企业即授予的企业角色码集合；{@code null} 或空集合表示不授角色
+ * @param expectedContext 资源写入时打开表单的会话上下文；非资源请求兼容省略
+ * @param expectedTenantRevision 资源写入时目标企业授权修订；与操作者当前企业分别处理
  * @author Acerola
  */
 @Schema(description = "企业成员新增请求。关联既有账号传 user_id；新建账号传 account/display_name/password。"
@@ -70,8 +72,15 @@ public record CreateMembershipDTO(
                 + "任一角色的权限集合超出操作者自身权限快照即 403（此处无超级管理员豁免）。"
                 + "授予角色额外要求 tenant:role:write。null 或空数组表示先建为无角色成员。",
                 requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-        List<String> roleCodes
+        List<String> roleCodes,
+        @Schema(description = "资源写入时必填：打开表单时的会话上下文") ExpectedContextDTO expectedContext,
+        @Schema(description = "资源写入时必填：目标企业授权修订") Long expectedTenantRevision
 ) {
+    /** 兼容既有非资源调用；资源写入必须使用完整构造器提供上下文和企业修订。 */
+    public CreateMembershipDTO(String tenantId, String userId, String account, String displayName, String password, String departmentId, List<String> roleCodes) {
+        this(tenantId, userId, account, displayName, password, departmentId, roleCodes, null, null);
+    }
+
 
     /**
      * 摘要化字符串，避免初始明文口令与账号信息经 {@code toString()} 进入日志或异常信息。

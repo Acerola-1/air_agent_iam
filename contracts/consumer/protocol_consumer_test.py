@@ -157,6 +157,12 @@ def main() -> int:
             def_name = "runtime_ticket"
         elif path.name.startswith("sso-exchange"):
             def_name = "sso_exchange"
+        elif path.name.startswith("create-resource"):
+            def_name = "create_resource"
+        elif path.name.startswith("update-entitlement"):
+            def_name = "update_entitlement"
+        elif path.name.startswith("update-resource"):
+            def_name = "update_resource"
         validator = Draft202012Validator(request_defs[def_name], format_checker=FORMAT_CHECKER)
         errs = schema_errors(validator, payload)
         if is_invalid:
@@ -188,6 +194,12 @@ def main() -> int:
         "/web-api/csrf", "/web-api/auth/login", "/web-api/auth/me",
         "/web-api/sso/start", "/web-api/sso/callback",
     ]
+    required_paths.extend([
+        '/v1/admin/resources', '/v1/admin/resources/{resource_code}',
+        '/v1/admin/tenants/{tenant_id}/entitlements', '/v1/admin/tenants/{tenant_id}/entitlements/{resource_code}',
+        '/v1/admin/tenant/resources', '/v1/admin/service-accounts/resource-options',
+        '/web-api/admin/resources', '/web-api/admin/tenant/resources'
+    ])
     missing = [p for p in required_paths if p not in spec.get("paths", {})]
     check("openapi/required-paths", not missing, f"缺失路径: {missing}")
 

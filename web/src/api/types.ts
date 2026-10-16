@@ -151,6 +151,7 @@ export interface RoleView {
   builtin: boolean
   status: string
   permission_codes: string[]
+  permission_states?: { code: string; configured: boolean; effective: boolean; grantable: boolean; reason: string | null }[]
 }
 
 export interface PermissionView {

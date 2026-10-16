@@ -48,6 +48,8 @@ spring:
     property-naming-strategy: SNAKE_CASE
     mapper:
       allow-coercion-of-scalars: false
+    deserialization:
+      fail-on-unknown-properties: true
   web:
     resources:
       add-mappings: false

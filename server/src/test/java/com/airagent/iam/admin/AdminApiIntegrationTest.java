@@ -136,14 +136,22 @@ class AdminApiIntegrationTest {
         try (Connection con = DriverManager.getConnection(migrateJdbcUrl, migrateUser, migratePassword)) {
             try (Statement st = con.createStatement()) {
                 st.execute("TRUNCATE iam.internal_clients, iam.verification_refs, iam.service_tokens, "
-                        + "iam.service_accounts, iam.tenants, iam.users, iam.auth_sessions, iam.audit_logs, "
+                        + "iam.service_accounts, iam.resource_catalog, iam.tenants, iam.users, iam.auth_sessions, iam.audit_logs, "
                         + "iam.outbox, iam.sso_clients, iam.browser_handles, iam.bootstrap_meta CASCADE");
                 String seedV2 = new String(
                         org.springframework.util.StreamUtils.copyToByteArray(
                                 new org.springframework.core.io.ClassPathResource(
                                         "db/migration/V2__seed_catalog.sql").getInputStream()),
                         java.nio.charset.StandardCharsets.UTF_8);
+                con.setAutoCommit(false);
+                st.execute("SELECT iam_auth.set_request_context(NULL, NULL, true)");
+                st.execute("INSERT INTO iam.resource_catalog(code,name_zh,sort,status,kind,parent_code) VALUES ('knowledge:lib:air','空气知识库',10,'active','leaf','knowledge') ON CONFLICT (code) DO NOTHING");
                 st.execute(seedV2);
+                st.execute("INSERT INTO iam.permissions(id,code,name_zh,scope,grantable_to_tenants,sort) VALUES "
+                        + "('01930000-0000-4000-8000-000000000211','tenant:resource:grant','企业资源授权管理','tenant',true,211) ON CONFLICT DO NOTHING");
+                st.execute("INSERT INTO iam.role_permissions(role_id,permission_id) SELECT r.id,p.id FROM iam.roles r "
+                        + "JOIN iam.permissions p ON p.code='tenant:resource:grant' WHERE r.code='tenant_admin' AND r.tenant_id IS NULL ON CONFLICT DO NOTHING");
+                con.commit();
             }
             con.setAutoCommit(false);
             try (Statement st = con.createStatement()) {

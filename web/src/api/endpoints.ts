@@ -1,4 +1,4 @@
-import { del, get, patch, post, withQuery } from './http'
+import { del, get, patch, post, put, withQuery } from './http'
 import type {
   AuditView,
   DepartmentView,
@@ -15,6 +15,11 @@ import type {
   TenantView,
   UserView
 } from './types'
+
+export interface ResourceWriteContext {
+  expected_context?: { session_id: string; tenant_id: string | null; ctx_version: number }
+  expected_tenant_revision?: number
+}
 
 // 浏览器会话端点（/web-api/auth）
 export const authApi = {
@@ -101,7 +106,7 @@ export const tenantsApi = {
 export const membersApi = {
   list: (query: ListQuery & { tenant_id?: string; department_id?: string } = {}, signal?: AbortSignal) =>
     get<Page<MemberView>>(withQuery('/web-api/admin/members', query), signal),
-  create: (body: {
+  create: (body: ResourceWriteContext & {
     tenant_id: string
     user_id?: string
     account?: string
@@ -113,9 +118,10 @@ export const membersApi = {
   update: (id: string, body: { department_id?: string | null; status?: string; expected_revision?: number }) =>
     patch<MemberView>(`/web-api/admin/members/${id}`, body),
   remove: (id: string) => del<void>(`/web-api/admin/members/${id}`),
-  replaceRoles: (id: string, roleCodes: string[], expectedRevision?: number) =>
+  replaceRoles: (id: string, roleCodes: string[], expectedRevision?: number, context: ResourceWriteContext = {}) =>
     post<MemberView>(`/web-api/admin/members/${id}/roles`, {
       role_codes: roleCodes,
+      ...context,
       expected_revision: expectedRevision
     })
 }
@@ -133,17 +139,17 @@ export const departmentsApi = {
 export const rolesApi = {
   list: (query: ListQuery & { scope?: string } = {}, signal?: AbortSignal) =>
     get<Page<RoleView>>(withQuery('/web-api/admin/roles', query), signal),
-  create: (body: {
+  create: (body: ResourceWriteContext & {
     scope: string
     code: string
     name: string
     description?: string
     permission_codes: string[]
   }) => post<RoleView>('/web-api/admin/roles', body),
-  update: (id: string, body: { name?: string; description?: string; status?: string }) =>
+  update: (id: string, body: ResourceWriteContext & { name?: string; description?: string; status?: string }) =>
     patch<RoleView>(`/web-api/admin/roles/${id}`, body),
-  replacePermissions: (id: string, permissionCodes: string[]) =>
-    post<RoleView>(`/web-api/admin/roles/${id}/permissions`, { permission_codes: permissionCodes }),
+  replacePermissions: (id: string, permissionCodes: string[], context: ResourceWriteContext = {}) =>
+    post<RoleView>(`/web-api/admin/roles/${id}/permissions`, { ...context, permission_codes: permissionCodes }),
   permissions: (signal?: AbortSignal) =>
     get<Page<PermissionView>>('/web-api/admin/permissions', signal),
   grantableTree: (signal?: AbortSignal) =>
@@ -169,10 +175,13 @@ export interface ServiceTokenIssued {
 
 // 服务账号
 export const serviceAccountsApi = {
+  resourceOptions: (tenantId: string, signal?: AbortSignal) =>
+    get<{ tenant_id: string; tenant_auth_revision: number; permissions: { code: string; name_zh: string; resource_code: string | null }[] }>(
+      withQuery('/web-api/admin/service-accounts/resource-options', { tenant_id: tenantId }), signal),
   list: (query: ListQuery & { tenant_id?: string } = {}, signal?: AbortSignal) =>
     get<Page<ServiceAccountView>>(withQuery('/web-api/admin/service-accounts', query), signal),
   get: (id: string) => get<ServiceAccountDetail>(`/web-api/admin/service-accounts/${id}`),
-  create: (body: {
+  create: (body: ResourceWriteContext & {
     account: string
     name: string
     tenant_id?: string | null
@@ -188,4 +197,77 @@ export const serviceAccountsApi = {
     }),
   revoke: (credentialId: string) =>
     post<void>(`/web-api/admin/service-accounts/tokens/${credentialId}/revoke`, {})
+}
+
+// ---- 资源目录与企业开通 ----
+
+export interface ResourceBind {
+  code: string
+  name_zh: string
+  scope: string
+  grantable_to_tenants: boolean
+  status: string
+  resource_code: string
+}
+
+export interface ResourceView {
+  id: string
+  code: string
+  name_zh: string
+  sort: number
+  status: string
+  kind: string
+  parent_code: string | null
+  revision: number
+  permissions: ResourceBind[]
+}
+
+export interface EntitlementView {
+  tenant_id: string
+  resource_code: string
+  status: string
+  revision: number
+  exists: boolean
+  resource_status: string
+  effective: boolean
+  granted_at: string | null
+  revoked_at: string | null
+  updated_at: string | null
+  updated_by: string | null
+  tenant_auth_revision: number
+  changed: boolean
+}
+
+export const resourcesApi = {
+  list: (query: { status?: string; limit?: number; cursor?: string } = {}, signal?: AbortSignal) =>
+    get<Page<ResourceView>>(withQuery('/web-api/admin/resources', query), signal),
+  create: (body: {
+    expected_context: { session_id: string; tenant_id: string | null; ctx_version: number }
+    code: string
+    name_zh: string
+    sort?: number
+    parent_code?: string | null
+    permissions: { code: string; name_zh: string; grantable_to_tenants: boolean }[]
+  }) => post<ResourceView>('/web-api/admin/resources', body),
+  update: (code: string, body: {
+    expected_context: { session_id: string; tenant_id: string | null; ctx_version: number }
+    expected_revision: number
+    name_zh?: string
+    sort?: number
+    status?: string
+  }) => patch<ResourceView>(`/web-api/admin/resources/${encodeURIComponent(code)}`, body)
+}
+
+export const entitlementsApi = {
+  listForTenant: (tenantId: string, query: { limit?: number; cursor?: string } = {}, signal?: AbortSignal) =>
+    get<Page<EntitlementView>>(withQuery(`/web-api/admin/tenants/${tenantId}/entitlements`, query), signal),
+  update: (tenantId: string, resourceCode: string, body: {
+    expected_context: { session_id: string; tenant_id: string | null; ctx_version: number }
+    expected_revision: number
+    expected_tenant_revision: number
+    status: string
+  }) => put<EntitlementView>(
+    `/web-api/admin/tenants/${tenantId}/entitlements/${encodeURIComponent(resourceCode)}`, body),
+  listCurrentTenant: (query: { limit?: number; cursor?: string } = {}, signal?: AbortSignal) =>
+    get<Page<EntitlementView>>(withQuery('/web-api/admin/tenant/resources', query), signal)
 }

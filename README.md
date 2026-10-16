@@ -71,6 +71,8 @@ npm run build
 - [整改前独立审计](docs/reviews/iam-independent-acceptance.md)
 - [分层迁移与整改](docs/reviews/iam-remediation-plan.md)
 - [最新复验与已知性能项](docs/reviews/iam-remediation-validation.md)
+- [I1a资源开通与授权修复复验](docs/reviews/iam-i1a-takeover-validation.md)
+- [I1a资源授权HTTP契约与I2/I3边界](openspec/changes/add-tenant-resource-entitlements/http-contract.md)
 - [原设计与阶段划分](openspec/changes/establish-shared-iam-service/design.md)
 
-本项目的 Python 消费者切换、通用资源 entitlement 与物理拆库属于后续阶段。两个 Python 参考项目在本轮保持只读；本轮未 commit/push。
+I1a通用资源开通、角色/成员及服务账号资源授权已实现，核心流程复验通过；完整资源负载性能、兼容回退版本及部分竞争矩阵仍待验证，详见I1a复验报告。Python消费者切换（I2/I3）与物理拆库仍属于后续阶段。

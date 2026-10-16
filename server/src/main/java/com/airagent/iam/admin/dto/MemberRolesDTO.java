@@ -19,6 +19,8 @@ import java.util.List;
  *
  * @param roleCodes        目标企业角色码集合；{@code null} 或空集合表示清空
  * @param expectedRevision 乐观并发基线（成员行 revision）；{@code null} 表示不检查
+ * @param expectedContext 资源写入时打开表单的会话上下文；非资源请求兼容省略
+ * @param expectedTenantRevision 资源写入时目标企业授权修订；与操作者当前企业分别处理
  * @author Acerola
  */
 @Schema(description = "企业成员角色全量替换请求。仅接受企业域角色；未知/停用/平台专属/他企业角色返回 400；"
@@ -36,6 +38,13 @@ public record MemberRolesDTO(
                 + "以及所关联角色的权限或状态变化都会使其 +1）。省略表示不做并发检查；"
                 + "与服务层加锁后读到的当前值不一致返回 409。JSON 数字，非字符串。",
                 requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "2")
-        Long expectedRevision
+        Long expectedRevision,
+        @Schema(description = "资源写入时必填：打开表单时的会话上下文") ExpectedContextDTO expectedContext,
+        @Schema(description = "资源写入时必填：目标企业授权修订") Long expectedTenantRevision
 ) {
+    /** 兼容既有非资源调用；资源写入必须使用完整构造器提供上下文和企业修订。 */
+    public MemberRolesDTO(List<String> roleCodes, Long expectedRevision) {
+        this(roleCodes, expectedRevision, null, null);
+    }
+
 }

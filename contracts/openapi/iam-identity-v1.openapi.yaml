@@ -843,6 +843,508 @@ paths:
           description: ticket 重放/过期
           $ref: "#/components/responses/Error409"
 
+  /v1/admin/resources:
+    get:
+      tags:
+      - admin
+      operationId: adminListResources
+      description: entitlement:manage；按sort/code稳定分页，游标绑定会话及过滤
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourcePage'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      parameters:
+      - &id001
+        $ref: '#/components/parameters/Limit'
+      - &id002
+        $ref: '#/components/parameters/Cursor'
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - active
+          - disabled
+    post:
+      tags:
+      - admin
+      operationId: adminCreateResource
+      description: entitlement:manage；登记明确资源与权限绑定，不自动开通或授予
+      responses:
+        '201':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceView'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceRequest'
+  /v1/admin/resources/{resource_code}:
+    patch:
+      tags:
+      - admin
+      operationId: adminUpdateResource
+      description: entitlement:manage；上下文与目录revision校验；状态变更同事务推进关联企业修订
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceView'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceRequest'
+    parameters:
+    - name: resource_code
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z][a-z0-9_-]*(:[a-z][a-z0-9_-]*)+$
+  /v1/admin/tenants/{tenant_id}/entitlements:
+    get:
+      tags:
+      - admin
+      operationId: adminListEntitlements
+      description: entitlement:manage；明确目标企业按resource_code分页
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementPage'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      parameters: &id003
+      - *id001
+      - *id002
+    parameters:
+    - name: tenant_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  /v1/admin/tenants/{tenant_id}/entitlements/{resource_code}:
+    put:
+      tags:
+      - admin
+      operationId: adminUpdateEntitlement
+      description: entitlement:manage；先校验上下文和两个修订再判断幂等；changed=false不推进修订或变更审计
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementView'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEntitlementRequest'
+    parameters:
+    - name: tenant_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: resource_code
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z][a-z0-9_-]*(:[a-z][a-z0-9_-]*)+$
+  /v1/admin/tenant/resources:
+    get:
+      tags:
+      - admin
+      operationId: adminCurrentTenantResources
+      description: 当前企业与tenant:role:read；只读已存在的本企业开通记录
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementPage'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      parameters: *id003
+  /v1/admin/service-accounts/resource-options:
+    get:
+      tags:
+      - admin
+      operationId: adminServiceResourceOptions
+      description: platform:service:write；返回目标企业修订和当前可授予的权限选项，不授予读取权
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResourceOptions'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      parameters:
+      - name: tenant_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /web-api/admin/resources:
+    get:
+      tags:
+      - admin
+      operationId: webAdminListResources
+      description: entitlement:manage；按sort/code稳定分页，游标绑定会话及过滤
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourcePage'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      parameters:
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Cursor'
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - active
+          - disabled
+      security:
+      - sessionCookie: []
+    post:
+      tags:
+      - admin
+      operationId: webAdminCreateResource
+      description: entitlement:manage；登记明确资源与权限绑定，不自动开通或授予
+      responses:
+        '201':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceView'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceRequest'
+      security:
+      - sessionCookie: []
+        csrfToken: []
+  /web-api/admin/resources/{resource_code}:
+    patch:
+      tags:
+      - admin
+      operationId: webAdminUpdateResource
+      description: entitlement:manage；上下文与目录revision校验；状态变更同事务推进关联企业修订
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceView'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceRequest'
+      security:
+      - sessionCookie: []
+        csrfToken: []
+    parameters:
+    - name: resource_code
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z][a-z0-9_-]*(:[a-z][a-z0-9_-]*)+$
+  /web-api/admin/tenants/{tenant_id}/entitlements:
+    get:
+      tags:
+      - admin
+      operationId: webAdminListEntitlements
+      description: entitlement:manage；明确目标企业按resource_code分页
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementPage'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      parameters:
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Cursor'
+      security:
+      - sessionCookie: []
+    parameters:
+    - name: tenant_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  /web-api/admin/tenants/{tenant_id}/entitlements/{resource_code}:
+    put:
+      tags:
+      - admin
+      operationId: webAdminUpdateEntitlement
+      description: entitlement:manage；先校验上下文和两个修订再判断幂等；changed=false不推进修订或变更审计
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementView'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEntitlementRequest'
+      security:
+      - sessionCookie: []
+        csrfToken: []
+    parameters:
+    - name: tenant_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: resource_code
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-z][a-z0-9_-]*(:[a-z][a-z0-9_-]*)+$
+  /web-api/admin/tenant/resources:
+    get:
+      tags:
+      - admin
+      operationId: webAdminCurrentTenantResources
+      description: 当前企业与tenant:role:read；只读已存在的本企业开通记录
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementPage'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      parameters:
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Cursor'
+      security:
+      - sessionCookie: []
+  /web-api/admin/service-accounts/resource-options:
+    get:
+      tags:
+      - admin
+      operationId: webAdminServiceResourceOptions
+      description: platform:service:write；返回目标企业修订和当前可授予的权限选项，不授予读取权
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResourceOptions'
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '503':
+          $ref: '#/components/responses/Error503'
+      parameters:
+      - name: tenant_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - sessionCookie: []
+
 components:
   securitySchemes:
     bearerAuth:
@@ -852,8 +1354,8 @@ components:
       description: 不透明随机令牌（random-128），服务端以 sha256 摘要在 PG 权威核验；Redis 仅作 Sa-Token 会话适配。
     internalClient:
       type: http
-      scheme: basic
-      description: 内部客户端 client_id/client_secret（与 body 中 subject_token 分离，双主体）。
+      scheme: bearer
+      description: 登记内部客户端凭据，与subject_token分离；保留原Basic兼容，不互换主体令牌。
     sessionCookie:
       type: apiKey
       in: cookie
@@ -901,6 +1403,347 @@ components:
       content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
 
   schemas:
+    ResourceExpectedContext:
+      type: object
+      additionalProperties: false
+      required:
+      - session_id
+      - tenant_id
+      - ctx_version
+      properties:
+        session_id:
+          type: string
+          format: uuid
+        tenant_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        ctx_version:
+          type: integer
+          minimum: 0
+    CreateResourceRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - expected_context
+      - code
+      - name_zh
+      - permissions
+      properties:
+        expected_context:
+          type: object
+          additionalProperties: false
+          required:
+          - session_id
+          - tenant_id
+          - ctx_version
+          properties:
+            session_id:
+              type: string
+              format: uuid
+            tenant_id:
+              type:
+              - string
+              - 'null'
+              format: uuid
+            ctx_version:
+              type: integer
+              minimum: 0
+        code:
+          type: string
+          pattern: ^[a-z][a-z0-9_-]*(:[a-z][a-z0-9_-]*)+$
+          minLength: 3
+          maxLength: 160
+        name_zh:
+          type: string
+          minLength: 1
+          maxLength: 100
+        sort:
+          type: integer
+          minimum: -2147483648
+          maximum: 2147483647
+        parent_code:
+          type:
+          - string
+          - 'null'
+        permissions:
+          type: array
+          minItems: 1
+          maxItems: 32
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - code
+            - name_zh
+            - grantable_to_tenants
+            properties:
+              code:
+                type: string
+                minLength: 3
+                maxLength: 200
+              name_zh:
+                type: string
+                minLength: 1
+                maxLength: 100
+              grantable_to_tenants:
+                type: boolean
+    UpdateResourceRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - expected_context
+      - expected_revision
+      properties:
+        expected_context:
+          type: object
+          additionalProperties: false
+          required:
+          - session_id
+          - tenant_id
+          - ctx_version
+          properties:
+            session_id:
+              type: string
+              format: uuid
+            tenant_id:
+              type:
+              - string
+              - 'null'
+              format: uuid
+            ctx_version:
+              type: integer
+              minimum: 0
+        expected_revision:
+          type: integer
+          minimum: 1
+        name_zh:
+          type: string
+          minLength: 1
+          maxLength: 100
+        sort:
+          type: integer
+        status:
+          type: string
+          enum:
+          - active
+          - disabled
+    UpdateEntitlementRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - expected_context
+      - expected_revision
+      - expected_tenant_revision
+      - status
+      properties:
+        expected_context:
+          type: object
+          additionalProperties: false
+          required:
+          - session_id
+          - tenant_id
+          - ctx_version
+          properties:
+            session_id:
+              type: string
+              format: uuid
+            tenant_id:
+              type:
+              - string
+              - 'null'
+              format: uuid
+            ctx_version:
+              type: integer
+              minimum: 0
+        expected_revision:
+          type: integer
+          minimum: 0
+        expected_tenant_revision:
+          type: integer
+          minimum: 0
+        status:
+          type: string
+          enum:
+          - active
+          - revoked
+    ResourceView:
+      type: object
+      required:
+      - id
+      - code
+      - name_zh
+      - sort
+      - status
+      - kind
+      - parent_code
+      - revision
+      - permissions
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name_zh:
+          type: string
+        sort:
+          type: integer
+        status:
+          enum:
+          - active
+          - disabled
+        kind:
+          const: leaf
+        parent_code:
+          type:
+          - string
+          - 'null'
+        revision:
+          type: integer
+          minimum: 1
+        permissions:
+          type: array
+          items:
+            type: object
+            required:
+            - code
+            - name_zh
+            - scope
+            - grantable_to_tenants
+            - status
+            - resource_code
+            properties:
+              code:
+                type: string
+              name_zh:
+                type: string
+              scope:
+                const: tenant
+              grantable_to_tenants:
+                type: boolean
+              status:
+                enum:
+                - active
+                - disabled
+              resource_code:
+                type: string
+    EntitlementView:
+      type: object
+      required:
+      - tenant_id
+      - resource_code
+      - status
+      - revision
+      - exists
+      - resource_status
+      - effective
+      - tenant_auth_revision
+      - changed
+      - granted_at
+      - revoked_at
+      - updated_at
+      - updated_by
+      properties:
+        tenant_id:
+          type: string
+          format: uuid
+        resource_code:
+          type: string
+        status:
+          enum:
+          - active
+          - revoked
+        revision:
+          type: integer
+          minimum: 0
+        exists:
+          type: boolean
+        resource_status:
+          enum:
+          - active
+          - disabled
+        effective:
+          type: boolean
+        tenant_auth_revision:
+          type: integer
+        changed:
+          type: boolean
+        granted_at:
+          type:
+          - string
+          - 'null'
+        revoked_at:
+          type:
+          - string
+          - 'null'
+        updated_at:
+          type:
+          - string
+          - 'null'
+        updated_by:
+          type:
+          - string
+          - 'null'
+    ServiceResourceOptions:
+      type: object
+      required:
+      - tenant_id
+      - tenant_auth_revision
+      - permissions
+      properties:
+        tenant_id:
+          type: string
+          format: uuid
+        tenant_auth_revision:
+          type: integer
+        permissions:
+          type: array
+          items:
+            type: object
+            required:
+            - code
+            - name_zh
+            - resource_code
+            properties:
+              code:
+                type: string
+              name_zh:
+                type: string
+              resource_code:
+                type:
+                - string
+                - 'null'
+    ResourcePage:
+      type: object
+      required:
+      - items
+      - next_cursor
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceView'
+        next_cursor:
+          type:
+          - string
+          - 'null'
+    EntitlementPage:
+      type: object
+      required:
+      - items
+      - next_cursor
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitlementView'
+        next_cursor:
+          type:
+          - string
+          - 'null'
+
     Error:
       type: object
       additionalProperties: false
@@ -1221,6 +2064,8 @@ components:
     CreateMembershipRequest:
       type: object
       properties:
+        expected_context: { $ref: "#/components/schemas/ResourceExpectedContext", description: "涉及新增或既有资源配置时必填" }
+        expected_tenant_revision: { type: integer, minimum: 0, description: "资源写入时目标企业授权修订" }
         tenant_id: { type: string, format: uuid }
         user_id: { type: string, format: uuid, description: 存在则显式关联；绝不按同名自动合并 }
         account: { type: string }
@@ -1241,6 +2086,8 @@ components:
       type: object
       required: [role_codes, expected_revision]
       properties:
+        expected_context: { $ref: "#/components/schemas/ResourceExpectedContext", description: "涉及新增或既有资源配置时必填" }
+        expected_tenant_revision: { type: integer, minimum: 0, description: "资源写入时目标企业授权修订" }
         role_codes: { type: array, items: { type: string } }
         expected_revision: { type: integer, minimum: 1 }
 
@@ -1297,11 +2144,14 @@ components:
         builtin: { type: boolean, description: 内置角色不可 PATCH（DB 列 is_builtin） }
         status: { type: string, enum: [active, disabled] }
         permission_codes: { type: array, items: { type: string } }
+        permission_states: { type: array, items: { type: object } }
 
     CreateRoleRequest:
       type: object
       required: [scope, code, name]
       properties:
+        expected_context: { $ref: "#/components/schemas/ResourceExpectedContext", description: "涉及新增或既有资源配置时必填" }
+        expected_tenant_revision: { type: integer, minimum: 0, description: "资源写入时目标企业授权修订" }
         scope: { type: string, enum: [platform, tenant] }
         code: { type: string }
         name: { type: string }
@@ -1311,6 +2161,8 @@ components:
     UpdateRoleRequest:
       type: object
       properties:
+        expected_context: { $ref: "#/components/schemas/ResourceExpectedContext", description: "涉及新增或既有资源配置时必填" }
+        expected_tenant_revision: { type: integer, minimum: 0, description: "资源写入时目标企业授权修订" }
         name: { type: string }
         description: { type: string }
         status: { type: string, enum: [active, disabled] }
@@ -1319,6 +2171,8 @@ components:
       type: object
       required: [permission_codes]
       properties:
+        expected_context: { $ref: "#/components/schemas/ResourceExpectedContext", description: "涉及新增或既有资源配置时必填" }
+        expected_tenant_revision: { type: integer, minimum: 0, description: "资源写入时目标企业授权修订" }
         permission_codes: { type: array, items: { type: string } }
 
     RolePage:
@@ -1391,12 +2245,14 @@ components:
       type: object
       required: [account, name, tenant_id, audiences, expires_in_days]
       properties:
+        expected_context: { $ref: "#/components/schemas/ResourceExpectedContext", description: "涉及新增或既有资源配置时必填" }
+        expected_tenant_revision: { type: integer, minimum: 0, description: "资源写入时目标企业授权修订" }
         account: { type: string }
         name: { type: string }
         tenant_id: { type: string, format: uuid }
         audiences: { type: array, items: { type: string } }
         expires_in_days: { type: integer, minimum: 1 }
-        permissions: { type: array, items: { type: string }, description: 仅非资源型；资源码应用层 400、DB 触发器 23514 }
+        permissions: { type: array, items: { type: string }, description: 企业可下放权限；资源权限还要求目录启用和目标企业已开通 }
 
     UpdateServiceAccountRequest:
       type: object

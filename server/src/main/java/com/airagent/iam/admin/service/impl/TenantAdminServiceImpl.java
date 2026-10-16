@@ -1,6 +1,8 @@
 package com.airagent.iam.admin.service.impl;
 
 import com.airagent.iam.admin.AdminSupport;
+import com.airagent.iam.admin.ResourceGrantSupport;
+import com.airagent.iam.admin.dto.ExpectedContextDTO;
 import com.airagent.iam.admin.dto.CreateDepartmentDTO;
 import com.airagent.iam.admin.dto.CreateMembershipDTO;
 import com.airagent.iam.admin.dto.CreateTenantDTO;
@@ -77,6 +79,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
     private final UserMapper userMapper;
     /** 角色与权限数据访问。 */
     private final RoleMapper roleMapper;
+    private final ResourceGrantSupport grants;
     /** 编程式事务边界。 */
     private final TransactionTemplate tx;
     /** 权限裁决/上下文/游标/审计共用组件。 */
@@ -95,10 +98,11 @@ public class TenantAdminServiceImpl implements TenantAdminService {
      * @param passwordHasher  口令强度校验与 BCrypt 摘要生成
      */
     public TenantAdminServiceImpl(TenantMapper tenantMapper, UserMapper userMapper, RoleMapper roleMapper, TransactionTemplate tx, AdminSupport support,
-                              PasswordHasher passwordHasher) {
+                              PasswordHasher passwordHasher, ResourceGrantSupport grants) {
         this.tenantMapper = tenantMapper;
         this.userMapper = userMapper;
         this.roleMapper = roleMapper;
+        this.grants = grants;
         this.tx = tx;
         this.support = support;
         this.passwordHasher = passwordHasher;
@@ -300,6 +304,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
     @Override
     public MemberVO createMembership(CurrentSession actor, CreateMembershipDTO req) {
         support.requirePermission(actor, PERM_MEMBER_WRITE);
+        if (req != null && req.expectedContext() != null) grants.requireContext(actor, req.expectedContext());
         UUID tenantId = resolveScopedTenant(actor, req == null ? null : req.tenantId());
         if (req == null) {
             throw ApiException.badRequest("请求体必填");
@@ -307,6 +312,8 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         List<String> roleCodes = AdminSupport.sanitizeCodes(req.roleCodes());
         try {
             return tx.execute(status -> {
+                support.setContext(actor.userId(), tenantId, false);
+                List<UUID> roleIds = resolveTenantRoles(actor, tenantId, roleCodes, List.of(), req.expectedContext(), req.expectedTenantRevision());
                 UUID userId;
                 // users 是全局表：WITH CHECK 仅允许平台上下文插入；显式建档/查重都在平台上下文完成，
                 // 绝不依据同名账号隐式合并。审计仍记 target tenant，授权判定不依赖该标志。
@@ -346,7 +353,6 @@ public class TenantAdminServiceImpl implements TenantAdminService {
                 support.setContext(actor.userId(), tenantId, false);
                 UUID departmentId = resolveDepartment(tenantId, req.departmentId());
                 UUID membershipId = tenantMapper.insertMembership(tenantId, userId, departmentId, actor.userId());
-                List<UUID> roleIds = resolveTenantRoles(actor, tenantId, roleCodes);
                 for (UUID roleId : roleIds) {
                     tenantMapper.insertMemberRole(tenantId, membershipId, roleId, actor.userId());
                 }
@@ -459,6 +465,8 @@ public class TenantAdminServiceImpl implements TenantAdminService {
     public MemberVO replaceMemberRoles(CurrentSession actor, String membershipIdRaw,
                                          MemberRolesDTO req) {
         support.requirePermission(actor, PERM_ROLE_WRITE);
+        support.requirePermission(actor, PERM_MEMBER_WRITE);
+        if (req != null && req.expectedContext() != null) grants.requireContext(actor, req.expectedContext());
         UUID tenantId = actor.currentTenantId();
         if (tenantId == null) {
             throw ApiException.badRequest("请先选择企业上下文");
@@ -468,6 +476,10 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         try {
             return tx.execute(status -> {
                 support.setContext(actor.userId(), tenantId, false);
+                if (tenantMapper.selectMembership(tenantId, membershipId) == null) throw ApiException.notFound("成员不存在或不属于当前企业");
+                List<UUID> roleIds = resolveTenantRoles(actor, tenantId, codes,
+                        tenantMapper.selectMemberRoleCodes(membershipId),
+                        req == null ? null : req.expectedContext(), req == null ? null : req.expectedTenantRevision());
                 MembershipDO existing = tenantMapper.lockMembership(tenantId, membershipId);
                 if (existing == null) {
                     throw ApiException.notFound("成员不存在或不属于当前企业");
@@ -476,7 +488,6 @@ public class TenantAdminServiceImpl implements TenantAdminService {
                 if (req != null && req.expectedRevision() != null && req.expectedRevision() != revision) {
                     throw ApiException.conflict("成员修订冲突，请刷新后重试");
                 }
-                List<UUID> roleIds = resolveTenantRoles(actor, tenantId, codes);
                 tenantMapper.deleteMemberRoles(tenantId, membershipId);
                 for (UUID roleId : roleIds) {
                     tenantMapper.insertMemberRole(tenantId, membershipId, roleId, actor.userId());
@@ -673,8 +684,8 @@ public class TenantAdminServiceImpl implements TenantAdminService {
      * <p>codes 为空直接返回空列表（等价清空，且不额外要求角色写权限）。解析口径为
      * {@code scope='tenant'} 且活跃、归属为空（内置全局模板）或等于本租户，
      * 故平台角色、他企业角色与停用角色都命中不了——数量不等即 400。
-     * 与企业线的其它校验一致，这里没有平台超级管理员豁免：每个角色的权限集合必须完全落在
-     * actor 自身权限快照内，否则 403。因 createMembership 入口只判成员写权限，
+     * 与企业线的其它校验一致，这里没有平台超级管理员豁免：普通权限必须落在自身权限子集；新增资源许可还可由
+     * tenant:resource:grant管理资格授权，但必须满足企业开通。既有失效配置可保留、不可搬运。因 createMembership 入口只判成员写权限，
      * 带角色时必须在此补判 {@code tenant:role:write}。
      *
      * @param actor    当前会话快照（提供权限快照）
@@ -683,18 +694,20 @@ public class TenantAdminServiceImpl implements TenantAdminService {
      * @return 与 codes 一一对应的角色 id
      * @throws ApiException 403 缺企业角色写权限或越界授予；400 存在未知、停用、平台专属或他企业角色
      */
-    private List<UUID> resolveTenantRoles(CurrentSession actor, UUID tenantId, List<String> codes) {
-        if (codes.isEmpty()) {
-            return List.of();
-        }
-        support.requirePermission(actor, PERM_ROLE_WRITE);
-        List<UUID> roles = tenantMapper.selectTenantRoleIds(tenantId, codes);
-        if (roles.size() != codes.size()) {
-            throw ApiException.badRequest("存在未知、停用、平台专属或他企业角色");
-        }
-        for (UUID roleId : roles) {
-            if (!actor.snapshot().permissions().containsAll(roleMapper.selectPermissionCodes(roleId))) {
-                throw ApiException.forbidden("不能授予超出自身可授范围的角色");
+    private List<UUID> resolveTenantRoles(CurrentSession actor, UUID tenantId, List<String> codes,
+                                          List<String> previous, ExpectedContextDTO expected, Long tenantRevision) {
+        if (!codes.isEmpty()) support.requirePermission(actor, PERM_ROLE_WRITE);
+        List<UUID> roles = codes.isEmpty() ? List.of() : tenantMapper.selectTenantRoleIds(tenantId, codes);
+        if (roles.size() != codes.size()) throw ApiException.badRequest("存在未知、停用或他企业角色");
+        List<UUID> original = previous.isEmpty() ? List.of() : tenantMapper.selectTenantRoleIds(tenantId, previous);
+        java.util.Set<String> all = new java.util.LinkedHashSet<>();
+        for (UUID id : java.util.stream.Stream.concat(roles.stream(), original.stream()).distinct().toList()) all.addAll(roleMapper.selectPermissionCodes(id));
+        grants.lockWrite(actor, tenantId, List.copyOf(all), expected, tenantRevision);
+        for (UUID id : roles.stream().sorted().toList()) {
+            roleMapper.lockById(id);
+            for (var permission : grants.permissions(roleMapper.selectPermissionCodes(id))) {
+                if (permission.resourceCode() != null && original.contains(id)) continue;
+                grants.requireGrantable(actor, tenantId, permission);
             }
         }
         return roles;

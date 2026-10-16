@@ -105,6 +105,16 @@
   <build>
     <finalName>iam-server</finalName>
     <plugins>
+      <!-- Sa-Token registers a process-global DAO; isolate Spring test contexts by class.
+           Classes remain sequential against the dedicated test database; no tests are skipped. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <forkCount>1</forkCount>
+          <reuseForks>false</reuseForks>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>

@@ -25,3 +25,7 @@ npm-debug.log*
 .idea/
 .vscode/
 .DS_Store
+
+# All local environment variants contain synthetic or real credentials.
+.env.*
+!.env.example

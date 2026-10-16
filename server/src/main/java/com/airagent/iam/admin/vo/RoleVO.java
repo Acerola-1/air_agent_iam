@@ -47,6 +47,8 @@ public record RoleVO(
                 requiredMode = Schema.RequiredMode.REQUIRED, allowableValues = {"active", "disabled"})
         String status,
         @Schema(description = "该角色当前装配的权限码（按码升序），可为空数组", requiredMode = Schema.RequiredMode.REQUIRED)
-        List<String> permissionCodes
+        List<String> permissionCodes,
+        @Schema(description = "权限状态明细，区分已配置与当前有效；可为空数组")
+        List<PermissionStateVO> permissionStates
 ) {
 }

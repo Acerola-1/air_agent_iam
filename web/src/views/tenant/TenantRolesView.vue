@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import CursorPager from '@/components/CursorPager.vue'
 import RoleEditDialog from '@/components/RoleEditDialog.vue'
 import { rolesApi } from '@/api/endpoints'
@@ -61,11 +61,10 @@ const tenantId = computed(() => auth.identity?.current_tenant?.id ?? '')
 const tenantName = computed(() => auth.identity?.current_tenant?.name ?? '')
 
 const roles = usePagedList<RoleView>(({ limit, cursor, signal }) =>
-  rolesApi.list({ scope: 'tenant', limit, cursor }, signal)
+  rolesApi.list({ scope: 'tenant', limit, cursor }, signal), { reloadKey: tenantId }
 )
 
 onMounted(() => roles.reload())
-watch(tenantId, () => roles.reload())
 
 const dialogVisible = ref(false)
 const editing = ref<RoleView | null>(null)

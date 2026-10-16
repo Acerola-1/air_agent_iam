@@ -137,6 +137,7 @@ import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CursorPager from '@/components/CursorPager.vue'
 import { departmentsApi, membersApi, rolesApi, usersApi } from '@/api/endpoints'
+import { useWriteScope, type WriteScope } from '@/composables/useWriteScope'
 import { ApiError } from '@/api/http'
 import { usePagedList } from '@/composables/usePagedList'
 import { useAuthStore } from '@/stores/auth'
@@ -219,6 +220,7 @@ function resetCreateForm(): void {
 }
 
 function openCreate(): void {
+  createLease.value = writeScope.capture()
   resetCreateForm()
   createMode.value = 'new'
   existingUsers.value = []
@@ -240,7 +242,13 @@ async function searchExisting(query: string): Promise<void> {
   }
 }
 
+const createLease = ref<WriteScope | null>(null)
+const rolesLease = ref<WriteScope | null>(null)
+const writeScope = useWriteScope(() => { createVisible.value = false; rolesVisible.value = false; createLease.value = null; rolesLease.value = null })
+
 async function saveCreate(): Promise<void> {
+  const opened = createLease.value
+  if (saving.value || !writeScope.current(opened)) return
   saving.value = true
   try {
     const body =
@@ -259,7 +267,8 @@ async function saveCreate(): Promise<void> {
             department_id: createForm.department_id ?? undefined,
             role_codes: createForm.role_codes
           }
-    await membersApi.create(body)
+    await membersApi.create({ ...body, expected_context: opened.expected_context, expected_tenant_revision: opened.expected_tenant_revision })
+    if (!writeScope.current(opened)) return
     ElMessage.success('成员关系已建立')
     createVisible.value = false
     members.reload()
@@ -303,18 +312,22 @@ async function saveEdit(): Promise<void> {
 }
 
 function openRoles(row: MemberView): void {
+  rolesLease.value = writeScope.capture()
   editing.value = row
   roleCodes.value = [...row.roles]
   rolesVisible.value = true
 }
 
 async function saveRoles(): Promise<void> {
+  const opened = rolesLease.value
+  if (saving.value || !writeScope.current(opened)) return
   if (!editing.value) {
     return
   }
   saving.value = true
   try {
-    await membersApi.replaceRoles(editing.value.id, roleCodes.value, editing.value.revision)
+    await membersApi.replaceRoles(editing.value.id, roleCodes.value, editing.value.revision, { expected_context: opened.expected_context, expected_tenant_revision: opened.expected_tenant_revision })
+    if (!writeScope.current(opened)) return
     ElMessage.success('角色已替换')
     rolesVisible.value = false
     members.reload()

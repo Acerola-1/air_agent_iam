@@ -69,7 +69,7 @@ interface RequestOptions {
 }
 
 export async function request<T>(
-  method: 'GET' | 'HEAD' | 'POST' | 'PATCH' | 'DELETE',
+  method: 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
   path: string,
   body?: unknown,
   options: RequestOptions = {}
@@ -129,5 +129,6 @@ export async function request<T>(
 
 export const get = <T>(path: string, signal?: AbortSignal) => request<T>('GET', path, undefined, { signal })
 export const post = <T>(path: string, body?: unknown) => request<T>('POST', path, body ?? {})
+export const put = <T>(path: string, body: unknown) => request<T>('PUT', path, body)
 export const patch = <T>(path: string, body: unknown) => request<T>('PATCH', path, body)
 export const del = <T>(path: string) => request<T>('DELETE', path)

@@ -56,8 +56,8 @@
         <el-form-item label="名称" required>
           <el-input v-model="createForm.name" />
         </el-form-item>
-        <el-form-item label="绑定租户（留空为平台级）">
-          <el-input v-model="createForm.tenant_id" placeholder="租户 UUID，可留空" />
+        <el-form-item label="目标企业 UUID" required>
+          <el-input v-model="createForm.tenant_id" placeholder="填写要授权的企业 UUID" />
         </el-form-item>
         <el-form-item label="受众（最小集合）" required>
           <el-select
@@ -68,22 +68,23 @@
             default-first-option
             class="full-width"
             placeholder="如 air-agent / knowledge"
-          />
+          >
+            <el-option label="knowledge" value="knowledge" />
+            <el-option label="air-agent" value="air-agent" />
+            <el-option label="langgraph-runtime" value="langgraph-runtime" />
+          </el-select>
         </el-form-item>
         <el-form-item label="有效期（天，留空按服务默认）">
-          <el-input-number v-model="createForm.expires_in_days" :min="1" :max="3650" />
+          <el-input-number v-model="createForm.expires_in_days" :min="1" :max="365" />
         </el-form-item>
-        <el-form-item label="权限码（最小集合）" required>
-          <el-select
-            v-model="createForm.permissions"
-            multiple
-            allow-create
-            filterable
-            default-first-option
-            class="full-width"
-            placeholder="按权限码精确填写"
-          />
+        <el-form-item label="权限（最小集合）" required>
+          <el-select v-model="createForm.permissions" multiple filterable class="full-width"
+            :loading="optionsLoading" :disabled="!tenantRevision" placeholder="先填写企业，再选择已开通的资源权限">
+            <el-option v-for="option in permissionOptions" :key="option.code" :value="option.code"
+              :label="`${option.name_zh}（${option.code}）`" />
+          </el-select>
         </el-form-item>
+        <el-alert v-if="optionsError" :title="optionsError" type="error" :closable="false" />
       </el-form>
       <template #footer>
         <el-button @click="createVisible = false">取消</el-button>
@@ -131,26 +132,27 @@
       </template>
     </el-drawer>
 
-    <el-dialog v-model="issuedVisible" title="新凭据明文（仅显示一次）" width="min(560px, 92vw)" :close-on-click-modal="false">
+    <el-dialog v-model="issuedVisible" title="新凭据明文（仅显示一次）" width="min(560px, 92vw)" :close-on-click-modal="false" @closed="issued = null">
       <el-alert
         title="请立即复制到消费者的受控密钥保管位置。关闭后无法再次获取；轮换后旧凭据按重叠期失效。"
         type="error"
         :closable="false"
         class="issued-alert"
       />
-      <el-input :model-value="issued?.secret ?? ''" type="textarea" :rows="3" readonly />
+      <el-input :model-value="issued?.secret ?? ''" type="password" show-password autocomplete="off" readonly aria-label="新凭据（仅本次显示）" />
       <template #footer>
-        <el-button type="primary" @click="issuedVisible = false">我已安全保存</el-button>
+        <el-button type="primary" @click="issuedVisible = false; issued = null">我已安全保存</el-button>
       </template>
     </el-dialog>
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CursorPager from '@/components/CursorPager.vue'
 import { serviceAccountsApi, type ServiceTokenIssued } from '@/api/endpoints'
+import { useWriteScope, type WriteScope } from '@/composables/useWriteScope'
 import { ApiError } from '@/api/http'
 import { usePagedList } from '@/composables/usePagedList'
 import type { ServiceAccountDetail, ServiceAccountView } from '@/api/types'
@@ -160,6 +162,19 @@ const accounts = usePagedList<ServiceAccountView>(({ limit, cursor, signal }) =>
 )
 onMounted(() => accounts.reload())
 
+const lease = ref<WriteScope | null>(null)
+const tenantRevision = ref<number | null>(null)
+const permissionOptions = ref<{ code: string; name_zh: string; resource_code: string | null }[]>([])
+const optionsLoading = ref(false)
+const optionsError = ref('')
+let detailVersion = 0
+let optionEpoch = 0
+let optionsController: AbortController | null = null
+const writeScope = useWriteScope(() => {
+  optionEpoch++; optionsController?.abort(); createVisible.value = false; issuedVisible.value = false
+  detailVersion++; detailVisible.value = false; detail.value = null
+  lease.value = null; issued.value = null
+})
 const saving = ref(false)
 const createVisible = ref(false)
 const detailVisible = ref(false)
@@ -180,6 +195,7 @@ function formatTime(iso: string | null): string {
 }
 
 function openCreate(): void {
+  lease.value = writeScope.capture(); optionsError.value = ''
   createForm.account = ''
   createForm.name = ''
   createForm.tenant_id = ''
@@ -189,10 +205,33 @@ function openCreate(): void {
   createVisible.value = true
 }
 
+watch(() => createForm.tenant_id, async target => {
+  const epoch = ++optionEpoch
+  optionsController?.abort(); optionsController = new AbortController()
+  const opened = lease.value
+  tenantRevision.value = null; permissionOptions.value = []; createForm.permissions = []; optionsError.value = ''; optionsLoading.value = false
+  if (!target || !/^[0-9a-f-]{36}$/i.test(target) || !writeScope.current(opened)) return
+  optionsLoading.value = true
+  try {
+    const result = await serviceAccountsApi.resourceOptions(target, optionsController.signal)
+    if (epoch !== optionEpoch || !writeScope.current(opened)) return
+    tenantRevision.value = result.tenant_auth_revision; permissionOptions.value = result.permissions
+  } catch (e) {
+    if (epoch === optionEpoch && writeScope.current(opened) && !(e instanceof DOMException && e.name === 'AbortError')) optionsError.value = e instanceof Error ? e.message : '资源权限加载失败'
+  } finally { if (epoch === optionEpoch) optionsLoading.value = false }
+})
+
 async function saveCreate(): Promise<void> {
+  const opened = lease.value
+  if (saving.value || !writeScope.current(opened)) return
+  if (!createForm.audiences.length) { optionsError.value = '请至少选择一个受众'; return }
+  if (!createForm.permissions.length) { optionsError.value = '请至少选择一项权限'; return }
+  if (!tenantRevision.value || optionsLoading.value) { optionsError.value = '请先填写有效企业并等待可选权限加载'; return }
   saving.value = true
   try {
     const created = await serviceAccountsApi.create({
+      expected_context: opened.expected_context,
+      expected_tenant_revision: tenantRevision.value,
       account: createForm.account,
       name: createForm.name,
       tenant_id: createForm.tenant_id || null,
@@ -200,29 +239,31 @@ async function saveCreate(): Promise<void> {
       expires_in_days: createForm.expires_in_days,
       permissions: createForm.permissions
     })
+    if (!writeScope.current(opened)) return
     const issuedResult = await serviceAccountsApi.rotateToken(created.id)
+    if (!writeScope.current(opened)) return
     issued.value = issuedResult
     issuedVisible.value = true
     createVisible.value = false
     accounts.reload()
   } catch (e) {
-    ElMessage.error(e instanceof ApiError ? e.message : '创建失败')
+    if (writeScope.current(opened)) ElMessage.error(e instanceof ApiError ? e.message : '创建失败')
   } finally {
     saving.value = false
   }
 }
 
 async function openDetail(row: ServiceAccountView): Promise<void> {
-  detailVisible.value = true
+  const opened = writeScope.capture(); const version = ++detailVersion
+  detail.value = null; detailVisible.value = true
   try {
-    detail.value = await serviceAccountsApi.get(row.id)
-  } catch (e) {
-    ElMessage.error(e instanceof ApiError ? e.message : '详情加载失败')
-    detailVisible.value = false
-  }
+    const result = await serviceAccountsApi.get(row.id)
+    if (version === detailVersion && writeScope.current(opened)) detail.value = result
+  } catch (e) { if (writeScope.current(opened)) ElMessage.error(e instanceof ApiError ? e.message : '详情加载失败') }
 }
 
 async function rotate(): Promise<void> {
+  const opened = writeScope.capture(); const target = detail.value?.account.id
   if (!detail.value) {
     return
   }
@@ -236,9 +277,12 @@ async function rotate(): Promise<void> {
     return
   }
   try {
-    issued.value = await serviceAccountsApi.rotateToken(detail.value.account.id)
-    issuedVisible.value = true
-    detail.value = await serviceAccountsApi.get(detail.value.account.id)
+    if (!writeScope.current(opened) || detail.value?.account.id !== target || !target) return
+    const result = await serviceAccountsApi.rotateToken(target)
+    if (!writeScope.current(opened) || detail.value?.account.id !== target) return
+    issued.value = result; issuedVisible.value = true
+    const updated = await serviceAccountsApi.get(target)
+    if (writeScope.current(opened) && detail.value?.account.id === target) detail.value = updated
     accounts.reload()
   } catch (e) {
     ElMessage.error(e instanceof ApiError ? e.message : '轮换失败')
@@ -246,13 +290,20 @@ async function rotate(): Promise<void> {
 }
 
 async function toggleStatus(): Promise<void> {
+  const opened = writeScope.capture(); const target = detail.value?.account.id
   if (!detail.value) {
     return
   }
   const next = detail.value.account.status === 'active' ? 'disabled' : 'active'
   try {
-    await serviceAccountsApi.updateStatus(detail.value.account.id, next)
-    detail.value = await serviceAccountsApi.get(detail.value.account.id)
+    if (next === 'disabled') {
+      try { await ElMessageBox.confirm('停用后该账号的全部凭据立即失效，原权限配置保留。', '停用服务账号', { confirmButtonText: '停用', cancelButtonText: '取消', type: 'warning' }) } catch { return }
+    }
+    if (!writeScope.current(opened) || !target || detail.value?.account.id !== target) return
+    await serviceAccountsApi.updateStatus(target, next)
+    const updated = await serviceAccountsApi.get(target)
+    if (!writeScope.current(opened) || detail.value?.account.id !== target) return
+    detail.value = updated
     accounts.reload()
     ElMessage.success(next === 'active' ? '账号已启用' : '账号已停用，凭据即时失效')
   } catch (e) {
@@ -261,6 +312,7 @@ async function toggleStatus(): Promise<void> {
 }
 
 async function revoke(credentialId: string): Promise<void> {
+  const opened = writeScope.capture()
   try {
     await ElMessageBox.confirm('撤销后该凭据立即失效，无法恢复。', '撤销凭据', {
       confirmButtonText: '撤销',
@@ -271,7 +323,9 @@ async function revoke(credentialId: string): Promise<void> {
     return
   }
   try {
+    if (!writeScope.current(opened)) return
     await serviceAccountsApi.revoke(credentialId)
+    if (!writeScope.current(opened)) return
     if (detail.value) {
       detail.value = await serviceAccountsApi.get(detail.value.account.id)
     }

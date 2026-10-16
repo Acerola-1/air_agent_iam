@@ -1,0 +1,19 @@
+{
+  "expected_context": {
+    "session_id": "01930000-0000-4000-8000-00000000aaaa",
+    "tenant_id": null,
+    "ctx_version": 3
+  },
+  "code": "knowledge:lib:demo",
+  "name_zh": "演示知识库",
+  "sort": 20,
+  "parent_code": "knowledge",
+  "permissions": [
+    {
+      "code": "knowledge:lib:demo:read",
+      "name_zh": "演示知识库读取",
+      "grantable_to_tenants": true
+    }
+  ],
+  "unexpected": true
+}

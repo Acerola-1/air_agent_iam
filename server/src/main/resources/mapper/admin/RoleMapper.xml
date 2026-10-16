@@ -29,6 +29,7 @@
         SELECT <include refid="roleColumns"/> FROM iam.roles
         <where>
             <if test="scope != null">scope = #{scope}</if>
+            <if test="tenantId != null">AND scope = 'tenant' AND (tenant_id = #{tenantId} OR tenant_id IS NULL)</if>
             <if test="afterId != null">AND id &gt; #{afterId}</if>
         </where>
         ORDER BY id ASC LIMIT #{fetchSize}
@@ -36,6 +37,7 @@
     <select id="selectById" resultMap="role" useCache="false">
         SELECT <include refid="roleColumns"/> FROM iam.roles WHERE id = #{id}
     </select>
+    <select id="lockById" resultMap="role" useCache="false">SELECT <include refid="roleColumns"/> FROM iam.roles WHERE id=#{id} FOR UPDATE</select>
     <select id="insert" resultType="java.util.UUID" affectData="true" flushCache="true" useCache="false">
         INSERT INTO iam.roles(scope, tenant_id, code, name, description, is_builtin)
         VALUES (#{scope}, #{tenantId,jdbcType=OTHER}, #{code}, #{name},
@@ -53,12 +55,12 @@
     </select>
     <select id="selectCatalog" resultMap="permission" useCache="false">
         SELECT <include refid="permissionColumns"/> FROM iam.permissions
-        WHERE resource_code IS NULL AND (#{includePlatform} OR scope = 'tenant')
+        WHERE (#{includePlatform} OR scope = 'tenant')
         ORDER BY sort ASC, code ASC
     </select>
     <select id="selectGrantable" resultMap="permission" useCache="false">
         SELECT <include refid="permissionColumns"/> FROM iam.permissions
-        WHERE scope = #{scope} AND resource_code IS NULL AND status = 'active'
+        WHERE scope = #{scope} AND status = 'active'
           AND (scope = 'platform' OR grantable_to_tenants)
         ORDER BY sort ASC, code ASC
     </select>
@@ -69,10 +71,20 @@
         ORDER BY code
     </select>
     <delete id="deletePermissions">DELETE FROM iam.role_permissions WHERE role_id = #{roleId}</delete>
+    <delete id="deletePermission">
+        DELETE FROM iam.role_permissions WHERE role_id = #{roleId}
+          AND permission_id = (SELECT id FROM iam.permissions WHERE code = #{code})
+    </delete>
     <insert id="insertPermissions">
         INSERT INTO iam.role_permissions(role_id, permission_id, granted_by) VALUES
         <foreach collection="permissions" item="permission" separator=",">
             (#{roleId}, #{permission.id}, #{actorId})
         </foreach>
     </insert>
+    <select id="countActiveEntitlement" resultType="int" useCache="false">
+        SELECT COUNT(*) FROM iam.tenant_entitlements te
+        JOIN iam.resource_catalog rc ON rc.code = te.resource_code
+        WHERE te.tenant_id = #{tenantId} AND te.resource_code = #{resourceCode}
+          AND te.status = 'active' AND rc.status = 'active'
+    </select>
 </mapper>

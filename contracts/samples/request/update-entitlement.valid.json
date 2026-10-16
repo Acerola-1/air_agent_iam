@@ -1,0 +1,10 @@
+{
+  "expected_context": {
+    "session_id": "01930000-0000-4000-8000-00000000aaaa",
+    "tenant_id": null,
+    "ctx_version": 3
+  },
+  "expected_revision": 0,
+  "expected_tenant_revision": 7,
+  "status": "active"
+}

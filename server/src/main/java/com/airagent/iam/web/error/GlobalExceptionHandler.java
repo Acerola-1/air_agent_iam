@@ -144,7 +144,7 @@ public class GlobalExceptionHandler {
     ResponseEntity<ErrorEnvelope> handleOther(Exception ex) {
         LOGGER.error("未处理异常 requestId={}", MDC.get("request_id"), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ErrorEnvelope.of("conflict", "服务内部错误", MDC.get("request_id")));
+                .body(ErrorEnvelope.of("internal_error", "服务内部错误", MDC.get("request_id")));
     }
 
 }

@@ -76,7 +76,7 @@ public class RoleAdminController {
      *
      * @param request 当前 HTTP 请求（会话快照由拦截器注入）
      * @param scope   可选 scope 过滤，仅接受 {@code platform} 或 {@code tenant}；
-     *                省略（{@code null}）表示不过滤，传空串等其他取值返回 400
+     *                tenant始终限定当前企业，platform需平台读权限；省略时企业主体只返回本企业域
      * @param limit   单页条数；{@code null} 时取默认 20，合法范围 1..200，越界返回 400
      * @param cursor  不透明游标（上一页末行 id 的 base64url 编码）；{@code null} 或空白表示从首页开始
      * @return 当前页 {@link PageVO}；无后续数据时 {@code nextCursor} 为 {@code null}
@@ -91,7 +91,7 @@ public class RoleAdminController {
     @ApiResponse(responseCode = "403", description = "缺少平台与企业两类的角色查看权限")
     @GetMapping("/roles")
     public PageVO<RoleVO> listRoles(HttpServletRequest request,
-                                    @Parameter(description = "scope 过滤，仅支持 platform/tenant；省略则不过滤")
+                                    @Parameter(description = "仅支持platform/tenant；tenant限定当前企业及全局企业模板，platform需平台读权限")
                                     @RequestParam(value = "scope", required = false) String scope,
                                     @Parameter(description = "单页条数 1..200，缺省 20")
                                     @RequestParam(value = "limit", required = false) Integer limit,

@@ -32,11 +32,11 @@ public interface RoleAdminService {
     /**
      * keyset 分页列出 actor 可见的角色。
      *
-     * <p>具备平台读权限时以平台上下文查询（可见全部角色，含各企业自定义角色），
-     * 否则必须已选择企业上下文并以企业上下文查询。每行都会追加其权限码列表。
+     * <p>显式scope=tenant始终限定当前企业与全局企业模板；仅有企业读权限时同样如此。
+     * 平台读权限且未指定企业域时可查询平台全局可见集。每行追加权限码列表。
      *
      * @param actor  当前会话快照；需 {@code platform:role:read} 或 {@code tenant:role:read} 之一
-     * @param scope  可选角色域过滤，仅 {@code platform} / {@code tenant}；{@code null} 不按域过滤
+     * @param scope 可选角色域；platform要求平台读权限，tenant要求已选企业；省略时按主体权限选查询面
      * @param limit  单页条数，{@code null} 取默认 20，范围 1..200
      * @param cursor 上一页游标（base64url 的末行 id），{@code null}/空白表示首页
      * @return 当前页数据与下一页游标（无更多时为 {@code null}）

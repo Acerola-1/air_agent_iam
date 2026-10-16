@@ -1,0 +1,16 @@
+{
+  "expected_context": {
+    "session_id": "01930000-0000-4000-8000-00000000aaaa",
+    "tenant_id": null,
+    "ctx_version": 3
+  },
+  "code": "bad/code",
+  "name_zh": "坏编码",
+  "permissions": [
+    {
+      "code": "bad/code:read",
+      "name_zh": "读",
+      "grantable_to_tenants": true
+    }
+  ]
+}

@@ -1,6 +1,8 @@
 package com.airagent.iam.admin.service.impl;
 
 import com.airagent.iam.admin.AdminSupport;
+import com.airagent.iam.admin.ResourceGrantSupport;
+import com.airagent.iam.admin.entity.ResourcePermissionDO;
 import com.airagent.iam.admin.dto.CreateRoleDTO;
 import com.airagent.iam.admin.dto.RolePermissionsDTO;
 import com.airagent.iam.admin.dto.UpdateRoleDTO;
@@ -9,6 +11,7 @@ import com.airagent.iam.admin.entity.RoleDO;
 import com.airagent.iam.admin.mapper.RoleMapper;
 import com.airagent.iam.admin.service.RoleAdminService;
 import com.airagent.iam.admin.vo.GrantableTreeVO;
+import com.airagent.iam.admin.vo.PermissionStateVO;
 import com.airagent.iam.admin.vo.PermissionVO;
 import com.airagent.iam.admin.vo.RoleVO;
 import com.airagent.iam.auth.CurrentSession;
@@ -32,9 +35,8 @@ import org.springframework.transaction.support.TransactionTemplate;
  *
  * <p>平台/企业两条授权面严格分离：平台线（{@code platform:role:*}）以平台上下文操作全部角色，
  * 企业线（{@code tenant:role:*}）只能操作内置全局模板与本租户自定义角色，且必须先选择企业上下文。
- * 可授范围也是分层的：企业管理员只能看见并使用 {@code grant_scope} 为 tenant 且
- * {@code grantable_to_tenants} 为真的非资源权限；资源型权限（绑定了资源编码者）在资源开通能力
- * 落地前既不出现在目录与可授树中，也被数据库触发器硬拒授予。
+ * 可授范围也是分层的：企业管理员仅能配置可下放的企业域权限。资源权限需目录启用和本企业开通；
+ * 资源管理资格与原写权限组合可完成首次授权，普通权限仍受自身权限子集约束。
  *
  * <p>关键边界：角色与其权限集合的任何变化都由数据库触发器推进引用主体
  * （账号 auth_revision、成员 revision）的授权代次，旧权限快照立即失效，因此本类不需要
@@ -53,6 +55,8 @@ public class RoleAdminServiceImpl implements RoleAdminService {
     static final String PERM_TENANT_ROLE_READ = "tenant:role:read";
     /** 企业角色写权限码：仅能维护本租户自定义角色的企业域权限集合。 */
     static final String PERM_TENANT_ROLE_WRITE = "tenant:role:write";
+    /** 企业资源授权管理资格码：可配置已开通可下放的资源权限，不赋予读取能力。 */
+    static final String PERM_TENANT_RESOURCE_GRANT = "tenant:resource:grant";
 
     /** 角色与权限数据访问。 */
     private final RoleMapper roleMapper;
@@ -60,6 +64,7 @@ public class RoleAdminServiceImpl implements RoleAdminService {
     private final TransactionTemplate tx;
     /** 权限裁决/上下文/审计共用组件。 */
     private final AdminSupport support;
+    private final ResourceGrantSupport grants;
 
     /**
      * 构造实现，全部依赖经 Spring 构造注入。
@@ -68,17 +73,18 @@ public class RoleAdminServiceImpl implements RoleAdminService {
      * @param tx         编程式事务边界（本类不使用声明式 @Transactional）
      * @param support    权限裁决、上下文、游标与审计的共用组件
      */
-    public RoleAdminServiceImpl(RoleMapper roleMapper, TransactionTemplate tx, AdminSupport support) {
+    public RoleAdminServiceImpl(RoleMapper roleMapper, TransactionTemplate tx, AdminSupport support, ResourceGrantSupport grants) {
         this.roleMapper = roleMapper;
         this.tx = tx;
         this.support = support;
+        this.grants = grants;
     }
 
     /**
      * {@inheritDoc}
      *
-     * <p>实现细节：授权面二选一在事务外判定，平台读权限优先（决定上下文为平台线）；
-     * 仅有企业读权限时改用企业上下文并要求已选择企业。scope 过滤值在校验 lambda 内才判定，
+     * <p>实现细节：显式企业列表与仅有企业读权限的请求始终限定当前企业及全局企业模板；
+     * 平台角色列表要求平台读权限。scope 过滤值在校验 lambda 内判定，
      * 因此非法 scope 会在事务内抛 400 并整体回滚（无写入，副作用仅为上下文设置）。
      * 分页以多取一行（limit+1）探测 {@code hasMore}，每行的权限码逐行查询装配。
      */
@@ -90,10 +96,13 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         if (!platform && !tenant) {
             throw ApiException.forbidden("缺少角色查看权限");
         }
+        if ("platform".equals(scopeRaw) && !platform) throw ApiException.forbidden("缺少平台角色查看权限");
+        boolean tenantView = "tenant".equals(scopeRaw) || !platform;
+        UUID listingTenant = tenantView ? support.requireCurrentTenant(actor) : null;
         int limit = support.clampLimit(limitRaw);
         String cursor = support.decodeCursor(cursorRaw);
         return tx.execute(status -> {
-            if (platform) {
+            if (!tenantView) {
                 support.setContext(actor.userId(), null, true);
             } else {
                 support.setContext(actor.userId(), support.requireCurrentTenant(actor), false);
@@ -103,9 +112,9 @@ public class RoleAdminServiceImpl implements RoleAdminService {
                 default -> throw ApiException.badRequest("scope 仅支持 platform/tenant");
             };
             UUID afterId = cursor == null ? null : AdminSupport.parseUuid(cursor, "cursor");
-            List<RoleDO> rows = roleMapper.selectPage(scope, afterId, limit + 1);
+            List<RoleDO> rows = roleMapper.selectPage(tenantView ? "tenant" : scope, afterId, limit + 1, listingTenant);
             boolean hasMore = rows.size() > limit;
-            List<RoleVO> items = rows.stream().limit(limit).map(this::toView).toList();
+            List<RoleVO> items = rows.stream().limit(limit).map(row -> toView(actor, row)).toList();
             String next = hasMore && !items.isEmpty()
                     ? support.encodeCursor(items.get(items.size() - 1).id()) : null;
             return new PageVO<>(items, next);
@@ -151,11 +160,13 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         try {
             return tx.execute(status -> {
                 support.setContext(actor.userId(), tenantId, platformScope);
+                if (platformScope && grants.permissions(codes).stream().anyMatch(p -> p.resourceCode() != null)) throw ApiException.conflict("平台角色不可携带资源权限");
+                grants.lockWrite(actor, tenantId, codes, req.expectedContext(), req.expectedTenantRevision());
                 UUID id = roleMapper.insert(req.scope(), tenantId, req.code(), req.name(), req.description());
                 replacePermissionRows(actor, id, codes);
                 support.audit(tenantId, actor.userId(), "admin.role.create", "role", id.toString(),
                         Map.of("scope", req.scope(), "code", req.code(), "permissions", codes));
-                return roleView(id);
+                return roleView(actor, id);
             });
         } catch (org.springframework.dao.DataAccessException e) {
             throw PgErrorTranslator.toApiException(e);
@@ -172,6 +183,7 @@ public class RoleAdminServiceImpl implements RoleAdminService {
     @Override
     public RoleVO updateRole(CurrentSession actor, String roleIdRaw, UpdateRoleDTO req) {
         UUID roleId = AdminSupport.parseUuid(roleIdRaw, "role_id");
+        if (req != null && req.expectedContext() != null) grants.requireContext(actor, req.expectedContext());
         if (req == null) {
             throw ApiException.badRequest("请求体必填");
         }
@@ -188,10 +200,12 @@ public class RoleAdminServiceImpl implements RoleAdminService {
             if (req.name() != null && (req.name().isBlank() || req.name().length() > 128)) {
                 throw ApiException.badRequest("name 不合法");
             }
+            grants.lockWrite(actor, tenantId, roleMapper.selectPermissionCodes(roleId), req.expectedContext(), req.expectedTenantRevision());
+            roleMapper.lockById(roleId);
             roleMapper.update(roleId, req.name(), req.description(), req.status());
             support.audit(tenantId, actor.userId(), "admin.role.update", "role", roleId.toString(),
                     Map.of("scope", scope, "status", req.status() == null ? "" : req.status()));
-            return roleView(roleId);
+            return roleView(actor, roleId);
         });
     }
 
@@ -206,6 +220,7 @@ public class RoleAdminServiceImpl implements RoleAdminService {
     public RoleVO replacePermissions(CurrentSession actor, String roleIdRaw,
                                        RolePermissionsDTO req) {
         UUID roleId = AdminSupport.parseUuid(roleIdRaw, "role_id");
+        if (req != null && req.expectedContext() != null) grants.requireContext(actor, req.expectedContext());
         List<String> codes = AdminSupport.sanitizeCodes(req == null ? null : req.permissionCodes());
         return tx.execute(status -> {
             RoleDO role = loadRoleRow(actor, roleId, true);
@@ -213,10 +228,15 @@ public class RoleAdminServiceImpl implements RoleAdminService {
             if (role.builtin()) {
                 throw ApiException.forbidden("内置角色不可修改");
             }
+            List<String> combined = new ArrayList<>(codes);
+            combined.addAll(roleMapper.selectPermissionCodes(roleId));
+            grants.lockWrite(actor, tenantId, combined.stream().distinct().toList(),
+                    req == null ? null : req.expectedContext(), req == null ? null : req.expectedTenantRevision());
+            roleMapper.lockById(roleId);
             replacePermissionRows(actor, roleId, codes);
             support.audit(tenantId, actor.userId(), "admin.role.permissions.replace", "role",
                     roleId.toString(), Map.of("permissions", codes));
-            return roleView(roleId);
+            return roleView(actor, roleId);
         });
     }
 
@@ -284,7 +304,7 @@ public class RoleAdminServiceImpl implements RoleAdminService {
     /**
      * 读取指定授权面的可授权限并裁剪为 actor 可用叶子。
      *
-     * <p>数据源为 {@link RoleMapper#selectGrantable}（活跃、非资源型，企业面还要求可下放）；
+     * <p>数据源为 {@link RoleMapper#selectGrantable}（活跃，企业面要求可下放；资源还需目标企业开通）；
      * 非平台超级管理员只会看到自己已持有的码，因此界面无法越权勾选。
      * 调用前必须已设置好事务上下文。
      *
@@ -294,12 +314,29 @@ public class RoleAdminServiceImpl implements RoleAdminService {
      * @return 分组视图；actor 无任何该面可授码时叶子为空列表
      */
     private GrantableTreeVO.Group loadGroup(CurrentSession actor, String scope, String name) {
+        boolean isSuper = actor.snapshot().hasPlatformRole("platform_super_admin");
+        boolean hasGrantMgmt = actor.snapshot().permissions().contains(PERM_TENANT_RESOURCE_GRANT);
+        UUID currentTenant = actor.currentTenantId();
         List<GrantableTreeVO.Leaf> leaves = roleMapper.selectGrantable(scope).stream()
-                .filter(permission -> actor.snapshot().hasPlatformRole("platform_super_admin")
-                        || actor.snapshot().permissions().contains(permission.code()))
+                .filter(permission -> {
+                    if (permission.resourceCode() != null) {
+                        // 资源码仅在已开通且可下放时进入可授树
+                        if (!hasGrantMgmt && !actor.snapshot().permissions().contains(permission.code())) {
+                            return false;
+                        }
+                        if (currentTenant == null) return false;
+                        return isResourceEntitled(currentTenant, permission.resourceCode());
+                    }
+                    if (isSuper) return true;
+                    return actor.snapshot().permissions().contains(permission.code());
+                })
                 .map(permission -> new GrantableTreeVO.Leaf(permission.code(), permission.nameZh(),
                         permission.resourceCode())).toList();
         return new GrantableTreeVO.Group(scope, name, leaves);
+    }
+
+    private boolean isResourceEntitled(UUID tenantId, String resourceCode) {
+        return roleMapper.countActiveEntitlement(tenantId, resourceCode) > 0;
     }
 
     /**
@@ -353,7 +390,7 @@ public class RoleAdminServiceImpl implements RoleAdminService {
      * 把角色的权限集合全量替换为给定码集合，并逐层校验可授范围。
      *
      * <p>三道校验有固定先后：未知权限码 400（按码解析的命中数与入参不等）；
-     * 权限不在该角色可授范围 409（资源型权限一律拒绝，企业角色还要求权限可下放企业）；
+     * 权限不在该角色可授范围 409（平台角色/全局模板资源码拒绝，企业独有角色按开通和管理资格裁决）；
      * 越出 actor 自身权限集合 403（平台超级管理员豁免）。删除与批量插入连续执行，
      * 中途失败由事务整体回滚；数据库触发器 role_permissions_boundary 是同规则的最后一道兜底。
      * 空集合是合法的“清空”语义，此时不会调用按码查询与批量插入（避免生成非法 SQL）。
@@ -365,27 +402,26 @@ public class RoleAdminServiceImpl implements RoleAdminService {
      *                      （批量插入触发的约束违例同样经 {@link PgErrorTranslator} 归入 409）
      */
     private void replacePermissionRows(CurrentSession actor, UUID roleId, List<String> codes) {
-        List<PermissionDO> permissions = codes.isEmpty() ? List.of() : roleMapper.selectPermissionsByCodes(codes);
-        if (permissions.size() != codes.size()) {
-            throw ApiException.badRequest("存在未知权限码");
-        }
+        List<String> original = roleMapper.selectPermissionCodes(roleId);
+        List<String> added = codes.stream().filter(c -> !original.contains(c)).toList();
         RoleDO role = roleMapper.selectById(roleId);
-        if (permissions.stream().anyMatch(permission -> permission.resourceCode() != null
-                || ("tenant".equals(role.scope()) && !permission.grantableToTenants()))) {
-            throw ApiException.conflict("权限不在该角色的可授范围内");
-        }
-        if (!actor.snapshot().hasPlatformRole("platform_super_admin")
-                && !actor.snapshot().permissions().containsAll(codes)) {
-            throw ApiException.forbidden("不能授予超出自身可授范围的权限");
-        }
-        roleMapper.deletePermissions(roleId);
-        if (!permissions.isEmpty()) {
-            try {
-                roleMapper.insertPermissions(roleId, actor.userId(), permissions);
-            } catch (org.springframework.dao.DataAccessException ex) {
-                throw PgErrorTranslator.toApiException(ex);
+        for (ResourcePermissionDO p : grants.permissions(added)) {
+            if ("tenant".equals(role.scope())) {
+                if (p.resourceCode() != null && role.tenantId() == null) {
+                    throw ApiException.conflict("全局模板不可携带资源权限");
+                }
+                grants.requireGrantable(actor, role.tenantId(), p);
+            } else {
+                if (p.resourceCode() != null) throw ApiException.conflict("平台角色不可携带资源权限");
+                if (!"active".equals(p.status())) throw ApiException.conflict("权限已停用");
+                if (!actor.snapshot().hasPlatformRole("platform_super_admin")
+                        && !actor.snapshot().permissions().contains(p.code())) {
+                    throw ApiException.forbidden("不能授予超出自身可授范围的权限");
+                }
             }
         }
+        for (String code : original) if (!codes.contains(code)) roleMapper.deletePermission(roleId, code);
+        if (!added.isEmpty()) roleMapper.insertPermissions(roleId, actor.userId(), roleMapper.selectPermissionsByCodes(added));
     }
 
     /**
@@ -395,12 +431,12 @@ public class RoleAdminServiceImpl implements RoleAdminService {
      * @return 角色视图
      * @throws ApiException 404 当行不存在或当前上下文 RLS 不可见
      */
-    private RoleVO roleView(UUID id) {
+    private RoleVO roleView(CurrentSession actor, UUID id) {
         RoleDO role = roleMapper.selectById(id);
         if (role == null) {
             throw ApiException.notFound("角色不存在");
         }
-        return toView(role);
+        return toView(actor, role);
     }
 
     /**
@@ -409,9 +445,24 @@ public class RoleAdminServiceImpl implements RoleAdminService {
      * @param role 角色持久化行
      * @return 对外视图（权限码按 code 升序，无权限时为空列表）
      */
-    private RoleVO toView(RoleDO role) {
+    private RoleVO toView(CurrentSession actor, RoleDO role) {
+        List<String> codes = roleMapper.selectPermissionCodes(role.id());
+        List<PermissionStateVO> states = new ArrayList<>();
+        UUID tenant = role.tenantId();
+        for (ResourcePermissionDO p : grants.permissions(codes)) {
+            String reason = !"active".equals(role.status()) ? "role_disabled"
+                    : !"active".equals(p.status()) ? "permission_disabled" : null;
+            if (reason == null && p.resourceCode() != null) {
+                reason = grants.resourceInvalidReason(tenant, p);
+            }
+            boolean grantable = reason == null && (p.resourceCode() == null
+                    ? actor.snapshot().hasPlatformRole("platform_super_admin") || actor.snapshot().permissions().contains(p.code())
+                    : p.grantableToTenants() && (actor.snapshot().permissions().contains("tenant:resource:grant")
+                            || actor.snapshot().permissions().contains(p.code())));
+            states.add(new PermissionStateVO(p.code(), true, reason == null, grantable, reason));
+        }
         return new RoleVO(role.id().toString(), role.code(), role.scope(),
-                role.tenantId() == null ? null : role.tenantId().toString(), role.name(),
-                role.description(), role.builtin(), role.status(), roleMapper.selectPermissionCodes(role.id()));
+                tenant == null ? null : tenant.toString(), role.name(), role.description(),
+                role.builtin(), role.status(), codes, states);
     }
 }

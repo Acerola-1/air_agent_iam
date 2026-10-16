@@ -19,6 +19,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @param name        新显示名；{@code null} 表示不改
  * @param description 新说明；{@code null} 表示不改，空串表示清空
  * @param status      目标状态；{@code null} 表示不改；仅 active/disabled
+ * @param expectedContext 资源写入时打开表单的会话上下文；非资源请求兼容省略
+ * @param expectedTenantRevision 资源写入时目标企业授权修订；与操作者当前企业分别处理
  * @author Acerola
  */
 @Schema(description = "角色局部更新请求。内置角色不可修改（403）；停用角色会推进所有引用主体的授权代次")
@@ -40,6 +42,13 @@ public record UpdateRoleDTO(
                 + "只覆盖账号状态与授权关系行、不覆盖角色状态，停用超级管理员所持有的角色不会被拦截，"
                 + "可能自锁，需自行确认。",
                 requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "disabled")
-        String status
+        String status,
+        @Schema(description = "资源写入时必填：打开表单时的会话上下文") ExpectedContextDTO expectedContext,
+        @Schema(description = "资源写入时必填：目标企业授权修订") Long expectedTenantRevision
 ) {
+    /** 兼容既有非资源调用；资源写入必须使用完整构造器提供上下文和企业修订。 */
+    public UpdateRoleDTO(String name, String description, String status) {
+        this(name, description, status, null, null);
+    }
+
 }

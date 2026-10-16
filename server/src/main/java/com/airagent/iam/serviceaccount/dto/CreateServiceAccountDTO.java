@@ -2,6 +2,7 @@ package com.airagent.iam.serviceaccount.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
+import com.airagent.iam.admin.dto.ExpectedContextDTO;
 
 /**
  * 服务账号建档请求体（DTO，Controller → Service 入参）。
@@ -31,8 +32,10 @@ import java.util.List;
  * @param expiresInDays 账号有效期天数；{@code null} 取默认 90，合法范围 1..365（含），
  *                      数据库另有硬顶：到期时刻不得晚于写入时刻加 365 天
  * @param permissions   要授予的权限码列表；{@code null} 视为空列表，消毒规则同 audiences，
- *                      只接受企业域（{@code scope='tenant'}）、非资源型且已启用的权限码，
+ *                      只接受企业域（{@code scope='tenant'}）、可下放且已启用的权限码；资源码还需目标企业已开通，
  *                      任一越界整体 400
+ * @param expectedContext 资源写入时打开表单的会话上下文；非资源请求兼容省略
+ * @param expectedTenantRevision 资源写入时目标企业授权修订；与操作者当前企业分别处理
  * @author Acerola
  */
 @Schema(description = "服务账号建档请求。只创建账号主体与权限声明，不返回凭据；"
@@ -67,9 +70,16 @@ public record CreateServiceAccountDTO(
         Integer expiresInDays,
 
         @Schema(description = "授予的权限码：字符规则同 audiences。只接受 scope 为 tenant、"
-                + "resource_code 为空且 status 为 active 的权限；含平台专属、资源型、未知或停用权限码时整体 400"
+                + "可下放且 status 为 active 的权限；资源码还需企业已开通。未知或停用权限码整体拒绝"
                 + "（不部分生效）。省略或空数组表示建档时不授予任何权限。",
                 requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-        List<String> permissions
+        List<String> permissions,
+        @Schema(description = "资源写入时必填：打开表单时的会话上下文") ExpectedContextDTO expectedContext,
+        @Schema(description = "资源写入时必填：目标企业授权修订") Long expectedTenantRevision
 ) {
+    /** 兼容既有非资源调用；资源写入必须使用完整构造器提供上下文和企业修订。 */
+    public CreateServiceAccountDTO(String account, String name, String tenantId, List<String> audiences, Integer expiresInDays, List<String> permissions) {
+        this(account, name, tenantId, audiences, expiresInDays, permissions, null, null);
+    }
+
 }

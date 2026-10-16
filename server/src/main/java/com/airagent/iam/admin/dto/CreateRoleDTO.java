@@ -22,6 +22,8 @@ import java.util.List;
  * @param name            角色显示名，非空白且不超过 128 字符
  * @param description     角色说明；{@code null} 入库为空串
  * @param permissionCodes 初始权限码集合；{@code null} 或空集合表示先建空角色
+ * @param expectedContext 资源写入时打开表单的会话上下文；非资源请求兼容省略
+ * @param expectedTenantRevision 资源写入时目标企业授权修订；与操作者当前企业分别处理
  * @author Acerola
  */
 @Schema(description = "新建自定义角色请求。scope 必填且只能是 platform/tenant，分别对应平台与企业授权面；"
@@ -51,10 +53,17 @@ public record CreateRoleDTO(
         String description,
 
         @Schema(description = "建角色时一并写入的初始权限码集合（可省略，等价空集合）。"
-                + "未知码 400；含资源型权限或给 tenant 角色配平台专属权限 409；"
+                + "未知码 400；资源权限需本企业已开通与资源管理资格；给 tenant 角色配平台专属权限 409；"
                 + "授予操作者自身不持有的权限 403（平台超级管理员豁免此子集校验）。"
                 + "与角色插入同事务，校验不通过则角色整体不创建。",
                 requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-        List<String> permissionCodes
+        List<String> permissionCodes,
+        @Schema(description = "资源写入时必填：打开表单时的会话上下文") ExpectedContextDTO expectedContext,
+        @Schema(description = "资源写入时必填：目标企业授权修订") Long expectedTenantRevision
 ) {
+    /** 兼容既有非资源调用；资源写入必须使用完整构造器提供上下文和企业修订。 */
+    public CreateRoleDTO(String scope, String code, String name, String description, List<String> permissionCodes) {
+        this(scope, code, name, description, permissionCodes, null, null);
+    }
+
 }
