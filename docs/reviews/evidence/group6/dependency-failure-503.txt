@@ -1,0 +1,11 @@
+依赖故障失败关闭（自有容器 iam-redis7，停启不 flush、不影响其他服务）
+时间：2026-10-15
+
+操作：container stop iam-redis7
+POST /v1/auth/login (正确账密) 
+  -> 503 {"error":{"code":"dependency_unavailable","message":"身份依赖暂不可用",...}}
+POST /web-api/auth/login（CSRF 上下文无法建立时）
+  -> 403 {"error":{"code":"forbidden","message":"浏览器上下文不存在或已过期，请重新获取 CSRF",...}}
+  （同样失败关闭，不绕过鉴权）
+GET /web-api/auth/me -> 401
+恢复：container start iam-redis7 后 /healthz {"status":"ok","postgres":true,"redis":true}

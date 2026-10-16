@@ -1,0 +1,77 @@
+{
+  "created_at": "2026-10-14T15:37:46.871557+00:00",
+  "status": "评审快照；不是已实现或已切换的证据",
+  "files": [
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/extract-shared-iam-service/source-audit.md",
+      "copy": "docs/reference/source-audit.md",
+      "sha256": "aa88072b0ce634ae18b9e5d56c09eeca2c100bb5086632d09f23ec1993e55067"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/extract-shared-iam-service/design.md",
+      "copy": "docs/reference/full-extraction-design.md",
+      "sha256": "2e0bcd7ce298cbad2d73cc06bd9f4b303256ccd138667bb480e9ddd6fe220289"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/extract-shared-iam-service/acceptance.md",
+      "copy": "docs/reference/cross-service-acceptance.md",
+      "sha256": "dc4deb404e29fe2027fcedcf9686c4d1cc2ef49e79327907099cf9bafa24b06a"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/extract-shared-iam-service/http-contract.md",
+      "copy": "openspec/changes/establish-shared-iam-service/http-contract.md",
+      "sha256": "3032fc6ba25c5745cee840400ea98de09323e526e132468069c0f67e76d2402e"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/docs/reviews/evidence/takeover-03-05/source-baseline.json",
+      "copy": "docs/reference/agent-source-baseline.json",
+      "sha256": "0a99fe74b00669a004b733d5b764f804f669a9d7c8d7541c9a9782cf1cb7107d"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/add-tenant-identity-access/specs/agent-runtime-performance/spec.md",
+      "copy": "docs/reference/agent-identity-specs/agent-runtime-performance/spec.md",
+      "sha256": "ba780d3c58a99ce902caeece20cd71a7f6d5d94ad678ca9fa0533bdb5681c821"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/add-tenant-identity-access/specs/tenant-identity-migration/spec.md",
+      "copy": "docs/reference/agent-identity-specs/tenant-identity-migration/spec.md",
+      "sha256": "5acd276995aa1f5915ea897f3b028fdf94cee0447fc778f94351dbb899bd06ce"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/add-tenant-identity-access/specs/tenant-mcp-authorization/spec.md",
+      "copy": "docs/reference/agent-identity-specs/tenant-mcp-authorization/spec.md",
+      "sha256": "cc6c20a00f9c767c6ccbf38fdeed453767eb42e935dd9f0b9e7021adb90ca4df"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/add-tenant-identity-access/specs/tenant-membership-access/spec.md",
+      "copy": "docs/reference/agent-identity-specs/tenant-membership-access/spec.md",
+      "sha256": "7ebd745074c66de3d425ebe73aaa97a13117108afc7810e855da50f4deee7e3e"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/add-tenant-identity-access/specs/tenant-resource-isolation/spec.md",
+      "copy": "docs/reference/agent-identity-specs/tenant-resource-isolation/spec.md",
+      "sha256": "416d10fb9f3514a466436a8899ad4b94171742508495d8871599fc5b285f7334"
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/openspec/changes/add-tenant-identity-access/specs/unified-revocable-session/spec.md",
+      "copy": "docs/reference/agent-identity-specs/unified-revocable-session/spec.md",
+      "sha256": "3838199fc787ab6cbf1ae368e843d1c0b026d0861105ddf9467822cb0042a39d"
+    }
+  ],
+  "amendments": [
+    {
+      "date": "2026-10-15",
+      "reason": "用户确认IAM后台采用Vue；更新本项目计划和提示词，历史参考快照不改写",
+      "current_plan": "docs/vue-admin-plan.md",
+      "derived_files": [
+        {
+          "path": "openspec/changes/establish-shared-iam-service/http-contract.md",
+          "origin_sha256": "3032fc6ba25c5745cee840400ea98de09323e526e132468069c0f67e76d2402e",
+          "current_sha256": "f5936b938a9570360fca6e1e1de17b0edc1da9640b24f784ee7ee387c35e3d81",
+          "change": "更新状态/浏览器接入说明，新增第9节；原/v1 Bearer接口保持"
+        }
+      ],
+      "hash_semantics": "files[].sha256保留初始复制字节的来源摘要；存在amendment的工作文件按派生记录核对，不能声称与原来源逐字相同"
+    }
+  ]
+}

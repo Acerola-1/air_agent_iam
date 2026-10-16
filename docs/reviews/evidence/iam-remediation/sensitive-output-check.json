@@ -1,0 +1,12 @@
+{
+  "files_scanned": 606,
+  "actual_runtime_secret_hits": [],
+  "test_credential_and_basic_header_redactions": [
+    {
+      "path": "mybatis-browser-support-tests.json",
+      "before_sha256": "002f1ad0246b3693b1373fe734030433f9cbb88eeef701831e955685c3622f20",
+      "after_sha256": "f71512351bc0f2c7f779d50a2f20ca142af8414617c6075478048a39427e6e2f"
+    }
+  ],
+  "values_never_printed": true
+}

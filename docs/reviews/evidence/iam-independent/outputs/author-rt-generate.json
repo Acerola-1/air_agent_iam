@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/tmp/iam-independent-20261015-5ohAEo/venv/bin/python",
+    "tools/rt-v1/rt_v1.py",
+    "generate"
+  ],
+  "cwd": "/tmp/iam-independent-20261015-5ohAEo/source",
+  "time_utc": "2026-10-15T07:07:44.166570+00:00",
+  "elapsed_seconds": 0.065,
+  "exit_code": 0,
+  "stdout": "PY  valid                      -> ok [OK]\nPY  wrong-audience             -> bad_audience [OK]\nPY  wrong-kid                  -> bad_kid [OK]\nPY  expired                    -> expired [OK]\nPY  wrong-secret-signature     -> bad_signature [OK]\nPY  mutated-signature          -> bad_signature [OK]\nwritten: /private/tmp/iam-independent-20261015-5ohAEo/source/tools/rt-v1/out/rt-v1-py-vectors.json\n",
+  "stderr": ""
+}

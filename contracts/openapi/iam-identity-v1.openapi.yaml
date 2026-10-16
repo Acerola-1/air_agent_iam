@@ -1,0 +1,1447 @@
+openapi: 3.1.0
+info:
+  title: Air Agent IAM Service HTTP Contract
+  version: 1.0.0
+  description: >
+    共享 IAM 服务 v1 契约冻结（OpenSpec change establish-shared-iam-service）。
+    /v1 为机内/内部网络 JSON API（不透明 Bearer + 内部客户端凭据）；
+    /web-api 为浏览器同源会话适配（HttpOnly Cookie + 双提交 CSRF + Origin 校验），不是 /v1 的任意代理。
+    管理端写端点在第 5 组细化请求体；身份核验相关 schema 已与 contracts/schemas 同步冻结。
+  contact:
+    name: air-agent-iam
+servers:
+  - url: http://127.0.0.1:19100
+    description: 本机回环开发/验收实例（唯一绑定 127.0.0.1，不监听任何非回环地址）
+
+tags:
+  - name: auth
+    description: 人类用户会话（Bearer 不透明令牌）
+  - name: internal
+    description: 服务间双主体接口（客户端凭据 + subject_token/verification_ref）
+  - name: admin
+    description: 平台/企业管理接口（第 5 组细化）
+  - name: sso
+    description: 合成 SSO 联合登录（本机回环两客户端）
+  - name: web
+    description: 浏览器同源会话适配，固定 iam-admin 受众
+  - name: ops
+    description: 运维探针
+
+security:
+  - bearerAuth: []
+
+paths:
+  /healthz:
+    get:
+      tags: [ops]
+      operationId: healthz
+      security: []
+      responses:
+        "200":
+          description: PG/Redis 均可达（no-store）
+          headers:
+            Cache-Control: { schema: { const: "no-store" } }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, checks]
+                properties:
+                  status: { enum: [ok] }
+                  checks:
+                    type: object
+                    properties:
+                      postgres: { enum: [ok] }
+                      redis: { enum: [ok] }
+        "503":
+          description: 依赖不可达，失败关闭
+          $ref: "#/components/responses/Error503"
+
+  /v1/auth/login:
+    post:
+      tags: [auth]
+      operationId: login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/LoginRequest" }
+      responses:
+        "200":
+          description: 登录成功（access_token 仅 /v1 使用，浏览器不使用此端点）
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LoginResult" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "503": { $ref: "#/components/responses/Error503" }
+
+  /v1/auth/logout:
+    post:
+      tags: [auth]
+      operationId: logout
+      responses:
+        "204": { description: 当前会话撤销成功（即时，四修订之 session 推进） }
+        "401": { $ref: "#/components/responses/Error401" }
+
+  /v1/auth/logout-all:
+    post:
+      tags: [auth]
+      operationId: logoutAll
+      responses:
+        "204": { description: 该用户全部会话撤销；user_auth_revision 推进 }
+        "401": { $ref: "#/components/responses/Error401" }
+
+  /v1/auth/me:
+    get:
+      tags: [auth]
+      operationId: me
+      responses:
+        "200":
+          description: 当前身份（每次读主库重算，无授权结果正向 TTL 缓存）
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Identity" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "503": { $ref: "#/components/responses/Error503" }
+
+  /v1/auth/tenants:
+    get:
+      tags: [auth]
+      operationId: listMyTenants
+      responses:
+        "200":
+          description: 当前用户有效成员关系的企业列表
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: "#/components/schemas/TenantMembershipSummary" }
+        "401": { $ref: "#/components/responses/Error401" }
+
+  /v1/auth/switch-tenant:
+    post:
+      tags: [auth]
+      operationId: switchTenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SwitchTenantRequest" }
+      responses:
+        "200":
+          description: CAS 切换成功，ctx_version 推进并回新身份
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Identity" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409":
+          description: expected_ctx_version 过期（并发切换/撤销）或非成员/企业停用
+          $ref: "#/components/responses/Error409"
+
+  /v1/auth/change-password:
+    post:
+      tags: [auth]
+      operationId: changePassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ChangePasswordRequest" }
+      responses:
+        "204": { description: 改密成功，user_auth_revision 推进，其他会话即时失效 }
+        "401": { $ref: "#/components/responses/Error401" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/auth/renew:
+    post:
+      tags: [auth]
+      operationId: renew
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RenewRequest" }
+      responses:
+        "200":
+          description: 空闲续期成功；绝对到期不延长；过期会话不可复活
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SessionTimers" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/auth/menus:
+    get:
+      tags: [auth]
+      operationId: menus
+      responses:
+        "200":
+          description: 后端按权限生成的菜单树（前端路由/按钮仅作展示，不构成授权）
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MenuTree" }
+        "401": { $ref: "#/components/responses/Error401" }
+
+  /v1/internal/identity/introspect:
+    post:
+      tags: [internal]
+      operationId: introspect
+      security:
+        - internalClient: []
+      description: >
+        双主体：Authorization 为内部客户端凭据；body 携带 subject_token（人类/服务账号不透明令牌）
+        或 execution_context.verification_ref（长运行复查），二者互斥。每次读 PG 主库重算修订。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IntrospectRequest" }
+      responses:
+        "200":
+          description: 有效身份或无效信封（HTTP 均 200，active 字段区分；无效不含身份细节）
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - { $ref: "#/components/schemas/Identity" }
+                  - { $ref: "#/components/schemas/InactiveIntrospection" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "429": { $ref: "#/components/responses/Error429" }
+        "503": { $ref: "#/components/responses/Error503" }
+
+  /v1/internal/runtime-tickets:
+    post:
+      tags: [internal]
+      operationId: issueRuntimeTicket
+      security:
+        - internalClient: []
+      description: 签发 rt-v1 短时票据（TTL 60s）。客户端须具备 runtime-ticket:issue，audience 固定 langgraph-runtime。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RuntimeTicketRequest" }
+      responses:
+        "200":
+          description: 票据签发
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ticket, expires_in]
+                properties:
+                  ticket: { type: string, description: "rt-v1 三段式票据" }
+                  expires_in: { const: 60 }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409":
+          description: target_tenant_id 与当前 ctx 不符或 expected_ctx_version 过期
+          $ref: "#/components/responses/Error409"
+        "503": { $ref: "#/components/responses/Error503" }
+
+  /v1/internal/sso/exchange:
+    post:
+      tags: [internal, sso]
+      operationId: ssoExchange
+      security:
+        - internalClient: []
+      description: 合成 SSO 服务端兑换一次性 ticket（60s，单次使用，重放拒绝）。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SsoExchangeRequest" }
+      responses:
+        "200":
+          description: 兑换成功，建立人类会话
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LoginResult" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/sso/authorize:
+    get:
+      tags: [sso]
+      operationId: ssoAuthorize
+      security: []
+      parameters:
+        - { name: response_type, in: query, required: true, schema: { const: code } }
+        - { name: client_id, in: query, required: true, schema: { type: string } }
+        - { name: redirect_uri, in: query, required: true, schema: { type: string, format: uri } }
+        - { name: state, in: query, required: true, schema: { type: string, minLength: 8 } }
+        - { name: code_challenge, in: query, required: false, schema: { type: string } }
+      responses:
+        "302":
+          description: 精确匹配已登记回环 redirect_uri 后重定向（state 原样回传）
+          headers:
+            Location: { schema: { type: string, format: uri } }
+        "400": { $ref: "#/components/responses/Error400" }
+        "403": { $ref: "#/components/responses/Error403" }
+
+  /v1/admin/users:
+    get:
+      tags: [admin]
+      operationId: adminListUsers
+      parameters:
+        - { name: q, in: query, required: false, schema: { type: string }, description: account/display_name 模糊搜索 }
+        - { $ref: "#/components/parameters/Limit" }
+        - { $ref: "#/components/parameters/Cursor" }
+      responses:
+        "200":
+          description: 平台用户分页（需 platform:user:read；keyset 游标，坏游标 400）
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/UserPage" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+    post:
+      tags: [admin]
+      operationId: adminCreateUser
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateUserRequest" } } } }
+      responses:
+        "201":
+          description: 建档成功（密码 bcrypt $2b$；审计同事务；响应绝不携带口令字段）
+          content: { application/json: { schema: { $ref: "#/components/schemas/UserView" } } }
+        "400": { $ref: "#/components/responses/Error400" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/users/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    get:
+      tags: [admin]
+      operationId: adminGetUser
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/UserView" } } }, description: 用户详情 }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+    patch:
+      tags: [admin]
+      operationId: adminUpdateUser
+      description: 仅改资料不推进 auth_revision；expected_revision 乐观并发，陈旧返回 409。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateUserRequest" } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/UserView" } } }, description: 更新成功 }
+        "400": { $ref: "#/components/responses/Error400" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/users/{id}/password:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    post:
+      tags: [admin]
+      operationId: adminResetUserPassword
+      description: |
+        需 platform:user:password:reset。set_user_password 推进用户 auth_revision，
+        revoke_user_sessions 撤销该用户全部会话并入队 Redis 删除（outbox），审计同事务。
+        旧不透明令牌即时失效（introspection PG 权威）。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ResetPasswordRequest" } } } }
+      responses:
+        "204": { description: 已重置并撤销全部会话 }
+        "400": { $ref: "#/components/responses/Error400" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/users/{id}/platform-roles:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    post:
+      tags: [admin]
+      operationId: adminReplaceUserPlatformRoles
+      description: 全量替换平台角色（需 platform:user:role:assign）。撤空最后一个平台超管被 DB 触发器拒绝（23514→409）。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/PlatformRolesRequest" } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/UserView" } } }, description: 替换成功 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409":
+          description: 乐观修订冲突，或最后管理员保护/可授边界拒绝
+          content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+
+  /v1/admin/tenants:
+    get:
+      tags: [admin]
+      operationId: adminListTenants
+      parameters: [{ $ref: "#/components/parameters/Limit" }, { $ref: "#/components/parameters/Cursor" }]
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/TenantPage" } } }, description: 企业分页（platform:tenant:read） }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+    post:
+      tags: [admin]
+      operationId: adminCreateTenant
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateTenantRequest" } } } }
+      responses:
+        "201": { content: { application/json: { schema: { $ref: "#/components/schemas/TenantView" } } }, description: 建档成功（auth_revision 初始 1） }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/tenants/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    get:
+      tags: [admin]
+      operationId: adminGetTenant
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/TenantView" } } }, description: 企业详情 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+    patch:
+      tags: [admin]
+      operationId: adminUpdateTenant
+      description: name/status（active|suspended），expected_revision 乐观并发。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateTenantRequest" } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/TenantView" } } }, description: 更新成功 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/members:
+    get:
+      tags: [admin]
+      operationId: adminListMembers
+      parameters:
+        - { name: tenant_id, in: query, required: false, schema: { type: string, format: uuid }, description: 企业作用域只认会话 current_tenant，跨企业 403 }
+        - { $ref: "#/components/parameters/Limit" }
+        - { $ref: "#/components/parameters/Cursor" }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/MemberPage" } } }, description: 成员分页（tenant:member:read） }
+        "403": { $ref: "#/components/responses/Error403" }
+    post:
+      tags: [admin]
+      operationId: adminCreateMembership
+      description: |
+        需 tenant:member:write。user_id 存在则显式关联既有全局账号（平台上下文建用户、
+        租户上下文插成员，单事务）；否则按 account/password 建档后关联。绝不按同名自动合并：
+        account 已存在且未带 user_id 一律 409（查重先于口令校验）。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateMembershipRequest" } } } }
+      responses:
+        "201": { content: { application/json: { schema: { $ref: "#/components/schemas/MemberView" } } }, description: 成员关系建立（revision 初始 1；建档带角色触发器推进） }
+        "400": { $ref: "#/components/responses/Error400" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/members/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    patch:
+      tags: [admin]
+      operationId: adminUpdateMembership
+      description: 调岗/停用。停用即时生效（introspection 失败关闭，无需等缓存 TTL——本服务无正向授权缓存）。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateMembershipRequest" } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/MemberView" } } }, description: 更新成功 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409": { $ref: "#/components/responses/Error409" }
+    delete:
+      tags: [admin]
+      operationId: adminDeleteMembership
+      description: 移除成员；最后一个企业管理员被 DB 触发器拒绝（23514→409）。
+      responses:
+        "204": { description: 已移除 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/members/{id}/roles:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    post:
+      tags: [admin]
+      operationId: adminReplaceMemberRoles
+      description: 全量替换企业角色；触发器在 DELETE+INSERT 后各推进成员 revision；陈旧修订 409。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MemberRolesRequest" } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/MemberView" } } }, description: 替换成功 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/departments:
+    get:
+      tags: [admin]
+      operationId: adminListDepartments
+      parameters:
+        - { name: tenant_id, in: query, required: false, schema: { type: string, format: uuid } }
+        - { $ref: "#/components/parameters/Limit" }
+        - { $ref: "#/components/parameters/Cursor" }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/DepartmentPage" } } }, description: 部门分页（tenant:department:read） }
+        "403": { $ref: "#/components/responses/Error403" }
+    post:
+      tags: [admin]
+      operationId: adminCreateDepartment
+      parameters:
+        - { name: tenant_id, in: query, required: true, schema: { type: string, format: uuid } }
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateDepartmentRequest" } } } }
+      responses:
+        "201": { content: { application/json: { schema: { $ref: "#/components/schemas/DepartmentView" } } }, description: 部门建立 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/departments/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    patch:
+      tags: [admin]
+      operationId: adminUpdateDepartment
+      description: 改名/移动/停用；父节点成环由 DB 触发器拒绝（23514→409）。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateDepartmentRequest" } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/DepartmentView" } } }, description: 更新成功 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/roles:
+    get:
+      tags: [admin]
+      operationId: adminListRoles
+      parameters:
+        - { name: scope, in: query, required: false, schema: { enum: [platform, tenant] } }
+        - { $ref: "#/components/parameters/Limit" }
+        - { $ref: "#/components/parameters/Cursor" }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/RolePage" } } }, description: 角色分页（内置+自定义） }
+        "403": { $ref: "#/components/responses/Error403" }
+    post:
+      tags: [admin]
+      operationId: adminCreateRole
+      description: scope=platform|tenant；权限码必须落在该 scope 可授边界内，越界 409；资源型权限 I1 拒授。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateRoleRequest" } } } }
+      responses:
+        "201": { content: { application/json: { schema: { $ref: "#/components/schemas/RoleView" } } }, description: 自定义角色建立 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/roles/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    patch:
+      tags: [admin]
+      operationId: adminUpdateRole
+      description: 仅自定义角色可改；内置角色（is_builtin）PATCH 返回 403。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateRoleRequest" } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/RoleView" } } }, description: 更新成功 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+
+  /v1/admin/roles/{id}/permissions:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    post:
+      tags: [admin]
+      operationId: adminReplaceRolePermissions
+      description: 全量替换角色权限；可授边界（平台/企业分离、资源型缺席）由应用与 DB 触发器双重强制。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/RolePermissionsRequest" } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/RoleView" } } }, description: 替换成功 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/permissions:
+    get:
+      tags: [admin]
+      operationId: adminListPermissions
+      responses:
+        "200":
+          description: 权限目录（V2 种子，平台/企业可授分离；资源型权限 I1 不出现在企业目录）
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PermissionList" }
+        "403": { $ref: "#/components/responses/Error403" }
+
+  /v1/admin/grantable-tree:
+    get:
+      tags: [admin]
+      operationId: adminGrantableTree
+      responses:
+        "200":
+          description: 当前主体可授权限树（企业管理员不可见平台组；资源型权限整组缺席）
+          content: { application/json: { schema: { $ref: "#/components/schemas/GrantableTree" } } }
+        "403": { $ref: "#/components/responses/Error403" }
+
+  /v1/admin/audit-logs:
+    get:
+      tags: [admin]
+      operationId: adminListAuditLogs
+      parameters:
+        - { name: tenant_id, in: query, required: false, schema: { type: string, format: uuid } }
+        - { name: action, in: query, required: false, schema: { type: string } }
+        - { $ref: "#/components/parameters/Limit" }
+        - { $ref: "#/components/parameters/Cursor" }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/AuditLogPage" } } }, description: 审计分页 id DESC；平台可见全部（含 NULL 租户），企业 RLS 强制本租户 }
+        "400": { $ref: "#/components/responses/Error400" }
+        "403": { $ref: "#/components/responses/Error403" }
+
+  /v1/admin/service-accounts:
+    get:
+      tags: [admin]
+      operationId: adminListServiceAccounts
+      parameters:
+        - { name: tenant_id, in: query, required: false, schema: { type: string, format: uuid } }
+        - { $ref: "#/components/parameters/Limit" }
+        - { $ref: "#/components/parameters/Cursor" }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/ServiceAccountPage" } } }, description: 服务账号分页（不含密钥/摘要） }
+        "403": { $ref: "#/components/responses/Error403" }
+    post:
+      tags: [admin]
+      operationId: adminCreateServiceAccount
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/CreateServiceAccountRequest" } } } }
+      responses:
+        # 实现沿用第4组先例：POST 建档返回 200（非 201），响应不含密钥
+        "200":
+          description: 建立成功（账号视图不含密钥；明文密钥需另行调 tokens 接口且仅一次返回）
+          content: { application/json: { schema: { $ref: "#/components/schemas/ServiceAccountView" } } }
+        "400": { $ref: "#/components/responses/Error400" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /v1/admin/service-accounts/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    get:
+      tags: [admin]
+      operationId: adminGetServiceAccount
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/ServiceAccountDetail" } } }, description: 详情含凭据元数据（无 secret/token_digest） }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+    patch:
+      tags: [admin]
+      operationId: adminUpdateServiceAccount
+      description: status=active|disabled；停用推进 rev_revision 并即时 introspection inactive（account_disabled），可重新启用。
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateServiceAccountRequest" } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/ServiceAccountView" } } }, description: 状态更新成功 }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+
+  /v1/admin/service-accounts/{id}/tokens:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    post:
+      tags: [admin]
+      operationId: adminIssueServiceAccountToken
+      description: 签发机器凭据；明文密钥仅此一次响应，DB 仅存 sha256 摘要；不进日志/Trace/后续响应。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                overlap_hours: { type: integer, minimum: 0, description: 旧凭据重叠期（小时） }
+      responses:
+        "200":
+          description: 凭据一次性明文
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [credential_id, secret, token_type, credential_revision, expires_at]
+                properties:
+                  credential_id: { type: string }
+                  secret: { type: string, description: sak_ 不透明随机串，仅本次返回 }
+                  token_type: { type: string, example: sak_v1 }
+                  credential_revision: { type: integer }
+                  expires_at: { type: string, format: date-time }
+                  overlap_until: { type: ["string", "null"], format: date-time }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+
+  /web-api/csrf:
+    get:
+      tags: [web]
+      operationId: webCsrf
+      security: []
+      description: 匿名可访问，下发 CSRF 句柄（双提交 cookie + 头部），Cache-Control no-store。
+      responses:
+        "200":
+          description: CSRF token
+          headers:
+            Set-Cookie: { schema: { type: string }, description: "air_iam_dev_csrf / __Host-air_iam_csrf" }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [csrf_token]
+                properties:
+                  csrf_token: { type: string }
+
+  /web-api/auth/login:
+    post:
+      tags: [web]
+      operationId: webLogin
+      security: []
+      description: 固定 audience=iam-admin；成功仅 Set-Cookie 会话，不返回 access_token；CSRF+Origin 强校验。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [account, password]
+              properties:
+                account: { type: string }
+                password: { type: string, format: password }
+      responses:
+        "200":
+          description: 会话建立
+          headers:
+            Set-Cookie:
+              schema: { type: string }
+              description: "__Host-air_iam_session（prod）/ air_iam_dev_session（dev），HttpOnly; Secure; SameSite=Lax"
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Identity" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403":
+          description: CSRF/Origin 失败或受众不符
+          $ref: "#/components/responses/Error403"
+        "503": { $ref: "#/components/responses/Error503" }
+
+  /web-api/auth/me:
+    get:
+      tags: [web]
+      operationId: webMe
+      security:
+        - sessionCookie: []
+      responses:
+        "200":
+          content: { application/json: { schema: { $ref: "#/components/schemas/Identity" } } }
+          description: 当前身份
+        "401": { $ref: "#/components/responses/Error401" }
+
+  /web-api/auth/tenants:
+    get:
+      tags: [web]
+      operationId: webTenants
+      security: [{ sessionCookie: [] }]
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/TenantMembershipSummary" }
+          description: 可切换企业（裸数组，按企业 code 排序）
+
+  /web-api/auth/menus:
+    get:
+      tags: [web]
+      operationId: webMenus
+      security: [{ sessionCookie: [] }]
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/MenuTree" } } }, description: 菜单树 }
+
+  /web-api/auth/switch-tenant:
+    post:
+      tags: [web]
+      operationId: webSwitchTenant
+      security: [{ sessionCookie: [], csrfToken: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SwitchTenantRequest" }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/Identity" } } }, description: 切换成功 }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /web-api/auth/renew:
+    post:
+      tags: [web]
+      operationId: webRenew
+      security: [{ sessionCookie: [], csrfToken: [] }]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/RenewRequest" } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/SessionTimers" } } }, description: 续期结果 }
+        "401": { $ref: "#/components/responses/Error401" }
+
+  /web-api/auth/change-password:
+    post:
+      tags: [web]
+      operationId: webChangePassword
+      security: [{ sessionCookie: [], csrfToken: [] }]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/ChangePasswordRequest" } } }
+      responses:
+        "204": { description: 改密成功 }
+        "401": { $ref: "#/components/responses/Error401" }
+
+  /web-api/auth/logout:
+    post:
+      tags: [web]
+      operationId: webLogout
+      security: [{ sessionCookie: [], csrfToken: [] }]
+      responses:
+        "204": { description: 退出并清理会话 cookie；前端同时清 Pinia 全部 scope }
+
+  /web-api/sso/start:
+    get:
+      tags: [web, sso]
+      operationId: webSsoStart
+      security: []
+      parameters:
+        - { name: client_id, in: query, required: true, schema: { type: string } }
+        - { name: redirect_uri, in: query, required: true, schema: { type: string } }
+      responses:
+        "302": { description: 跳转 IAM 合成 SSO 授权页（回环精确匹配） }
+        "400": { $ref: "#/components/responses/Error400" }
+
+  /web-api/sso/callback:
+    post:
+      tags: [web, sso]
+      operationId: webSsoCallback
+      security: []
+      description: SPA 用一次性 code 调用本端点；服务端向 IAM /v1/internal/sso/exchange 兑换并即时复核，建立同源会话。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code, state, redirect_uri]
+              properties:
+                code: { type: string }
+                state: { type: string }
+                redirect_uri: { type: string, format: uri }
+      responses:
+        "200":
+          description: 会话建立
+          content: { application/json: { schema: { $ref: "#/components/schemas/Identity" } } }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "409":
+          description: ticket 重放/过期
+          $ref: "#/components/responses/Error409"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque-random-128
+      description: 不透明随机令牌（random-128），服务端以 sha256 摘要在 PG 权威核验；Redis 仅作 Sa-Token 会话适配。
+    internalClient:
+      type: http
+      scheme: basic
+      description: 内部客户端 client_id/client_secret（与 body 中 subject_token 分离，双主体）。
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: __Host-air_iam_session
+      description: HttpOnly; Secure; SameSite=Lax 人类会话 cookie（开发名 air_iam_dev_session）。浏览器 JS 不可读，禁止镜像到 Bearer/存储。
+    csrfToken:
+      type: apiKey
+      in: header
+      name: X-CSRF-Token
+      description: 双提交 CSRF，配合 Origin/Referer 校验；登录态变更端点一律强制。
+
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 200, default: 20 }
+    Cursor:
+      name: cursor
+      in: query
+      schema: { type: string }
+
+  responses:
+    Error400:
+      description: 请求格式/字段错误
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error401:
+      description: 未认证或会话已撤销/过期
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error403:
+      description: 已认证但权限/受众/CSRF/Origin 不满足
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error404:
+      description: 资源不存在（或在当前 RLS 上下文中不可见）
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error409:
+      description: 修订冲突（context_changed）/重放/最后管理员等业务冲突
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error429:
+      description: 内部接口超时限流
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error503:
+      description: PG/Redis 依赖故障，失败关闭（不允许降级放行）
+      headers:
+        Cache-Control: { schema: { const: no-store } }
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+
+  schemas:
+    Error:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [bad_request, unauthenticated, forbidden, not_found, context_changed, conflict, rate_limited, dependency_unavailable, csrf_rejected, sso_rejected]
+            message: { type: string }
+            request_id: { type: string }
+            details: { type: object, description: "禁止携带口令/令牌/密钥片段" }
+
+    Identity:
+      type: object
+      additionalProperties: false
+      required: [schema_version, active, issuer, audience, principal, user, session, current_tenant, membership, platform_roles, tenant_roles, permissions, revisions, context_version, platform_admin, context_usable, needs_tenant_selection, evaluated_at]
+      properties:
+        schema_version: { const: iam.identity.v1 }
+        active: { type: boolean }
+        issuer: { type: string }
+        audience: { enum: [air-agent, knowledge, iam-admin, langgraph-runtime] }
+        principal:
+          type: object
+          additionalProperties: false
+          required: [type, id, realm]
+          properties:
+            type: { const: human }
+            id: { type: string, format: uuid }
+            realm: { const: workforce }
+        user:
+          type: ["object", "null"]
+          required: [id, account, display_name, status]
+          properties:
+            id: { type: string, format: uuid }
+            account: { type: string }
+            display_name: { type: string }
+            status: { enum: [active, disabled] }
+        session: { $ref: "#/components/schemas/Session" }
+        current_tenant:
+          oneOf: [{ type: "null" }, { $ref: "#/components/schemas/Tenant" }]
+        membership:
+          oneOf:
+            - { type: "null" }
+            - type: object
+              required: [id, tenant_id, status, revision]
+              properties:
+                id: { type: string, format: uuid }
+                tenant_id: { type: string, format: uuid }
+                department_id: { type: ["string", "null"], format: uuid }
+                status: { enum: [active, disabled] }
+                revision: { type: integer, minimum: 1 }
+        platform_roles:
+          type: array
+          items: { type: object, required: [code, name], properties: { code: { type: string }, name: { type: string } } }
+        tenant_roles:
+          type: array
+          items: { type: object, required: [code, name], properties: { code: { type: string }, name: { type: string } } }
+        permissions: { type: array, items: { type: string } }
+        revisions: { $ref: "#/components/schemas/Revisions" }
+        context_version: { type: integer, minimum: 1 }
+        platform_admin: { type: boolean }
+        context_usable: { type: boolean }
+        needs_tenant_selection: { type: boolean }
+        evaluated_at: { type: string, format: date-time }
+
+    InactiveIntrospection:
+      type: object
+      additionalProperties: false
+      required: [schema_version, active, reason, evaluated_at]
+      properties:
+        schema_version: { const: iam.introspection.v1 }
+        active: { const: false }
+        reason: { enum: [invalid_or_revoked, account_disabled, tenant_suspended, membership_disabled, context_required] }
+        evaluated_at: { type: string, format: date-time }
+
+    Session:
+      type: ["object", "null"]
+      required: [id, ctx_version, created_at, expires_at, absolute_expires_at, idle_expires_at]
+      properties:
+        id: { type: string, format: uuid }
+        ctx_version: { type: integer, minimum: 1 }
+        created_at: { type: string, format: date-time }
+        expires_at: { type: string, format: date-time }
+        absolute_expires_at: { type: string, format: date-time }
+        idle_expires_at: { type: ["string", "null"], format: date-time }
+
+    SessionTimers:
+      type: object
+      required: [absolute_expires_at, idle_expires_at]
+      properties:
+        absolute_expires_at: { type: string, format: date-time }
+        idle_expires_at: { type: ["string", "null"], format: date-time }
+
+    Revisions:
+      type: object
+      additionalProperties: false
+      required: [user_auth_revision, tenant_auth_revision, membership_revision, session_ctx_version]
+      properties:
+        user_auth_revision: { type: integer, minimum: 0 }
+        tenant_auth_revision: { type: integer, minimum: 0 }
+        membership_revision: { type: integer, minimum: 0 }
+        session_ctx_version: { type: integer, minimum: 1 }
+
+    Tenant:
+      type: object
+      required: [id, code, name, status]
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string }
+        name: { type: string }
+        status: { enum: [active, suspended] }
+
+    TenantMembershipSummary:
+      type: object
+      required: [tenant_id, code, name, status, is_owner]
+      properties:
+        tenant_id: { type: string, format: uuid }
+        code: { type: string }
+        name: { type: string }
+        status: { enum: [active, suspended] }
+        is_owner: { type: boolean }
+        member_status: { enum: [active, disabled] }
+
+    LoginRequest:
+      type: object
+      additionalProperties: false
+      required: [account, password, realm, audience]
+      properties:
+        account: { type: string, minLength: 3, maxLength: 64 }
+        password: { type: string, minLength: 8, maxLength: 256 }
+        realm: { const: workforce }
+        audience: { enum: [air-agent, knowledge, iam-admin] }
+
+    LoginResult:
+      type: object
+      required: [access_token, token_type, expires_in, identity]
+      properties:
+        access_token: { type: string, description: 仅 /v1 机内使用；/web-api 登录不返回此字段 }
+        token_type: { const: Bearer }
+        expires_in: { type: integer }
+        identity: { $ref: "#/components/schemas/Identity" }
+
+    SwitchTenantRequest:
+      type: object
+      required: [tenant_id, expected_ctx_version]
+      properties:
+        tenant_id: { type: string, format: uuid }
+        expected_ctx_version: { type: integer, minimum: 1 }
+
+    RenewRequest:
+      type: object
+      required: [expected_ctx_version]
+      properties:
+        expected_ctx_version: { type: integer, minimum: 1 }
+
+    ChangePasswordRequest:
+      type: object
+      required: [old_password, new_password]
+      properties:
+        old_password: { type: string }
+        new_password: { type: string, minLength: 8, maxLength: 256 }
+
+    IntrospectRequest:
+      type: object
+      oneOf:
+        - required: [subject_token, audience]
+        - required: [execution_context, audience]
+      properties:
+        subject_token: { type: string, minLength: 16 }
+        execution_context:
+          type: object
+          required: [verification_ref, expected_revisions]
+          properties:
+            verification_ref: { type: string, format: uuid }
+            expected_revisions: { $ref: "#/components/schemas/Revisions" }
+        audience: { type: string }
+        expected_context:
+          type: object
+          required: [tenant_id, ctx_version]
+          properties:
+            tenant_id: { type: string, format: uuid }
+            ctx_version: { type: integer, minimum: 1 }
+        include_execution_context: { type: boolean }
+
+    RuntimeTicketRequest:
+      type: object
+      required: [subject_token, audience, target_tenant_id, expected_ctx_version]
+      properties:
+        subject_token: { type: string, minLength: 16 }
+        audience: { const: langgraph-runtime }
+        target_tenant_id: { type: string, format: uuid }
+        expected_ctx_version: { type: integer, minimum: 1 }
+
+    SsoExchangeRequest:
+      type: object
+      required: [ticket, redirect_uri]
+      properties:
+        ticket: { type: string, minLength: 16 }
+        redirect_uri: { type: string, format: uri }
+
+    MenuTree:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            required: [key, label]
+            properties:
+              key: { type: string }
+              label: { type: string }
+              permission: { type: ["string", "null"] }
+              children: { type: array, items: { type: object } }
+
+    # ===== 第5组：管理 API 具体 schema（任何视图均不含 password_hash/令牌/密钥材料）=====
+
+    UserView:
+      type: object
+      required: [id, realm, account, display_name, status, auth_revision, platform_roles, created_at]
+      properties:
+        id: { type: string, format: uuid }
+        realm: { type: string, enum: [workforce, service] }
+        account: { type: string }
+        display_name: { type: string }
+        status: { type: string, enum: [active, disabled] }
+        auth_revision: { type: integer, minimum: 0, description: 新建=0；仅改资料不推进 }
+        platform_roles: { type: array, items: { type: string } }
+        created_at: { type: string, format: date-time }
+
+    CreateUserRequest:
+      type: object
+      required: [account, password]
+      properties:
+        account: { type: string, minLength: 3, maxLength: 64 }
+        display_name: { type: string }
+        password: { type: string, minLength: 8, maxLength: 256, description: 强度校验；bcrypt $2b$ 存储 }
+
+    UpdateUserRequest:
+      type: object
+      required: [expected_revision]
+      properties:
+        display_name: { type: string }
+        status: { type: string, enum: [active, disabled] }
+        expected_revision: { type: integer, minimum: 0 }
+
+    ResetPasswordRequest:
+      type: object
+      required: [new_password, expected_revision]
+      properties:
+        new_password: { type: string, minLength: 8, maxLength: 256 }
+        expected_revision: { type: integer, minimum: 0 }
+
+    PlatformRolesRequest:
+      type: object
+      required: [role_codes, expected_revision]
+      properties:
+        role_codes: { type: array, items: { type: string } }
+        expected_revision: { type: integer, minimum: 0 }
+
+    UserPage:
+      type: object
+      required: [items]
+      properties:
+        next_cursor: { type: ["string", "null"] }
+        items: { type: array, items: { $ref: "#/components/schemas/UserView" } }
+
+    TenantView:
+      type: object
+      required: [id, code, name, status, auth_revision, created_at]
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string }
+        name: { type: string }
+        status: { type: string, enum: [active, suspended] }
+        auth_revision: { type: integer, minimum: 1, description: 新建=1（建档触发器推进） }
+        created_at: { type: string, format: date-time }
+
+    CreateTenantRequest:
+      type: object
+      required: [code, name]
+      properties:
+        code: { type: string }
+        name: { type: string }
+
+    UpdateTenantRequest:
+      type: object
+      required: [expected_revision]
+      properties:
+        name: { type: string }
+        status: { type: string, enum: [active, suspended] }
+        expected_revision: { type: integer, minimum: 1 }
+
+    TenantPage:
+      type: object
+      required: [items]
+      properties:
+        next_cursor: { type: ["string", "null"] }
+        items: { type: array, items: { $ref: "#/components/schemas/TenantView" } }
+
+    MemberView:
+      type: object
+      required: [id, tenant_id, user, status, revision, roles]
+      properties:
+        id: { type: string, format: uuid, description: membership_id }
+        tenant_id: { type: string, format: uuid }
+        user: { $ref: "#/components/schemas/UserView" }
+        department_id: { type: ["string", "null"], format: uuid }
+        status: { type: string, enum: [active, disabled] }
+        revision: { type: integer, minimum: 1, description: 新建=1；建档带角色即为 2；角色全量替换 DELETE+INSERT 各推进一次 }
+        roles: { type: array, items: { type: string } }
+
+    CreateMembershipRequest:
+      type: object
+      properties:
+        tenant_id: { type: string, format: uuid }
+        user_id: { type: string, format: uuid, description: 存在则显式关联；绝不按同名自动合并 }
+        account: { type: string }
+        display_name: { type: string }
+        password: { type: string, minLength: 8, maxLength: 256 }
+        department_id: { type: string, format: uuid }
+        role_codes: { type: array, items: { type: string } }
+
+    UpdateMembershipRequest:
+      type: object
+      required: [expected_revision]
+      properties:
+        department_id: { type: ["string", "null"], format: uuid }
+        status: { type: string, enum: [active, disabled] }
+        expected_revision: { type: integer, minimum: 1 }
+
+    MemberRolesRequest:
+      type: object
+      required: [role_codes, expected_revision]
+      properties:
+        role_codes: { type: array, items: { type: string } }
+        expected_revision: { type: integer, minimum: 1 }
+
+    MemberPage:
+      type: object
+      required: [items]
+      properties:
+        next_cursor: { type: ["string", "null"] }
+        items: { type: array, items: { $ref: "#/components/schemas/MemberView" } }
+
+    DepartmentView:
+      type: object
+      required: [id, tenant_id, code, name, status]
+      properties:
+        id: { type: string, format: uuid }
+        tenant_id: { type: string, format: uuid }
+        parent_id: { type: ["string", "null"], format: uuid }
+        code: { type: string }
+        name: { type: string }
+        status: { type: string, enum: [active, disabled] }
+
+    CreateDepartmentRequest:
+      type: object
+      required: [code, name]
+      properties:
+        code: { type: string }
+        name: { type: string }
+        parent_id: { type: ["string", "null"], format: uuid }
+
+    UpdateDepartmentRequest:
+      type: object
+      properties:
+        name: { type: string }
+        parent_id: { type: ["string", "null"], format: uuid }
+        status: { type: string, enum: [active, disabled] }
+
+    DepartmentPage:
+      type: object
+      required: [items]
+      properties:
+        next_cursor: { type: ["string", "null"] }
+        items: { type: array, items: { $ref: "#/components/schemas/DepartmentView" } }
+
+    RoleView:
+      type: object
+      required: [id, code, scope, name, builtin, status, permission_codes]
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string }
+        scope: { type: string, enum: [platform, tenant] }
+        tenant_id: { type: ["string", "null"], format: uuid, description: NULL=全局模板（内置企业角色） }
+        name: { type: string }
+        description: { type: string }
+        builtin: { type: boolean, description: 内置角色不可 PATCH（DB 列 is_builtin） }
+        status: { type: string, enum: [active, disabled] }
+        permission_codes: { type: array, items: { type: string } }
+
+    CreateRoleRequest:
+      type: object
+      required: [scope, code, name]
+      properties:
+        scope: { type: string, enum: [platform, tenant] }
+        code: { type: string }
+        name: { type: string }
+        description: { type: string }
+        permission_codes: { type: array, items: { type: string } }
+
+    UpdateRoleRequest:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        status: { type: string, enum: [active, disabled] }
+
+    RolePermissionsRequest:
+      type: object
+      required: [permission_codes]
+      properties:
+        permission_codes: { type: array, items: { type: string } }
+
+    RolePage:
+      type: object
+      required: [items]
+      properties:
+        next_cursor: { type: ["string", "null"] }
+        items: { type: array, items: { $ref: "#/components/schemas/RoleView" } }
+
+    PermissionView:
+      type: object
+      required: [code, name, grant_scope]
+      properties:
+        code: { type: string }
+        name: { type: string }
+        grant_scope: { type: string, enum: [platform, tenant] }
+        resource_type: { type: ["string", "null"] }
+
+    PermissionList:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/PermissionView" } }
+
+    GrantableTree:
+      type: object
+      required: [groups]
+      properties:
+        groups:
+          type: array
+          items:
+            type: object
+            required: [scope, name, permissions]
+            properties:
+              scope: { type: string, enum: [platform, tenant] }
+              name: { type: string }
+              permissions:
+                type: array
+                items:
+                  type: object
+                  required: [code, name]
+                  properties:
+                    code: { type: string }
+                    name: { type: string }
+                    resource_code: { type: ["string", "null"], description: 资源型权限 I1 整组缺席可授树 }
+
+    AuditView:
+      type: object
+      required: [id, tenant_id, actor_type, action, created_at]
+      properties:
+        id: { type: integer, format: int64 }
+        tenant_id: { type: ["string", "null"], format: uuid, description: 平台级事件为 NULL }
+        actor_user_id: { type: ["string", "null"], format: uuid }
+        actor_type: { type: string, enum: [human, service_account, system] }
+        action: { type: string }
+        target_type: { type: ["string", "null"] }
+        target_id: { type: ["string", "null"] }
+        detail: { type: object, description: 已去 null 键；不含秘密字段 }
+        request_id: { type: ["string", "null"] }
+        created_at: { type: string, format: date-time }
+
+    AuditLogPage:
+      type: object
+      required: [items]
+      properties:
+        next_cursor: { type: ["string", "null"], description: id DESC keyset，末行 id 的 base64url }
+        items: { type: array, items: { $ref: "#/components/schemas/AuditView" } }
+
+    CreateServiceAccountRequest:
+      type: object
+      required: [account, name, tenant_id, audiences, expires_in_days]
+      properties:
+        account: { type: string }
+        name: { type: string }
+        tenant_id: { type: string, format: uuid }
+        audiences: { type: array, items: { type: string } }
+        expires_in_days: { type: integer, minimum: 1 }
+        permissions: { type: array, items: { type: string }, description: 仅非资源型；资源码应用层 400、DB 触发器 23514 }
+
+    UpdateServiceAccountRequest:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string, enum: [active, disabled] }
+
+    ServiceAccountView:
+      type: object
+      required: [id, account, name, tenant_id, status, audiences, revision, permissions]
+      properties:
+        id: { type: string, format: uuid }
+        account: { type: string }
+        name: { type: string }
+        tenant_id: { type: string, format: uuid }
+        status: { type: string, enum: [active, disabled] }
+        audiences: { type: array, items: { type: string } }
+        expires_at: { type: ["string", "null"], format: date-time }
+        revision: { type: integer, minimum: 1 }
+        permissions: { type: array, items: { type: string } }
+
+    ServiceTokenView:
+      type: object
+      description: 凭据元数据；不含 secret/token_digest
+      required: [credential_id, credential_revision, status, issued_at]
+      properties:
+        credential_id: { type: string }
+        credential_revision: { type: integer, minimum: 1 }
+        status: { type: string, enum: [active, overlapping, revoked] }
+        issued_at: { type: string, format: date-time }
+        expires_at: { type: ["string", "null"], format: date-time }
+        overlap_until: { type: ["string", "null"], format: date-time }
+        revoked_at: { type: ["string", "null"], format: date-time }
+
+    ServiceAccountDetail:
+      type: object
+      required: [account, tokens]
+      properties:
+        account: { $ref: "#/components/schemas/ServiceAccountView" }
+        tokens: { type: array, items: { $ref: "#/components/schemas/ServiceTokenView" } }
+
+    ServiceAccountPage:
+      type: object
+      required: [items]
+      properties:
+        next_cursor: { type: ["string", "null"] }
+        items: { type: array, items: { $ref: "#/components/schemas/ServiceAccountView" } }
+

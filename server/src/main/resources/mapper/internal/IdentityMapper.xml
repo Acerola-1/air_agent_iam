@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.internal.mapper.IdentityMapper">
+    <resultMap id="VerificationRefDO" type="com.airagent.iam.internal.entity.VerificationRefDO">
+        <constructor>
+            <arg column="session_id" javaType="java.util.UUID"/>
+            <arg column="user_id" javaType="java.util.UUID"/>
+            <arg column="tenant_id" javaType="java.util.UUID"/>
+            <arg column="revisions_json" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="IssuedVerificationRefDO" type="com.airagent.iam.internal.entity.IssuedVerificationRefDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="valid_until" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <select id="findReference" resultMap="VerificationRefDO" useCache="false">
+        SELECT session_id, user_id, tenant_id, revisions::text AS revisions_json FROM iam_auth.find_verification_ref(#{id}, #{clientId}, #{audience})
+    </select>
+    <select id="snapshotForSession" resultType="String" useCache="false">
+        SELECT iam_auth.load_trusted_authority_snapshot(iam_auth.session_token_digest(#{sessionId}))::text
+    </select>
+    <select id="touchReference" resultType="int" useCache="false" affectData="true" flushCache="true">
+        SELECT 1 FROM iam_auth.touch_verification_ref(#{id})
+    </select>
+    <select id="createReference" resultMap="IssuedVerificationRefDO" useCache="false" affectData="true" flushCache="true">
+        SELECT id, valid_until FROM iam_auth.create_verification_ref(#{clientId}, #{audience}, #{sessionId}, #{userId}, #{tenantId,jdbcType=OTHER}, CAST(#{revisionsJson} AS jsonb), #{ttlSeconds})
+    </select>
+    <select id="loadServiceIdentity" resultType="String" useCache="false">
+        SELECT iam_auth.load_service_identity(#{digest})::text
+    </select>
+</mapper>

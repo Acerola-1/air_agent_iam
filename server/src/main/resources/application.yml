@@ -1,0 +1,144 @@
+server:
+  address: 127.0.0.1
+  port: ${IAM_HTTP_PORT:19100}
+  shutdown: graceful
+  forward-headers-strategy: none
+
+spring:
+  application:
+    name: air-agent-iam
+  datasource:
+    url: jdbc:postgresql://${IAM_PG_HOST:127.0.0.1}:${IAM_PG_PORT:19132}/${IAM_PG_DB:iam}?ApplicationName=iam-server&connectTimeout=3&socketTimeout=10&options=-c%20search_path%3Diam%2Ciam_auth%20-c%20statement_timeout%3D300ms
+    username: ${IAM_PG_APP_USER}
+    password: ${IAM_PG_APP_PASSWORD}
+    hikari:
+      pool-name: iam-hikari
+      maximum-pool-size: ${IAM_DB_POOL_MAX:12}
+      minimum-idle: 2
+      connection-timeout: 250
+      validation-timeout: 250
+      max-lifetime: 1800000
+      data-source-properties:
+        ssl: false
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://${IAM_PG_HOST:127.0.0.1}:${IAM_PG_PORT:19132}/${IAM_PG_DB:iam}?ApplicationName=iam-flyway
+    user: ${IAM_PG_MIGRATE_USER}
+    password: ${IAM_PG_MIGRATE_PASSWORD}
+    schemas: iam_auth,iam
+    default-schema: iam
+    create-schemas: true
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+    validate-on-migrate: true
+  data:
+    redis:
+      host: ${IAM_REDIS_HOST:127.0.0.1}
+      port: ${IAM_REDIS_PORT:19179}
+      password: ${IAM_REDIS_PASSWORD}
+      database: ${IAM_REDIS_DB:0}
+      timeout: 1s
+      connect-timeout: 1s
+      lettuce:
+        pool:
+          enabled: true
+          max-active: 16
+          max-wait: 500ms
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    mapper:
+      allow-coercion-of-scalars: false
+  web:
+    resources:
+      add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-handlers-package: com.airagent.iam.common.typehandler
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    local-cache-scope: STATEMENT
+  executor-type: SIMPLE
+
+sa-token:
+  token-name: Authorization
+  is-read-header: true
+  is-read-cookie: false
+  token-prefix: Bearer
+  timeout: 2592000
+  active-timeout: -1
+  is-concurrent: true
+  is-share: false
+  token-style: random-128
+  is-log: false
+  is-read-body: false
+
+iam:
+  issuer: air-agent-iam
+  bootstrap:
+    account: ${IAM_BOOTSTRAP_ACCOUNT:}
+    display-name: ${IAM_BOOTSTRAP_DISPLAY_NAME:平台超级管理员}
+    password: ${IAM_BOOTSTRAP_PASSWORD:}
+  session:
+    absolute-timeout-seconds: 2592000
+    idle-timeout-seconds: 604800
+    renew-idle-seconds: 604800
+  internal:
+    ticket-ttl-seconds: 60
+    verification-ref-ttl-seconds: ${IAM_VERIFICATION_REF_TTL_SECONDS:43200}
+    runtime-client:
+      id: ${IAM_INTERNAL_RUNTIME_CLIENT_ID:}
+      secret: ${IAM_INTERNAL_RUNTIME_CLIENT_SECRET:}
+  rt:
+    kid: ${IAM_RT_KEYS_KID:local-1}
+    secret: ${IAM_RT_KEYS_SECRET:}
+  rate-limit:
+    enabled: ${IAM_RATE_LIMIT_ENABLED:true}
+    window-seconds: ${IAM_RATE_LIMIT_WINDOW_SECONDS:60}
+    login-limit: ${IAM_RATE_LIMIT_LOGIN_LIMIT:10}
+    internal-limit: ${IAM_RATE_LIMIT_INTERNAL_LIMIT:600}
+  web:
+    secure-cookies: ${IAM_WEB_SECURE_COOKIES:false}
+    session-cookie-dev: air_iam_dev_session
+    session-cookie-prod: __Host-air_iam_session
+    csrf-cookie-dev: air_iam_dev_csrf
+    csrf-cookie-prod: __Host-air_iam_csrf
+    handle-ttl-seconds: ${IAM_WEB_HANDLE_TTL_SECONDS:604800}
+    static-locations: ${IAM_WEB_STATIC_LOCATIONS:file:./web/dist/,classpath:/static/}
+    allowed-origins: ${IAM_WEB_ALLOWED_ORIGINS:http://127.0.0.1:19101,http://localhost:19101}
+    central-base-url: ${IAM_WEB_CENTRAL_BASE_URL:http://127.0.0.1:19100}
+    synthetic-consumer-enabled: ${IAM_WEB_SYNTHETIC_CONSUMER_ENABLED:true}
+  sso:
+    state-ttl-seconds: 600
+    ticket-ttl-seconds: 30
+    clients:
+      agent:
+        id: ${IAM_SSO_CLIENT_AGENT_ID:air-agent-local}
+        name: 合成 Agent BFF（本机验收）
+        secret: ${IAM_SSO_CLIENT_AGENT_SECRET:}
+        callback-url: ${IAM_SSO_CLIENT_AGENT_CALLBACK:http://127.0.0.1:19100/web-api/sso/callback/agent}
+        origins: ${IAM_SSO_CLIENT_AGENT_ORIGINS:http://127.0.0.1:19100}
+        audience: air-agent
+      kb:
+        id: ${IAM_SSO_CLIENT_KB_ID:knowledge-local}
+        name: 合成知识库 BFF（本机验收）
+        secret: ${IAM_SSO_CLIENT_KB_SECRET:}
+        callback-url: ${IAM_SSO_CLIENT_KB_CALLBACK:http://127.0.0.1:19100/web-api/sso/callback/kb}
+        origins: ${IAM_SSO_CLIENT_KB_ORIGINS:http://127.0.0.1:19100}
+        audience: knowledge
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: false
+
+logging:
+  level:
+    root: INFO
+    com.airagent.iam: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"

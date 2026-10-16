@@ -1,0 +1,5505 @@
+{
+  "rate_limit": "disabled for isolated benchmark only",
+  "positive_authorization_checked": true,
+  "rounds": [
+    {
+      "concurrency": 1,
+      "round": 1,
+      "count": 100,
+      "p50_ms": 7.9865,
+      "p95_ms": 15.254,
+      "p99_ms": 45.926,
+      "errors": 0,
+      "samples": [
+        {
+          "index": 0,
+          "elapsed_ms": 7.336,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 1,
+          "elapsed_ms": 8.332,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 2,
+          "elapsed_ms": 6.49,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 3,
+          "elapsed_ms": 7.89,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 4,
+          "elapsed_ms": 7.57,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 5,
+          "elapsed_ms": 8.502,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 6,
+          "elapsed_ms": 6.971,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 7,
+          "elapsed_ms": 6.964,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 8,
+          "elapsed_ms": 6.271,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 9,
+          "elapsed_ms": 5.707,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 10,
+          "elapsed_ms": 9.313,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 11,
+          "elapsed_ms": 12.572,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 12,
+          "elapsed_ms": 15.344,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 13,
+          "elapsed_ms": 18.502,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 14,
+          "elapsed_ms": 9.473,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 15,
+          "elapsed_ms": 9.112,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 16,
+          "elapsed_ms": 7.58,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 17,
+          "elapsed_ms": 8.369,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 18,
+          "elapsed_ms": 7.331,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 19,
+          "elapsed_ms": 6.712,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 20,
+          "elapsed_ms": 10.408,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 21,
+          "elapsed_ms": 12.803,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 22,
+          "elapsed_ms": 9.583,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 23,
+          "elapsed_ms": 10.272,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 24,
+          "elapsed_ms": 9.423,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 25,
+          "elapsed_ms": 10.073,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 26,
+          "elapsed_ms": 7.775,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 27,
+          "elapsed_ms": 6.578,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 28,
+          "elapsed_ms": 8.311,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 29,
+          "elapsed_ms": 6.626,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 30,
+          "elapsed_ms": 5.926,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 31,
+          "elapsed_ms": 7.608,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 32,
+          "elapsed_ms": 9.221,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 33,
+          "elapsed_ms": 8.117,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 34,
+          "elapsed_ms": 7.438,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 35,
+          "elapsed_ms": 6.953,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 36,
+          "elapsed_ms": 6.413,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 37,
+          "elapsed_ms": 6.33,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 38,
+          "elapsed_ms": 7.039,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 39,
+          "elapsed_ms": 7.103,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 40,
+          "elapsed_ms": 6.678,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 41,
+          "elapsed_ms": 5.491,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 42,
+          "elapsed_ms": 6.827,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 43,
+          "elapsed_ms": 7.088,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 44,
+          "elapsed_ms": 6.424,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 45,
+          "elapsed_ms": 8.112,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 46,
+          "elapsed_ms": 8.835,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 47,
+          "elapsed_ms": 8.718,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 48,
+          "elapsed_ms": 7.365,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 49,
+          "elapsed_ms": 7.755,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 50,
+          "elapsed_ms": 11.05,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 51,
+          "elapsed_ms": 48.924,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 52,
+          "elapsed_ms": 9.348,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 53,
+          "elapsed_ms": 15.254,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 54,
+          "elapsed_ms": 13.807,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 55,
+          "elapsed_ms": 13.082,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 56,
+          "elapsed_ms": 7.249,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 57,
+          "elapsed_ms": 6.779,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 58,
+          "elapsed_ms": 6.936,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 59,
+          "elapsed_ms": 7.859,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 60,
+          "elapsed_ms": 8.686,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 61,
+          "elapsed_ms": 7.001,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 62,
+          "elapsed_ms": 7.788,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 63,
+          "elapsed_ms": 6.673,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 64,
+          "elapsed_ms": 8.185,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 65,
+          "elapsed_ms": 8.68,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 66,
+          "elapsed_ms": 7.025,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 67,
+          "elapsed_ms": 7.745,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 68,
+          "elapsed_ms": 6.237,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 69,
+          "elapsed_ms": 7.86,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 70,
+          "elapsed_ms": 8.777,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 71,
+          "elapsed_ms": 10.157,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 72,
+          "elapsed_ms": 11.357,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 73,
+          "elapsed_ms": 45.926,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 74,
+          "elapsed_ms": 9.908,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 75,
+          "elapsed_ms": 10.342,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 76,
+          "elapsed_ms": 11.64,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 77,
+          "elapsed_ms": 10.096,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 78,
+          "elapsed_ms": 7.311,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 79,
+          "elapsed_ms": 6.249,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 80,
+          "elapsed_ms": 6.865,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 81,
+          "elapsed_ms": 7.985,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 82,
+          "elapsed_ms": 8.263,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 83,
+          "elapsed_ms": 7.095,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 84,
+          "elapsed_ms": 7.26,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 85,
+          "elapsed_ms": 7.763,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 86,
+          "elapsed_ms": 6.574,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 87,
+          "elapsed_ms": 7.988,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 88,
+          "elapsed_ms": 10.735,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 89,
+          "elapsed_ms": 7.444,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 90,
+          "elapsed_ms": 8.817,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 91,
+          "elapsed_ms": 22.174,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 92,
+          "elapsed_ms": 10.798,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 93,
+          "elapsed_ms": 8.671,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 94,
+          "elapsed_ms": 8.971,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 95,
+          "elapsed_ms": 8.954,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 96,
+          "elapsed_ms": 8.002,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 97,
+          "elapsed_ms": 7.938,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 98,
+          "elapsed_ms": 8.346,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 99,
+          "elapsed_ms": 8.614,
+          "status": 200,
+          "authorization_matches": true
+        }
+      ]
+    },
+    {
+      "concurrency": 1,
+      "round": 2,
+      "count": 100,
+      "p50_ms": 7.0725,
+      "p95_ms": 14.167,
+      "p99_ms": 22.041,
+      "errors": 0,
+      "samples": [
+        {
+          "index": 0,
+          "elapsed_ms": 6.974,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 1,
+          "elapsed_ms": 6.466,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 2,
+          "elapsed_ms": 8.855,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 3,
+          "elapsed_ms": 9.038,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 4,
+          "elapsed_ms": 9.505,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 5,
+          "elapsed_ms": 8.924,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 6,
+          "elapsed_ms": 8.772,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 7,
+          "elapsed_ms": 11.601,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 8,
+          "elapsed_ms": 6.459,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 9,
+          "elapsed_ms": 7.194,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 10,
+          "elapsed_ms": 6.654,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 11,
+          "elapsed_ms": 6.585,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 12,
+          "elapsed_ms": 6.223,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 13,
+          "elapsed_ms": 8.954,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 14,
+          "elapsed_ms": 8.17,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 15,
+          "elapsed_ms": 12.332,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 16,
+          "elapsed_ms": 14.167,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 17,
+          "elapsed_ms": 23.241,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 18,
+          "elapsed_ms": 20.073,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 19,
+          "elapsed_ms": 22.041,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 20,
+          "elapsed_ms": 17.913,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 21,
+          "elapsed_ms": 15.759,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 22,
+          "elapsed_ms": 13.922,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 23,
+          "elapsed_ms": 12.968,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 24,
+          "elapsed_ms": 7.912,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 25,
+          "elapsed_ms": 6.214,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 26,
+          "elapsed_ms": 7.098,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 27,
+          "elapsed_ms": 7.725,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 28,
+          "elapsed_ms": 6.859,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 29,
+          "elapsed_ms": 8.685,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 30,
+          "elapsed_ms": 7.292,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 31,
+          "elapsed_ms": 7.026,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 32,
+          "elapsed_ms": 6.521,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 33,
+          "elapsed_ms": 7.618,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 34,
+          "elapsed_ms": 9.383,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 35,
+          "elapsed_ms": 7.5,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 36,
+          "elapsed_ms": 6.127,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 37,
+          "elapsed_ms": 5.26,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 38,
+          "elapsed_ms": 8.607,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 39,
+          "elapsed_ms": 8.683,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 40,
+          "elapsed_ms": 7.614,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 41,
+          "elapsed_ms": 7.047,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 42,
+          "elapsed_ms": 7.802,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 43,
+          "elapsed_ms": 8.547,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 44,
+          "elapsed_ms": 8.053,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 45,
+          "elapsed_ms": 6.977,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 46,
+          "elapsed_ms": 6.111,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 47,
+          "elapsed_ms": 6.742,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 48,
+          "elapsed_ms": 6.596,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 49,
+          "elapsed_ms": 7.735,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 50,
+          "elapsed_ms": 8.256,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 51,
+          "elapsed_ms": 7.212,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 52,
+          "elapsed_ms": 7.098,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 53,
+          "elapsed_ms": 5.98,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 54,
+          "elapsed_ms": 7.366,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 55,
+          "elapsed_ms": 7.62,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 56,
+          "elapsed_ms": 8.34,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 57,
+          "elapsed_ms": 9.604,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 58,
+          "elapsed_ms": 9.557,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 59,
+          "elapsed_ms": 7.929,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 60,
+          "elapsed_ms": 6.611,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 61,
+          "elapsed_ms": 5.547,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 62,
+          "elapsed_ms": 6.155,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 63,
+          "elapsed_ms": 7.464,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 64,
+          "elapsed_ms": 8.896,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 65,
+          "elapsed_ms": 6.409,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 66,
+          "elapsed_ms": 5.693,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 67,
+          "elapsed_ms": 6.287,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 68,
+          "elapsed_ms": 5.021,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 69,
+          "elapsed_ms": 6.538,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 70,
+          "elapsed_ms": 6.538,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 71,
+          "elapsed_ms": 5.962,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 72,
+          "elapsed_ms": 6.855,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 73,
+          "elapsed_ms": 8.071,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 74,
+          "elapsed_ms": 6.637,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 75,
+          "elapsed_ms": 6.587,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 76,
+          "elapsed_ms": 5.98,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 77,
+          "elapsed_ms": 7.199,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 78,
+          "elapsed_ms": 7.023,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 79,
+          "elapsed_ms": 5.002,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 80,
+          "elapsed_ms": 5.794,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 81,
+          "elapsed_ms": 7.133,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 82,
+          "elapsed_ms": 7.675,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 83,
+          "elapsed_ms": 5.776,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 84,
+          "elapsed_ms": 6.729,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 85,
+          "elapsed_ms": 6.659,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 86,
+          "elapsed_ms": 5.786,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 87,
+          "elapsed_ms": 8.52,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 88,
+          "elapsed_ms": 7.668,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 89,
+          "elapsed_ms": 6.727,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 90,
+          "elapsed_ms": 6.541,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 91,
+          "elapsed_ms": 5.634,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 92,
+          "elapsed_ms": 5.513,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 93,
+          "elapsed_ms": 5.884,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 94,
+          "elapsed_ms": 4.994,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 95,
+          "elapsed_ms": 6.61,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 96,
+          "elapsed_ms": 5.689,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 97,
+          "elapsed_ms": 5.161,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 98,
+          "elapsed_ms": 5.5,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 99,
+          "elapsed_ms": 5.866,
+          "status": 200,
+          "authorization_matches": true
+        }
+      ]
+    },
+    {
+      "concurrency": 1,
+      "round": 3,
+      "count": 100,
+      "p50_ms": 7.4345,
+      "p95_ms": 13.496,
+      "p99_ms": 21.039,
+      "errors": 0,
+      "samples": [
+        {
+          "index": 0,
+          "elapsed_ms": 4.971,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 1,
+          "elapsed_ms": 4.965,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 2,
+          "elapsed_ms": 5.84,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 3,
+          "elapsed_ms": 4.797,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 4,
+          "elapsed_ms": 6.297,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 5,
+          "elapsed_ms": 6.715,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 6,
+          "elapsed_ms": 6.364,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 7,
+          "elapsed_ms": 6.033,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 8,
+          "elapsed_ms": 5.458,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 9,
+          "elapsed_ms": 8.797,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 10,
+          "elapsed_ms": 16.633,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 11,
+          "elapsed_ms": 10.695,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 12,
+          "elapsed_ms": 10.045,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 13,
+          "elapsed_ms": 8.33,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 14,
+          "elapsed_ms": 7.55,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 15,
+          "elapsed_ms": 9.504,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 16,
+          "elapsed_ms": 10.328,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 17,
+          "elapsed_ms": 6.699,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 18,
+          "elapsed_ms": 6.103,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 19,
+          "elapsed_ms": 5.219,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 20,
+          "elapsed_ms": 7.614,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 21,
+          "elapsed_ms": 6.738,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 22,
+          "elapsed_ms": 5.081,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 23,
+          "elapsed_ms": 4.9,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 24,
+          "elapsed_ms": 5.872,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 25,
+          "elapsed_ms": 4.866,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 26,
+          "elapsed_ms": 6.589,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 27,
+          "elapsed_ms": 6.396,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 28,
+          "elapsed_ms": 6.378,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 29,
+          "elapsed_ms": 5.196,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 30,
+          "elapsed_ms": 6.018,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 31,
+          "elapsed_ms": 7.109,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 32,
+          "elapsed_ms": 7.135,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 33,
+          "elapsed_ms": 5.562,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 34,
+          "elapsed_ms": 6.109,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 35,
+          "elapsed_ms": 5.774,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 36,
+          "elapsed_ms": 5.703,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 37,
+          "elapsed_ms": 21.039,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 38,
+          "elapsed_ms": 9.676,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 39,
+          "elapsed_ms": 6.819,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 40,
+          "elapsed_ms": 6.333,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 41,
+          "elapsed_ms": 5.416,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 42,
+          "elapsed_ms": 5.797,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 43,
+          "elapsed_ms": 5.707,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 44,
+          "elapsed_ms": 10.31,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 45,
+          "elapsed_ms": 10.757,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 46,
+          "elapsed_ms": 13.496,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 47,
+          "elapsed_ms": 15.963,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 48,
+          "elapsed_ms": 19.81,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 49,
+          "elapsed_ms": 28.467,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 50,
+          "elapsed_ms": 13.218,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 51,
+          "elapsed_ms": 10.479,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 52,
+          "elapsed_ms": 9.275,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 53,
+          "elapsed_ms": 8.871,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 54,
+          "elapsed_ms": 7.202,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 55,
+          "elapsed_ms": 6.129,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 56,
+          "elapsed_ms": 10.88,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 57,
+          "elapsed_ms": 6.98,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 58,
+          "elapsed_ms": 8.08,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 59,
+          "elapsed_ms": 11.281,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 60,
+          "elapsed_ms": 11.275,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 61,
+          "elapsed_ms": 7.319,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 62,
+          "elapsed_ms": 5.722,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 63,
+          "elapsed_ms": 6.025,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 64,
+          "elapsed_ms": 6.967,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 65,
+          "elapsed_ms": 6.97,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 66,
+          "elapsed_ms": 6.065,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 67,
+          "elapsed_ms": 7.799,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 68,
+          "elapsed_ms": 5.392,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 69,
+          "elapsed_ms": 7.146,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 70,
+          "elapsed_ms": 7.657,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 71,
+          "elapsed_ms": 10.69,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 72,
+          "elapsed_ms": 6.971,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 73,
+          "elapsed_ms": 9.958,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 74,
+          "elapsed_ms": 11.884,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 75,
+          "elapsed_ms": 12.479,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 76,
+          "elapsed_ms": 12.413,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 77,
+          "elapsed_ms": 13.227,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 78,
+          "elapsed_ms": 10.391,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 79,
+          "elapsed_ms": 10.506,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 80,
+          "elapsed_ms": 9.363,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 81,
+          "elapsed_ms": 9.871,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 82,
+          "elapsed_ms": 9.801,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 83,
+          "elapsed_ms": 10.25,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 84,
+          "elapsed_ms": 8.985,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 85,
+          "elapsed_ms": 9.933,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 86,
+          "elapsed_ms": 9.566,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 87,
+          "elapsed_ms": 10.951,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 88,
+          "elapsed_ms": 12.089,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 89,
+          "elapsed_ms": 10.486,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 90,
+          "elapsed_ms": 10.691,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 91,
+          "elapsed_ms": 11.229,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 92,
+          "elapsed_ms": 9.991,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 93,
+          "elapsed_ms": 10.73,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 94,
+          "elapsed_ms": 10.097,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 95,
+          "elapsed_ms": 5.428,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 96,
+          "elapsed_ms": 5.474,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 97,
+          "elapsed_ms": 5.743,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 98,
+          "elapsed_ms": 6.467,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 99,
+          "elapsed_ms": 4.685,
+          "status": 200,
+          "authorization_matches": true
+        }
+      ]
+    },
+    {
+      "concurrency": 10,
+      "round": 1,
+      "count": 100,
+      "p50_ms": 23.459,
+      "p95_ms": 44.277,
+      "p99_ms": 52.432,
+      "errors": 0,
+      "samples": [
+        {
+          "index": 0,
+          "elapsed_ms": 9.557,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 1,
+          "elapsed_ms": 31.151,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 2,
+          "elapsed_ms": 36.326,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 3,
+          "elapsed_ms": 44.012,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 4,
+          "elapsed_ms": 16.49,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 5,
+          "elapsed_ms": 12.561,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 6,
+          "elapsed_ms": 40.051,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 7,
+          "elapsed_ms": 41.131,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 8,
+          "elapsed_ms": 26.444,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 9,
+          "elapsed_ms": 20.583,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 10,
+          "elapsed_ms": 34.569,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 11,
+          "elapsed_ms": 36.905,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 12,
+          "elapsed_ms": 13.977,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 13,
+          "elapsed_ms": 14.406,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 14,
+          "elapsed_ms": 21.699,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 15,
+          "elapsed_ms": 16.134,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 16,
+          "elapsed_ms": 18.201,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 17,
+          "elapsed_ms": 16.815,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 18,
+          "elapsed_ms": 18.99,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 19,
+          "elapsed_ms": 15.271,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 20,
+          "elapsed_ms": 16.861,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 21,
+          "elapsed_ms": 17.051,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 22,
+          "elapsed_ms": 49.084,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 23,
+          "elapsed_ms": 22.947,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 24,
+          "elapsed_ms": 15.789,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 25,
+          "elapsed_ms": 23.137,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 26,
+          "elapsed_ms": 27.888,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 27,
+          "elapsed_ms": 12.062,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 28,
+          "elapsed_ms": 42.242,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 29,
+          "elapsed_ms": 19.736,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 30,
+          "elapsed_ms": 23.473,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 31,
+          "elapsed_ms": 16.589,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 32,
+          "elapsed_ms": 20.161,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 33,
+          "elapsed_ms": 29.735,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 34,
+          "elapsed_ms": 13.42,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 35,
+          "elapsed_ms": 36.376,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 36,
+          "elapsed_ms": 14.295,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 37,
+          "elapsed_ms": 36.827,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 38,
+          "elapsed_ms": 30.527,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 39,
+          "elapsed_ms": 28.797,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 40,
+          "elapsed_ms": 43.402,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 41,
+          "elapsed_ms": 32.442,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 42,
+          "elapsed_ms": 30.001,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 43,
+          "elapsed_ms": 30.122,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 44,
+          "elapsed_ms": 30.502,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 45,
+          "elapsed_ms": 26.088,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 46,
+          "elapsed_ms": 20.983,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 47,
+          "elapsed_ms": 32.432,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 48,
+          "elapsed_ms": 42.747,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 49,
+          "elapsed_ms": 22.111,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 50,
+          "elapsed_ms": 19.68,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 51,
+          "elapsed_ms": 24.566,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 52,
+          "elapsed_ms": 27.362,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 53,
+          "elapsed_ms": 23.938,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 54,
+          "elapsed_ms": 43.606,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 55,
+          "elapsed_ms": 30.699,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 56,
+          "elapsed_ms": 46.512,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 57,
+          "elapsed_ms": 48.091,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 58,
+          "elapsed_ms": 16.484,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 59,
+          "elapsed_ms": 18.319,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 60,
+          "elapsed_ms": 42.039,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 61,
+          "elapsed_ms": 23.483,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 62,
+          "elapsed_ms": 13.068,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 63,
+          "elapsed_ms": 17.702,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 64,
+          "elapsed_ms": 23.445,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 65,
+          "elapsed_ms": 82.718,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 66,
+          "elapsed_ms": 22.611,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 67,
+          "elapsed_ms": 24.255,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 68,
+          "elapsed_ms": 44.277,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 69,
+          "elapsed_ms": 24.371,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 70,
+          "elapsed_ms": 18.153,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 71,
+          "elapsed_ms": 32.25,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 72,
+          "elapsed_ms": 13.017,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 73,
+          "elapsed_ms": 34.978,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 74,
+          "elapsed_ms": 20.63,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 75,
+          "elapsed_ms": 13.735,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 76,
+          "elapsed_ms": 14.503,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 77,
+          "elapsed_ms": 26.408,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 78,
+          "elapsed_ms": 52.432,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 79,
+          "elapsed_ms": 32.571,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 80,
+          "elapsed_ms": 31.384,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 81,
+          "elapsed_ms": 26.694,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 82,
+          "elapsed_ms": 17.809,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 83,
+          "elapsed_ms": 25.804,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 84,
+          "elapsed_ms": 21.801,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 85,
+          "elapsed_ms": 25.153,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 86,
+          "elapsed_ms": 34.344,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 87,
+          "elapsed_ms": 18.067,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 88,
+          "elapsed_ms": 19.155,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 89,
+          "elapsed_ms": 17.881,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 90,
+          "elapsed_ms": 38.262,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 91,
+          "elapsed_ms": 16.11,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 92,
+          "elapsed_ms": 21.922,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 93,
+          "elapsed_ms": 19.357,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 94,
+          "elapsed_ms": 13.703,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 95,
+          "elapsed_ms": 19.887,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 96,
+          "elapsed_ms": 32.83,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 97,
+          "elapsed_ms": 20.109,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 98,
+          "elapsed_ms": 14.288,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 99,
+          "elapsed_ms": 14.216,
+          "status": 200,
+          "authorization_matches": true
+        }
+      ]
+    },
+    {
+      "concurrency": 10,
+      "round": 2,
+      "count": 100,
+      "p50_ms": 14.156,
+      "p95_ms": 36.376,
+      "p99_ms": 49.303,
+      "errors": 0,
+      "samples": [
+        {
+          "index": 0,
+          "elapsed_ms": 14.483,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 1,
+          "elapsed_ms": 17.624,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 2,
+          "elapsed_ms": 49.303,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 3,
+          "elapsed_ms": 23.407,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 4,
+          "elapsed_ms": 18.545,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 5,
+          "elapsed_ms": 25.704,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 6,
+          "elapsed_ms": 41.512,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 7,
+          "elapsed_ms": 18.671,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 8,
+          "elapsed_ms": 26.342,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 9,
+          "elapsed_ms": 64.375,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 10,
+          "elapsed_ms": 18.298,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 11,
+          "elapsed_ms": 37.968,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 12,
+          "elapsed_ms": 9.515,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 13,
+          "elapsed_ms": 13.981,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 14,
+          "elapsed_ms": 14.127,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 15,
+          "elapsed_ms": 46.796,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 16,
+          "elapsed_ms": 11.156,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 17,
+          "elapsed_ms": 16.254,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 18,
+          "elapsed_ms": 13.896,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 19,
+          "elapsed_ms": 22.259,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 20,
+          "elapsed_ms": 24.813,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 21,
+          "elapsed_ms": 12.944,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 22,
+          "elapsed_ms": 32.423,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 23,
+          "elapsed_ms": 19.225,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 24,
+          "elapsed_ms": 13.058,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 25,
+          "elapsed_ms": 30.544,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 26,
+          "elapsed_ms": 28.916,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 27,
+          "elapsed_ms": 12.708,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 28,
+          "elapsed_ms": 11.794,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 29,
+          "elapsed_ms": 10.673,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 30,
+          "elapsed_ms": 12.346,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 31,
+          "elapsed_ms": 12.429,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 32,
+          "elapsed_ms": 19.053,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 33,
+          "elapsed_ms": 29.546,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 34,
+          "elapsed_ms": 18.007,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 35,
+          "elapsed_ms": 36.376,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 36,
+          "elapsed_ms": 22.458,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 37,
+          "elapsed_ms": 25.017,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 38,
+          "elapsed_ms": 31.157,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 39,
+          "elapsed_ms": 12.111,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 40,
+          "elapsed_ms": 11.315,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 41,
+          "elapsed_ms": 10.657,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 42,
+          "elapsed_ms": 16.06,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 43,
+          "elapsed_ms": 25.162,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 44,
+          "elapsed_ms": 20.133,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 45,
+          "elapsed_ms": 13.937,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 46,
+          "elapsed_ms": 10.458,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 47,
+          "elapsed_ms": 23.789,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 48,
+          "elapsed_ms": 24.945,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 49,
+          "elapsed_ms": 23.055,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 50,
+          "elapsed_ms": 13.409,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 51,
+          "elapsed_ms": 15.099,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 52,
+          "elapsed_ms": 21.306,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 53,
+          "elapsed_ms": 9.972,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 54,
+          "elapsed_ms": 13.562,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 55,
+          "elapsed_ms": 19.288,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 56,
+          "elapsed_ms": 11.566,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 57,
+          "elapsed_ms": 12.795,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 58,
+          "elapsed_ms": 11.058,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 59,
+          "elapsed_ms": 11.177,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 60,
+          "elapsed_ms": 13.823,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 61,
+          "elapsed_ms": 11.113,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 62,
+          "elapsed_ms": 32.444,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 63,
+          "elapsed_ms": 12.546,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 64,
+          "elapsed_ms": 9.627,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 65,
+          "elapsed_ms": 14.053,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 66,
+          "elapsed_ms": 10.141,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 67,
+          "elapsed_ms": 13.688,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 68,
+          "elapsed_ms": 8.26,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 69,
+          "elapsed_ms": 29.686,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 70,
+          "elapsed_ms": 10.291,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 71,
+          "elapsed_ms": 10.222,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 72,
+          "elapsed_ms": 10.421,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 73,
+          "elapsed_ms": 10.32,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 74,
+          "elapsed_ms": 10.548,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 75,
+          "elapsed_ms": 31.266,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 76,
+          "elapsed_ms": 16.76,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 77,
+          "elapsed_ms": 9.744,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 78,
+          "elapsed_ms": 14.211,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 79,
+          "elapsed_ms": 9.353,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 80,
+          "elapsed_ms": 20.103,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 81,
+          "elapsed_ms": 14.185,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 82,
+          "elapsed_ms": 13.195,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 83,
+          "elapsed_ms": 26.358,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 84,
+          "elapsed_ms": 31.165,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 85,
+          "elapsed_ms": 15.418,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 86,
+          "elapsed_ms": 9.628,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 87,
+          "elapsed_ms": 14.295,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 88,
+          "elapsed_ms": 14.562,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 89,
+          "elapsed_ms": 12.432,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 90,
+          "elapsed_ms": 14.085,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 91,
+          "elapsed_ms": 23.848,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 92,
+          "elapsed_ms": 28.797,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 93,
+          "elapsed_ms": 11.687,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 94,
+          "elapsed_ms": 10.79,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 95,
+          "elapsed_ms": 13.211,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 96,
+          "elapsed_ms": 13.678,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 97,
+          "elapsed_ms": 11.711,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 98,
+          "elapsed_ms": 12.649,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 99,
+          "elapsed_ms": 10.016,
+          "status": 200,
+          "authorization_matches": true
+        }
+      ]
+    },
+    {
+      "concurrency": 10,
+      "round": 3,
+      "count": 100,
+      "p50_ms": 19.429499999999997,
+      "p95_ms": 55.633,
+      "p99_ms": 81.714,
+      "errors": 0,
+      "samples": [
+        {
+          "index": 0,
+          "elapsed_ms": 9.532,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 1,
+          "elapsed_ms": 10.761,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 2,
+          "elapsed_ms": 24.811,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 3,
+          "elapsed_ms": 15.077,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 4,
+          "elapsed_ms": 11.204,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 5,
+          "elapsed_ms": 18.191,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 6,
+          "elapsed_ms": 30.892,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 7,
+          "elapsed_ms": 11.209,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 8,
+          "elapsed_ms": 35.084,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 9,
+          "elapsed_ms": 16.829,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 10,
+          "elapsed_ms": 15.735,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 11,
+          "elapsed_ms": 17.283,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 12,
+          "elapsed_ms": 17.43,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 13,
+          "elapsed_ms": 12.357,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 14,
+          "elapsed_ms": 12.134,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 15,
+          "elapsed_ms": 15.069,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 16,
+          "elapsed_ms": 21.153,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 17,
+          "elapsed_ms": 13.02,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 18,
+          "elapsed_ms": 16.43,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 19,
+          "elapsed_ms": 20.145,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 20,
+          "elapsed_ms": 20.195,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 21,
+          "elapsed_ms": 19.502,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 22,
+          "elapsed_ms": 15.393,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 23,
+          "elapsed_ms": 23.253,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 24,
+          "elapsed_ms": 8.432,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 25,
+          "elapsed_ms": 16.326,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 26,
+          "elapsed_ms": 17.559,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 27,
+          "elapsed_ms": 17.205,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 28,
+          "elapsed_ms": 10.029,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 29,
+          "elapsed_ms": 8.965,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 30,
+          "elapsed_ms": 23.877,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 31,
+          "elapsed_ms": 44.617,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 32,
+          "elapsed_ms": 13.135,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 33,
+          "elapsed_ms": 13.029,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 34,
+          "elapsed_ms": 12.943,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 35,
+          "elapsed_ms": 24.59,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 36,
+          "elapsed_ms": 20.554,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 37,
+          "elapsed_ms": 25.939,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 38,
+          "elapsed_ms": 14.757,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 39,
+          "elapsed_ms": 14.361,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 40,
+          "elapsed_ms": 15.577,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 41,
+          "elapsed_ms": 12.84,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 42,
+          "elapsed_ms": 13.062,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 43,
+          "elapsed_ms": 25.032,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 44,
+          "elapsed_ms": 22.697,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 45,
+          "elapsed_ms": 15.965,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 46,
+          "elapsed_ms": 15.664,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 47,
+          "elapsed_ms": 29.184,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 48,
+          "elapsed_ms": 16.04,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 49,
+          "elapsed_ms": 17.685,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 50,
+          "elapsed_ms": 22.819,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 51,
+          "elapsed_ms": 17.834,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 52,
+          "elapsed_ms": 19.785,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 53,
+          "elapsed_ms": 18.63,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 54,
+          "elapsed_ms": 41.018,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 55,
+          "elapsed_ms": 19.882,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 56,
+          "elapsed_ms": 24.764,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 57,
+          "elapsed_ms": 30.872,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 58,
+          "elapsed_ms": 25.635,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 59,
+          "elapsed_ms": 18.42,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 60,
+          "elapsed_ms": 39.459,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 61,
+          "elapsed_ms": 16.695,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 62,
+          "elapsed_ms": 35.09,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 63,
+          "elapsed_ms": 24.699,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 64,
+          "elapsed_ms": 37.295,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 65,
+          "elapsed_ms": 19.51,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 66,
+          "elapsed_ms": 35.029,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 67,
+          "elapsed_ms": 25.019,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 68,
+          "elapsed_ms": 52.711,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 69,
+          "elapsed_ms": 37.276,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 70,
+          "elapsed_ms": 29.08,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 71,
+          "elapsed_ms": 51.298,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 72,
+          "elapsed_ms": 19.964,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 73,
+          "elapsed_ms": 21.649,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 74,
+          "elapsed_ms": 14.683,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 75,
+          "elapsed_ms": 22.814,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 76,
+          "elapsed_ms": 32.587,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 77,
+          "elapsed_ms": 13.599,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 78,
+          "elapsed_ms": 19.357,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 79,
+          "elapsed_ms": 14.569,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 80,
+          "elapsed_ms": 17.037,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 81,
+          "elapsed_ms": 17.382,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 82,
+          "elapsed_ms": 40.049,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 83,
+          "elapsed_ms": 40.213,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 84,
+          "elapsed_ms": 18.162,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 85,
+          "elapsed_ms": 83.498,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 86,
+          "elapsed_ms": 28.243,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 87,
+          "elapsed_ms": 14.989,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 88,
+          "elapsed_ms": 22.076,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 89,
+          "elapsed_ms": 12.828,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 90,
+          "elapsed_ms": 13.263,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 91,
+          "elapsed_ms": 13.28,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 92,
+          "elapsed_ms": 81.714,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 93,
+          "elapsed_ms": 72.316,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 94,
+          "elapsed_ms": 14.457,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 95,
+          "elapsed_ms": 75.301,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 96,
+          "elapsed_ms": 55.633,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 97,
+          "elapsed_ms": 23.724,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 98,
+          "elapsed_ms": 54.233,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 99,
+          "elapsed_ms": 70.975,
+          "status": 200,
+          "authorization_matches": true
+        }
+      ]
+    },
+    {
+      "concurrency": 30,
+      "round": 1,
+      "count": 100,
+      "p50_ms": 50.7765,
+      "p95_ms": 137.315,
+      "p99_ms": 169.884,
+      "errors": 0,
+      "samples": [
+        {
+          "index": 0,
+          "elapsed_ms": 31.986,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 1,
+          "elapsed_ms": 34.813,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 2,
+          "elapsed_ms": 70.532,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 3,
+          "elapsed_ms": 39.661,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 4,
+          "elapsed_ms": 35.122,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 5,
+          "elapsed_ms": 110.593,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 6,
+          "elapsed_ms": 137.315,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 7,
+          "elapsed_ms": 35.163,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 8,
+          "elapsed_ms": 102.204,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 9,
+          "elapsed_ms": 44.109,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 10,
+          "elapsed_ms": 169.884,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 11,
+          "elapsed_ms": 70.994,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 12,
+          "elapsed_ms": 38.546,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 13,
+          "elapsed_ms": 40.704,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 14,
+          "elapsed_ms": 58.936,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 15,
+          "elapsed_ms": 69.477,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 16,
+          "elapsed_ms": 75.721,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 17,
+          "elapsed_ms": 55.455,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 18,
+          "elapsed_ms": 74.712,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 19,
+          "elapsed_ms": 220.72,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 20,
+          "elapsed_ms": 140.934,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 21,
+          "elapsed_ms": 95.575,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 22,
+          "elapsed_ms": 46.209,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 23,
+          "elapsed_ms": 47.351,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 24,
+          "elapsed_ms": 66.598,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 25,
+          "elapsed_ms": 59.642,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 26,
+          "elapsed_ms": 116.095,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 27,
+          "elapsed_ms": 84.069,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 28,
+          "elapsed_ms": 104.974,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 29,
+          "elapsed_ms": 99.114,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 30,
+          "elapsed_ms": 12.52,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 31,
+          "elapsed_ms": 110.902,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 32,
+          "elapsed_ms": 51.424,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 33,
+          "elapsed_ms": 11.768,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 34,
+          "elapsed_ms": 13.11,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 35,
+          "elapsed_ms": 12.055,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 36,
+          "elapsed_ms": 162.911,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 37,
+          "elapsed_ms": 35.095,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 38,
+          "elapsed_ms": 27.602,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 39,
+          "elapsed_ms": 60.411,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 40,
+          "elapsed_ms": 13.325,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 41,
+          "elapsed_ms": 141.467,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 42,
+          "elapsed_ms": 13.488,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 43,
+          "elapsed_ms": 134.634,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 44,
+          "elapsed_ms": 101.971,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 45,
+          "elapsed_ms": 101.0,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 46,
+          "elapsed_ms": 46.698,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 47,
+          "elapsed_ms": 22.372,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 48,
+          "elapsed_ms": 66.209,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 49,
+          "elapsed_ms": 71.483,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 50,
+          "elapsed_ms": 14.904,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 51,
+          "elapsed_ms": 24.432,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 52,
+          "elapsed_ms": 121.482,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 53,
+          "elapsed_ms": 35.323,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 54,
+          "elapsed_ms": 85.006,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 55,
+          "elapsed_ms": 62.677,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 56,
+          "elapsed_ms": 15.047,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 57,
+          "elapsed_ms": 50.129,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 58,
+          "elapsed_ms": 16.681,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 59,
+          "elapsed_ms": 37.141,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 60,
+          "elapsed_ms": 129.185,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 61,
+          "elapsed_ms": 33.202,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 62,
+          "elapsed_ms": 91.77,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 63,
+          "elapsed_ms": 16.154,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 64,
+          "elapsed_ms": 48.304,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 65,
+          "elapsed_ms": 15.546,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 66,
+          "elapsed_ms": 97.327,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 67,
+          "elapsed_ms": 58.044,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 68,
+          "elapsed_ms": 42.333,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 69,
+          "elapsed_ms": 37.895,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 70,
+          "elapsed_ms": 44.619,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 71,
+          "elapsed_ms": 77.789,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 72,
+          "elapsed_ms": 110.022,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 73,
+          "elapsed_ms": 88.118,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 74,
+          "elapsed_ms": 106.495,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 75,
+          "elapsed_ms": 40.851,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 76,
+          "elapsed_ms": 84.609,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 77,
+          "elapsed_ms": 82.809,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 78,
+          "elapsed_ms": 76.441,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 79,
+          "elapsed_ms": 90.536,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 80,
+          "elapsed_ms": 91.678,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 81,
+          "elapsed_ms": 29.863,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 82,
+          "elapsed_ms": 89.286,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 83,
+          "elapsed_ms": 59.128,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 84,
+          "elapsed_ms": 43.666,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 85,
+          "elapsed_ms": 26.0,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 86,
+          "elapsed_ms": 75.135,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 87,
+          "elapsed_ms": 16.836,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 88,
+          "elapsed_ms": 23.59,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 89,
+          "elapsed_ms": 58.634,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 90,
+          "elapsed_ms": 17.389,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 91,
+          "elapsed_ms": 17.318,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 92,
+          "elapsed_ms": 43.921,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 93,
+          "elapsed_ms": 18.927,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 94,
+          "elapsed_ms": 46.496,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 95,
+          "elapsed_ms": 48.235,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 96,
+          "elapsed_ms": 22.499,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 97,
+          "elapsed_ms": 16.614,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 98,
+          "elapsed_ms": 44.983,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 99,
+          "elapsed_ms": 36.006,
+          "status": 200,
+          "authorization_matches": true
+        }
+      ]
+    },
+    {
+      "concurrency": 30,
+      "round": 2,
+      "count": 100,
+      "p50_ms": 34.5025,
+      "p95_ms": 105.127,
+      "p99_ms": 147.523,
+      "errors": 0,
+      "samples": [
+        {
+          "index": 0,
+          "elapsed_ms": 16.217,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 1,
+          "elapsed_ms": 15.563,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 2,
+          "elapsed_ms": 73.113,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 3,
+          "elapsed_ms": 19.209,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 4,
+          "elapsed_ms": 16.57,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 5,
+          "elapsed_ms": 132.955,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 6,
+          "elapsed_ms": 23.456,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 7,
+          "elapsed_ms": 17.055,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 8,
+          "elapsed_ms": 51.467,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 9,
+          "elapsed_ms": 26.36,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 10,
+          "elapsed_ms": 88.946,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 11,
+          "elapsed_ms": 77.474,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 12,
+          "elapsed_ms": 20.473,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 13,
+          "elapsed_ms": 99.516,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 14,
+          "elapsed_ms": 147.523,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 15,
+          "elapsed_ms": 21.941,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 16,
+          "elapsed_ms": 66.281,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 17,
+          "elapsed_ms": 133.785,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 18,
+          "elapsed_ms": 80.505,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 19,
+          "elapsed_ms": 33.525,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 20,
+          "elapsed_ms": 63.263,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 21,
+          "elapsed_ms": 157.956,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 22,
+          "elapsed_ms": 29.819,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 23,
+          "elapsed_ms": 39.184,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 24,
+          "elapsed_ms": 42.016,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 25,
+          "elapsed_ms": 36.784,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 26,
+          "elapsed_ms": 82.083,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 27,
+          "elapsed_ms": 46.668,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 28,
+          "elapsed_ms": 105.688,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 29,
+          "elapsed_ms": 57.221,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 30,
+          "elapsed_ms": 34.071,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 31,
+          "elapsed_ms": 10.008,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 32,
+          "elapsed_ms": 46.856,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 33,
+          "elapsed_ms": 34.618,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 34,
+          "elapsed_ms": 11.125,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 35,
+          "elapsed_ms": 56.966,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 36,
+          "elapsed_ms": 33.673,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 37,
+          "elapsed_ms": 16.986,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 38,
+          "elapsed_ms": 69.857,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 39,
+          "elapsed_ms": 55.658,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 40,
+          "elapsed_ms": 14.926,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 41,
+          "elapsed_ms": 18.247,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 42,
+          "elapsed_ms": 19.857,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 43,
+          "elapsed_ms": 65.668,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 44,
+          "elapsed_ms": 36.94,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 45,
+          "elapsed_ms": 12.268,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 46,
+          "elapsed_ms": 11.104,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 47,
+          "elapsed_ms": 28.563,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 48,
+          "elapsed_ms": 21.594,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 49,
+          "elapsed_ms": 13.898,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 50,
+          "elapsed_ms": 73.692,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 51,
+          "elapsed_ms": 20.065,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 52,
+          "elapsed_ms": 97.687,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 53,
+          "elapsed_ms": 49.521,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 54,
+          "elapsed_ms": 38.197,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 55,
+          "elapsed_ms": 27.486,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 56,
+          "elapsed_ms": 30.776,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 57,
+          "elapsed_ms": 40.584,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 58,
+          "elapsed_ms": 100.535,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 59,
+          "elapsed_ms": 45.511,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 60,
+          "elapsed_ms": 105.127,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 61,
+          "elapsed_ms": 13.458,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 62,
+          "elapsed_ms": 21.594,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 63,
+          "elapsed_ms": 29.136,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 64,
+          "elapsed_ms": 47.288,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 65,
+          "elapsed_ms": 11.853,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 66,
+          "elapsed_ms": 25.3,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 67,
+          "elapsed_ms": 71.354,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 68,
+          "elapsed_ms": 65.642,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 69,
+          "elapsed_ms": 77.2,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 70,
+          "elapsed_ms": 47.489,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 71,
+          "elapsed_ms": 27.635,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 72,
+          "elapsed_ms": 34.387,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 73,
+          "elapsed_ms": 54.942,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 74,
+          "elapsed_ms": 76.262,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 75,
+          "elapsed_ms": 81.98,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 76,
+          "elapsed_ms": 25.759,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 77,
+          "elapsed_ms": 21.766,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 78,
+          "elapsed_ms": 52.407,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 79,
+          "elapsed_ms": 48.005,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 80,
+          "elapsed_ms": 19.649,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 81,
+          "elapsed_ms": 67.413,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 82,
+          "elapsed_ms": 63.089,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 83,
+          "elapsed_ms": 19.85,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 84,
+          "elapsed_ms": 65.391,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 85,
+          "elapsed_ms": 17.932,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 86,
+          "elapsed_ms": 57.359,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 87,
+          "elapsed_ms": 28.079,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 88,
+          "elapsed_ms": 43.087,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 89,
+          "elapsed_ms": 19.504,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 90,
+          "elapsed_ms": 13.121,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 91,
+          "elapsed_ms": 12.768,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 92,
+          "elapsed_ms": 27.84,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 93,
+          "elapsed_ms": 31.979,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 94,
+          "elapsed_ms": 12.293,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 95,
+          "elapsed_ms": 31.416,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 96,
+          "elapsed_ms": 43.525,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 97,
+          "elapsed_ms": 10.991,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 98,
+          "elapsed_ms": 23.469,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 99,
+          "elapsed_ms": 32.757,
+          "status": 200,
+          "authorization_matches": true
+        }
+      ]
+    },
+    {
+      "concurrency": 30,
+      "round": 3,
+      "count": 100,
+      "p50_ms": 35.545,
+      "p95_ms": 116.526,
+      "p99_ms": 146.91,
+      "errors": 0,
+      "samples": [
+        {
+          "index": 0,
+          "elapsed_ms": 14.934,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 1,
+          "elapsed_ms": 14.792,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 2,
+          "elapsed_ms": 64.894,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 3,
+          "elapsed_ms": 19.263,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 4,
+          "elapsed_ms": 15.784,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 5,
+          "elapsed_ms": 58.18,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 6,
+          "elapsed_ms": 116.526,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 7,
+          "elapsed_ms": 16.639,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 8,
+          "elapsed_ms": 60.107,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 9,
+          "elapsed_ms": 72.81,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 10,
+          "elapsed_ms": 51.672,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 11,
+          "elapsed_ms": 35.2,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 12,
+          "elapsed_ms": 19.78,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 13,
+          "elapsed_ms": 24.666,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 14,
+          "elapsed_ms": 20.742,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 15,
+          "elapsed_ms": 36.621,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 16,
+          "elapsed_ms": 45.479,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 17,
+          "elapsed_ms": 88.353,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 18,
+          "elapsed_ms": 72.057,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 19,
+          "elapsed_ms": 119.423,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 20,
+          "elapsed_ms": 123.042,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 21,
+          "elapsed_ms": 27.456,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 22,
+          "elapsed_ms": 62.507,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 23,
+          "elapsed_ms": 29.925,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 24,
+          "elapsed_ms": 45.484,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 25,
+          "elapsed_ms": 87.532,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 26,
+          "elapsed_ms": 55.834,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 27,
+          "elapsed_ms": 146.91,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 28,
+          "elapsed_ms": 34.95,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 29,
+          "elapsed_ms": 160.782,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 30,
+          "elapsed_ms": 10.883,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 31,
+          "elapsed_ms": 91.346,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 32,
+          "elapsed_ms": 29.27,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 33,
+          "elapsed_ms": 11.525,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 34,
+          "elapsed_ms": 64.294,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 35,
+          "elapsed_ms": 19.568,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 36,
+          "elapsed_ms": 12.155,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 37,
+          "elapsed_ms": 97.828,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 38,
+          "elapsed_ms": 29.739,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 39,
+          "elapsed_ms": 66.079,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 40,
+          "elapsed_ms": 12.037,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 41,
+          "elapsed_ms": 12.388,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 42,
+          "elapsed_ms": 30.411,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 43,
+          "elapsed_ms": 63.627,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 44,
+          "elapsed_ms": 12.988,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 45,
+          "elapsed_ms": 15.205,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 46,
+          "elapsed_ms": 107.95,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 47,
+          "elapsed_ms": 96.789,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 48,
+          "elapsed_ms": 61.776,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 49,
+          "elapsed_ms": 120.132,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 50,
+          "elapsed_ms": 17.05,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 51,
+          "elapsed_ms": 28.34,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 52,
+          "elapsed_ms": 19.993,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 53,
+          "elapsed_ms": 23.13,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 54,
+          "elapsed_ms": 41.057,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 55,
+          "elapsed_ms": 49.504,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 56,
+          "elapsed_ms": 12.905,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 57,
+          "elapsed_ms": 40.511,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 58,
+          "elapsed_ms": 20.86,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 59,
+          "elapsed_ms": 50.082,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 60,
+          "elapsed_ms": 29.695,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 61,
+          "elapsed_ms": 21.729,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 62,
+          "elapsed_ms": 53.841,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 63,
+          "elapsed_ms": 22.864,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 64,
+          "elapsed_ms": 14.24,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 65,
+          "elapsed_ms": 60.192,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 66,
+          "elapsed_ms": 22.61,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 67,
+          "elapsed_ms": 40.946,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 68,
+          "elapsed_ms": 30.001,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 69,
+          "elapsed_ms": 31.729,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 70,
+          "elapsed_ms": 53.529,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 71,
+          "elapsed_ms": 40.424,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 72,
+          "elapsed_ms": 63.77,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 73,
+          "elapsed_ms": 12.635,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 74,
+          "elapsed_ms": 69.84,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 75,
+          "elapsed_ms": 19.34,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 76,
+          "elapsed_ms": 84.586,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 77,
+          "elapsed_ms": 12.421,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 78,
+          "elapsed_ms": 47.777,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 79,
+          "elapsed_ms": 35.89,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 80,
+          "elapsed_ms": 36.205,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 81,
+          "elapsed_ms": 29.631,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 82,
+          "elapsed_ms": 64.312,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 83,
+          "elapsed_ms": 15.435,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 84,
+          "elapsed_ms": 30.074,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 85,
+          "elapsed_ms": 50.158,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 86,
+          "elapsed_ms": 32.881,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 87,
+          "elapsed_ms": 64.253,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 88,
+          "elapsed_ms": 23.449,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 89,
+          "elapsed_ms": 61.479,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 90,
+          "elapsed_ms": 31.203,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 91,
+          "elapsed_ms": 23.709,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 92,
+          "elapsed_ms": 59.527,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 93,
+          "elapsed_ms": 48.004,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 94,
+          "elapsed_ms": 58.815,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 95,
+          "elapsed_ms": 41.331,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 96,
+          "elapsed_ms": 31.874,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 97,
+          "elapsed_ms": 26.51,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 98,
+          "elapsed_ms": 13.24,
+          "status": 200,
+          "authorization_matches": true
+        },
+        {
+          "index": 99,
+          "elapsed_ms": 18.012,
+          "status": 200,
+          "authorization_matches": true
+        }
+      ]
+    }
+  ]
+}

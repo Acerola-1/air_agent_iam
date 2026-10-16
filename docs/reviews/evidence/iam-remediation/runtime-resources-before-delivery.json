@@ -1,0 +1,20 @@
+{
+  "pid": 83690,
+  "jar": "/tmp/iam-remediation-20261015-ugpg7l0a/server/target/iam-server.jar",
+  "jar_sha256": "cabe7b0f07461d198e04f1fab2eab43f217651a894c2366ba8da5039dd4a1e05",
+  "http_port": 29107,
+  "postgres_port": 29132,
+  "database": "iam_test",
+  "redis_port": 29179,
+  "redis_database": 2,
+  "private_log": "/tmp/iam-remediation-20261015-ugpg7l0a/runtime-static-config-fixed.log",
+  "status": "stopped",
+  "rate_limit": "disabled only for independent counterexample/performance probes; production default remains enabled",
+  "health": {
+    "status": "ok",
+    "issuer": "air-agent-iam",
+    "postgres": true,
+    "redis": true
+  },
+  "reason": "Delivery build reserves 50ms for async response within 500ms total"
+}

@@ -1,0 +1,14 @@
+{
+  "references": [
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/admin/api/app/security.py",
+      "reference": "/tmp/iam-independent-20261015-5ohAEo/reference/agent_security.py",
+      "byte_identical": true
+    },
+    {
+      "source": "/Users/acerola/Dev/Python/air_agent/src/common/identity/ticket.py",
+      "reference": "/tmp/iam-independent-20261015-5ohAEo/reference/agent_ticket.py",
+      "byte_identical": true
+    }
+  ]
+}

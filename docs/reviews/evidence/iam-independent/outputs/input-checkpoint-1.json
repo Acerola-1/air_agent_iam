@@ -1,0 +1,2002 @@
+{
+  "captured_utc": "2026-10-15T07:14:27.013629+00:00",
+  "root": "/Users/acerola/Dev/Java/air_agent_iam",
+  "git": "not-a-repository; no initialization; branch/HEAD/diff unavailable",
+  "rules": "No AGENTS.md found in project or ancestors; no project .qoder/skills directory",
+  "excluded_generated_directory_names": [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "dist",
+    "logs",
+    "node_modules",
+    "target"
+  ],
+  "excluded_audit_outputs": [
+    "docs/reviews/evidence/iam-independent/",
+    "docs/reviews/iam-independent-acceptance.md"
+  ],
+  "sensitive_policy": "Sensitive contents and secret hashes are not read or recorded; metadata only",
+  "file_count": 282,
+  "entries": [
+    {
+      "path": ".env.example",
+      "size": 1295,
+      "mtime_ns": 1792008464177097040,
+      "kind": "file",
+      "sha256": "8ad6410ccafc6fa48ef6bbecb6264a63de1b48a391636f536fa945f8a882e44f"
+    },
+    {
+      "path": ".env.local",
+      "size": 1373,
+      "mtime_ns": 1792021757073056874,
+      "kind": "sensitive-content-omitted"
+    },
+    {
+      "path": ".gitignore",
+      "size": 413,
+      "mtime_ns": 1792004742291535025,
+      "kind": "file",
+      "sha256": "3687b1697129aebbb908ca12fe88ef42eef1a004250318ea9266e839fcc12d96"
+    },
+    {
+      "path": "README.md",
+      "size": 2062,
+      "mtime_ns": 1791995789765893231,
+      "kind": "file",
+      "sha256": "7a47d6a9403147eaffbd2ddbfbdfe898f7509eed708e65980f754a72e5323c2b"
+    },
+    {
+      "path": "START-GOAL.md",
+      "size": 5777,
+      "mtime_ns": 1791995789766740984,
+      "kind": "file",
+      "sha256": "d1317d6fbe904b6fac00c09ce872e23eb9140482057dabc6e07ed9f085423f2a"
+    },
+    {
+      "path": "contracts/consumer/protocol_consumer_test.py",
+      "size": 8662,
+      "mtime_ns": 1792039888892882839,
+      "kind": "file",
+      "sha256": "d0b5f8251314b40c7dcb5f01110bed60d19d5e05d4da0d37c2f8450c80e4f590"
+    },
+    {
+      "path": "contracts/openapi/iam-identity-v1.openapi.yaml",
+      "size": 59390,
+      "mtime_ns": 1792044357121687581,
+      "kind": "file",
+      "sha256": "eb1c8cf68d416e839ca9d0ea6217e6090f9dbb36da74ffd18b5f288bbd9adbd8"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/context-version-mismatch.json",
+      "size": 986,
+      "mtime_ns": 1792004742360507688,
+      "kind": "file",
+      "sha256": "e53de178604a72e77203fcb046bbda067f7852ded776664cf8183d361ade7902"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/ctx-version-mismatch-session.json",
+      "size": 986,
+      "mtime_ns": 1792004742405657196,
+      "kind": "file",
+      "sha256": "a2af2f651225890e369c14fcc81c1f54831b652537ceaab605849c09a596a558"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/inactive-missing-reason.json",
+      "size": 108,
+      "mtime_ns": 1792004742425819131,
+      "kind": "file",
+      "sha256": "fae397d8237eaa86ea2c2531d36ec5b226dc5d254fde2b9c4bf1257d14847c8c"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/inactive-with-identity-leak.json",
+      "size": 316,
+      "mtime_ns": 1792004742465765416,
+      "kind": "file",
+      "sha256": "ebd6b0fd23c3654725a519b134928ab1bac455285b94bda2fe9714073f2cee0f"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/missing-schema-version.json",
+      "size": 1281,
+      "mtime_ns": 1792004742606350707,
+      "kind": "file",
+      "sha256": "7026a2d05fdaba41b09f0370f00c70f5c153a316817e5ac664189634b31475c9"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/non-uuid-user.json",
+      "size": 930,
+      "mtime_ns": 1792004742676790457,
+      "kind": "file",
+      "sha256": "889ec6e0c9605dd633cd269119e6cf68375d8135d756ee0f067c5232aba0a506"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/revision-bool.json",
+      "size": 989,
+      "mtime_ns": 1792004742691389251,
+      "kind": "file",
+      "sha256": "7ca382a1108c052ede19dff31581d45463abcd9b89405548048518849c40d884"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/revision-string.json",
+      "size": 988,
+      "mtime_ns": 1792004742725528352,
+      "kind": "file",
+      "sha256": "7174bd290fdf9f57cef8dcd7b8ec3a9a8a2b5084aec702f5abc22c8dd9d052f8"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/unknown-audience.json",
+      "size": 986,
+      "mtime_ns": 1792004742758037656,
+      "kind": "file",
+      "sha256": "84059ee52bc1bc03a0076e0396a370b89d99eed02928c8cc2241c8619228750b"
+    },
+    {
+      "path": "contracts/samples/identity/invalid/unknown-principal-type.json",
+      "size": 651,
+      "mtime_ns": 1792004742804939378,
+      "kind": "file",
+      "sha256": "ccb1dfc83b694674604e05ee2b553f5fa87a291db4c43385cc427c4586376ddb"
+    },
+    {
+      "path": "contracts/samples/identity/valid/i1-human-needs-tenant-selection.json",
+      "size": 1022,
+      "mtime_ns": 1792004742839924607,
+      "kind": "file",
+      "sha256": "b5a1d1256e3b822ad369180496c92d9deacf680949029fed6bdb2afabd8baac8"
+    },
+    {
+      "path": "contracts/samples/identity/valid/i1-human-with-tenant.json",
+      "size": 1415,
+      "mtime_ns": 1792004742871806785,
+      "kind": "file",
+      "sha256": "150afd163c2972773e6129d1c5dec6501b68fb6b4296f840a6b784520f32be36"
+    },
+    {
+      "path": "contracts/samples/identity/valid/inactive-account-disabled.json",
+      "size": 140,
+      "mtime_ns": 1792004742916010041,
+      "kind": "file",
+      "sha256": "b27906bc6de982edf732010f423afb8ee6dd9e94eda87284158bdd7808b56f87"
+    },
+    {
+      "path": "contracts/samples/identity/valid/inactive-invalid-or-revoked.json",
+      "size": 142,
+      "mtime_ns": 1792004742955377032,
+      "kind": "file",
+      "sha256": "39381f7c04bea984f5838d02ca6a1560877055c3c6eb7932a1785e3ee5bcb381"
+    },
+    {
+      "path": "contracts/samples/request/introspect-ref.valid.json",
+      "size": 263,
+      "mtime_ns": 1792004743031151715,
+      "kind": "file",
+      "sha256": "076dae5801e46018237abeff2fd5d55943d12208e03305b615f4629d87634148"
+    },
+    {
+      "path": "contracts/samples/request/introspect-token.valid.json",
+      "size": 232,
+      "mtime_ns": 1792004743074207842,
+      "kind": "file",
+      "sha256": "dba5e6dbb88dce57779c3939b38eea8947cf84629d5568aaf80c1ea2ceddaaa6"
+    },
+    {
+      "path": "contracts/samples/request/introspect.both-modes.invalid.json",
+      "size": 325,
+      "mtime_ns": 1792004743108317943,
+      "kind": "file",
+      "sha256": "a2e0720d092b4a6a90bd0e398d32bc51048d23bf04fc2c3756aeb34288fe05d4"
+    },
+    {
+      "path": "contracts/samples/request/login.bad-audience.invalid.json",
+      "size": 117,
+      "mtime_ns": 1792004743130776343,
+      "kind": "file",
+      "sha256": "81b8f1eb4f1ad8d17d0f93966c0857340945f6a83afc20ac2e0b07fe11b02fb9"
+    },
+    {
+      "path": "contracts/samples/request/login.missing-audience.invalid.json",
+      "size": 84,
+      "mtime_ns": 1792004743170885253,
+      "kind": "file",
+      "sha256": "a687d6286af449ff2e5576b6d0ad49127b2596213e1a367f2ecda094d607b702"
+    },
+    {
+      "path": "contracts/samples/request/login.password-short.invalid.json",
+      "size": 92,
+      "mtime_ns": 1792004743202420805,
+      "kind": "file",
+      "sha256": "2a89c0ad5bf9ea7f8115eac366a15123ec1564f7c995627e62b0c32e159911ec"
+    },
+    {
+      "path": "contracts/samples/request/login.valid.json",
+      "size": 109,
+      "mtime_ns": 1792004743255479004,
+      "kind": "file",
+      "sha256": "c109cdede9e1fef018d7c00d77e80d82679f946ab3c76544521085c71b0ddba8"
+    },
+    {
+      "path": "contracts/samples/request/renew.valid.json",
+      "size": 28,
+      "mtime_ns": 1792004743349623824,
+      "kind": "file",
+      "sha256": "3baeea3f76578a767ebd0138b94783fc65c8053e624aebe39b2b3e974a07ecec"
+    },
+    {
+      "path": "contracts/samples/request/runtime-ticket.bad-audience.invalid.json",
+      "size": 183,
+      "mtime_ns": 1792004743376745862,
+      "kind": "file",
+      "sha256": "f71a7f7edb1da0508e0ba8a08e5927a60df0e809326e8783650867d36cec9ea6"
+    },
+    {
+      "path": "contracts/samples/request/runtime-ticket.valid.json",
+      "size": 191,
+      "mtime_ns": 1792004743403207565,
+      "kind": "file",
+      "sha256": "86e240efde9071c26b0795ae96da2d16057b6f136924a6cd12328fd949a0b1ee"
+    },
+    {
+      "path": "contracts/samples/request/sso-exchange.valid.json",
+      "size": 107,
+      "mtime_ns": 1792004743419489822,
+      "kind": "file",
+      "sha256": "99c0b0777a207b9660b71dfec0dc2f8c04355e33e48e2d6a20503c3499b579e3"
+    },
+    {
+      "path": "contracts/samples/request/switch-tenant.revision-bool.invalid.json",
+      "size": 84,
+      "mtime_ns": 1792004743439994383,
+      "kind": "file",
+      "sha256": "d81fddcb95ed0f0704044ee676afba5a49d0f2cb722653c4f852b8e48371492a"
+    },
+    {
+      "path": "contracts/samples/request/switch-tenant.valid.json",
+      "size": 81,
+      "mtime_ns": 1792004743449556702,
+      "kind": "file",
+      "sha256": "21e98358d52e82afe4e286947d424e8812fcd349e568a6bec3f31551a859894a"
+    },
+    {
+      "path": "contracts/schemas/error.schema.json",
+      "size": 852,
+      "mtime_ns": 1792004743462473741,
+      "kind": "file",
+      "sha256": "8146041e3dce891edda0245e137e43f9f961d70d4566e6f203909ab1ddeeadca"
+    },
+    {
+      "path": "contracts/schemas/identity.schema.json",
+      "size": 5690,
+      "mtime_ns": 1792004743472142228,
+      "kind": "file",
+      "sha256": "4c3172f40cb4c2dcdc7955207e9f9f321be7915c2e318f63fa775c39f788ee1d"
+    },
+    {
+      "path": "contracts/schemas/introspection-inactive.schema.json",
+      "size": 864,
+      "mtime_ns": 1792004743484636181,
+      "kind": "file",
+      "sha256": "3ed63b94e9747cb0f4864522074b9ffd01c483ad657ad917f5fe52a1b3c2a8c4"
+    },
+    {
+      "path": "contracts/schemas/requests.schema.json",
+      "size": 4171,
+      "mtime_ns": 1792004743494693586,
+      "kind": "file",
+      "sha256": "5b2d8312a583e3d246fb7b26f40577d67de2c75e494e4f5aca41703fdd50780e"
+    },
+    {
+      "path": "docs/vue-admin-plan.md",
+      "size": 5054,
+      "mtime_ns": 1791995789766961651,
+      "kind": "file",
+      "sha256": "ce0e3015993888f0e51defa09865add11869a1c7e8ef77cb2c9f4a37ec90ff05"
+    },
+    {
+      "path": "docs/vue-admin-update.json",
+      "size": 2604,
+      "mtime_ns": 1791995789769724160,
+      "kind": "file",
+      "sha256": "14209e9fb4d4ba4ebe74361cbfdaafef01d114dc09cb7f18edba895559598f9a"
+    },
+    {
+      "path": "docs/reference/agent-source-baseline.json",
+      "size": 36948,
+      "mtime_ns": 1791992266869423741,
+      "kind": "file",
+      "sha256": "0a99fe74b00669a004b733d5b764f804f669a9d7c8d7541c9a9782cf1cb7107d"
+    },
+    {
+      "path": "docs/reference/cross-service-acceptance.md",
+      "size": 5887,
+      "mtime_ns": 1791992266868696656,
+      "kind": "file",
+      "sha256": "dc4deb404e29fe2027fcedcf9686c4d1cc2ef49e79327907099cf9bafa24b06a"
+    },
+    {
+      "path": "docs/reference/full-extraction-design.md",
+      "size": 18376,
+      "mtime_ns": 1791992266868426780,
+      "kind": "file",
+      "sha256": "2e0bcd7ce298cbad2d73cc06bd9f4b303256ccd138667bb480e9ddd6fe220289"
+    },
+    {
+      "path": "docs/reference/provenance.json",
+      "size": 4248,
+      "mtime_ns": 1791995789767407194,
+      "kind": "file",
+      "sha256": "f59fc006c148e9238c0e355138380946cce3a212180e700214e16074b4bac533"
+    },
+    {
+      "path": "docs/reference/source-audit.md",
+      "size": 11289,
+      "mtime_ns": 1791992484614926667,
+      "kind": "file",
+      "sha256": "aa88072b0ce634ae18b9e5d56c09eeca2c100bb5086632d09f23ec1993e55067"
+    },
+    {
+      "path": "docs/reference/agent-identity-specs/agent-runtime-performance/spec.md",
+      "size": 4361,
+      "mtime_ns": 1791992266870150160,
+      "kind": "file",
+      "sha256": "ba780d3c58a99ce902caeece20cd71a7f6d5d94ad678ca9fa0533bdb5681c821"
+    },
+    {
+      "path": "docs/reference/agent-identity-specs/tenant-identity-migration/spec.md",
+      "size": 3233,
+      "mtime_ns": 1791992266870450827,
+      "kind": "file",
+      "sha256": "5acd276995aa1f5915ea897f3b028fdf94cee0447fc778f94351dbb899bd06ce"
+    },
+    {
+      "path": "docs/reference/agent-identity-specs/tenant-mcp-authorization/spec.md",
+      "size": 3920,
+      "mtime_ns": 1791992266870705828,
+      "kind": "file",
+      "sha256": "cc6c20a00f9c767c6ccbf38fdeed453767eb42e935dd9f0b9e7021adb90ca4df"
+    },
+    {
+      "path": "docs/reference/agent-identity-specs/tenant-membership-access/spec.md",
+      "size": 5166,
+      "mtime_ns": 1791992266870976120,
+      "kind": "file",
+      "sha256": "7ebd745074c66de3d425ebe73aaa97a13117108afc7810e855da50f4deee7e3e"
+    },
+    {
+      "path": "docs/reference/agent-identity-specs/tenant-resource-isolation/spec.md",
+      "size": 5323,
+      "mtime_ns": 1791992266871252662,
+      "kind": "file",
+      "sha256": "416d10fb9f3514a466436a8899ad4b94171742508495d8871599fc5b285f7334"
+    },
+    {
+      "path": "docs/reference/agent-identity-specs/unified-revocable-session/spec.md",
+      "size": 4859,
+      "mtime_ns": 1791992266871520080,
+      "kind": "file",
+      "sha256": "3838199fc787ab6cbf1ae368e843d1c0b026d0861105ddf9467822cb0042a39d"
+    },
+    {
+      "path": "docs/reviews/iam-phase1-acceptance.md",
+      "size": 17598,
+      "mtime_ns": 1792046476451975834,
+      "kind": "file",
+      "sha256": "44ca7256b34c56f9af6c7d8ee2d11282f182dd5abb60e7464c35e8a28442759e"
+    },
+    {
+      "path": "docs/reviews/phase-worklog.md",
+      "size": 22265,
+      "mtime_ns": 1792046508185416594,
+      "kind": "file",
+      "sha256": "94a87fe52e2c814f2c0702472a4692f3d6039dff052b252928a453942e01ce1e"
+    },
+    {
+      "path": "docs/reviews/evidence/gate0/c01-build-start.txt",
+      "size": 706,
+      "mtime_ns": 1791997521534158462,
+      "kind": "file",
+      "sha256": "06d29bc665430511e55ce423a357e81cc741c46fad9aefbc076a6ae403015a45"
+    },
+    {
+      "path": "docs/reviews/evidence/gate0/c13-loopback-env-shape.txt",
+      "size": 4703,
+      "mtime_ns": 1792003034931444364,
+      "kind": "file",
+      "sha256": "16682187c1369a070deaf1793fb38cdf9e25f18484ff9e84c1d5c9a4460d768c"
+    },
+    {
+      "path": "docs/reviews/evidence/gate0/source-repo-baseline.txt",
+      "size": 2615,
+      "mtime_ns": 1792002878393084110,
+      "kind": "file",
+      "sha256": "42d7374fd7524aec7edab7f6b3741b8b01c4db8ed9c9354949aaf3601fbd3f4b"
+    },
+    {
+      "path": "docs/reviews/evidence/group1/c02-c03-crypto-vectors.txt",
+      "size": 1384,
+      "mtime_ns": 1792001821653360288,
+      "kind": "file",
+      "sha256": "ed4d168923fb59f04ff89ee7ee4ec5041e1282ec7c365738a84e399aea86ee25"
+    },
+    {
+      "path": "docs/reviews/evidence/group1/c04-c12-contract-freeze.txt",
+      "size": 2045,
+      "mtime_ns": 1792002753323449727,
+      "kind": "file",
+      "sha256": "73ad52931ea1b17996a40931b7ed2724e7da1161469b2fc3ff242e08598efa5c"
+    },
+    {
+      "path": "docs/reviews/evidence/group2/c04-c08-c09-c10-c16-db-isolation.txt",
+      "size": 6913,
+      "mtime_ns": 1792001841472029875,
+      "kind": "file",
+      "sha256": "aa85911fa77a09da432d2ea9c736f7b9cdc64654d4cbe85430f2734553186ff1"
+    },
+    {
+      "path": "docs/reviews/evidence/group3/c05-c06-c07-c11-c16-session-authority.txt",
+      "size": 11026,
+      "mtime_ns": 1792046136239522218,
+      "kind": "file",
+      "sha256": "6437eefe827cf2c5408090d1d85a1803313f511ba631c1843ae6a38b4f37ddd5"
+    },
+    {
+      "path": "docs/reviews/evidence/group4/c02-c03-cross-language-vectors.txt",
+      "size": 1036,
+      "mtime_ns": 1792011791480880277,
+      "kind": "file",
+      "sha256": "32f8b5f56b77d3b624a0f71ae026c7b35b821dcd75d8a283e8363bae6b18e4e1"
+    },
+    {
+      "path": "docs/reviews/evidence/group4/c12-c13-c03-c15-internal-principals.txt",
+      "size": 14897,
+      "mtime_ns": 1792046158677050571,
+      "kind": "file",
+      "sha256": "e1783c05f4cc31a40b82866f1204ae91f0a1b38982adef2c4c0b5b54f0ce4f71"
+    },
+    {
+      "path": "docs/reviews/evidence/group5/admin-apis.txt",
+      "size": 10463,
+      "mtime_ns": 1792046176185724710,
+      "kind": "file",
+      "sha256": "3696644dc71bb87ff678b66298e076dbf5e49dbefed54cbda3ac6a761c2ffd44"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/browser-evidence.md",
+      "size": 6612,
+      "mtime_ns": 1792046311168036918,
+      "kind": "file",
+      "sha256": "3e78f019c432410b2f733074b776b031d3c1810dafc0132ab2a9d705dcffb239"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/dependency-failure-503.txt",
+      "size": 628,
+      "mtime_ns": 1792039353613731984,
+      "kind": "file",
+      "sha256": "9fa6a1b05646c4da9528b3274355c829b93db5763d00f3ce3dc8da2e606a2991"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/narrow-1-profile.png",
+      "size": 36830,
+      "mtime_ns": 1792038786536362924,
+      "kind": "file",
+      "sha256": "e247a06422d51a98c57dccda55a350280cc64625ca47b2135510ed3cc786f07f"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/narrow-2-drawer.png",
+      "size": 37899,
+      "mtime_ns": 1792038787719634466,
+      "kind": "file",
+      "sha256": "b82e0c155fc4801c2e2b3afca7a7b2236b1ee555cdd525ee32bf77156cb68359"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/narrow-390.json",
+      "size": 650,
+      "mtime_ns": 1792038788280045153,
+      "kind": "file",
+      "sha256": "40380faa0313fe3325f1016d18d2c55dcf870a4d735d1c11c8cc66c27562c9aa"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/web-session-final.txt",
+      "size": 7301,
+      "mtime_ns": 1792039376215594684,
+      "kind": "file",
+      "sha256": "f4a06aa819726522dd6a907112f12de7dae63af26512294cec0a4af8e144c6ab"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/web-session-postbuild.txt",
+      "size": 7175,
+      "mtime_ns": 1792023555100755328,
+      "kind": "file",
+      "sha256": "566d1530b159d163dd399423a3f9911c7122ada2a37f303b8a3de05c78f38976"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/web-session.txt",
+      "size": 7301,
+      "mtime_ns": 1792046190066967787,
+      "kind": "file",
+      "sha256": "04a7e3a18f938fe8ca569c306c04dc00f222250924f15d73316a3b6f29b5e25f"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/10-A-members.png",
+      "size": 62373,
+      "mtime_ns": 1792045936695537409,
+      "kind": "file",
+      "sha256": "b7f084aab27643ea0113c3e5d609d11c56d908457ff5710e019493367a84fa4e"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/11-B-departments-after-header-switch.png",
+      "size": 47518,
+      "mtime_ns": 1792045936696756246,
+      "kind": "file",
+      "sha256": "8be5dfc5087323f2fd199413800ceafe86515b6b8eade0fd97762c0d9458deec"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/12-B-members-after-header-switch.png",
+      "size": 66135,
+      "mtime_ns": 1792045936697990166,
+      "kind": "file",
+      "sha256": "79b123baa654a812221af05d062f537b5f12d9003902f24a8ddb4775214d5144"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/13-A-members-restored.png",
+      "size": 65394,
+      "mtime_ns": 1792045936700378505,
+      "kind": "file",
+      "sha256": "5ccf3ce47ee8f7efa9433da8939c240f617764f00cabb59d50ed9bfafc42494e"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/20-ctx-conflict-409.png",
+      "size": 83672,
+      "mtime_ns": 1792045936701930717,
+      "kind": "file",
+      "sha256": "c555816f239aeb20d518b99fe82536fe73178f61f40b0b4571eb4794e06b101c"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/21-late-A-response-discarded-in-B.png",
+      "size": 45037,
+      "mtime_ns": 1792045936703128053,
+      "kind": "file",
+      "sha256": "601b8dc85ab1f5e300ad4cad48427aca811f16d3449ffebc9563cf9e0db18401"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/22-B-to-A-restored.png",
+      "size": 66104,
+      "mtime_ns": 1792045936704180597,
+      "kind": "file",
+      "sha256": "050c51434cf495c6df0e9b49f5613dc2b2b039b4ab17c844fa5a7103a5757336"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/23-logout-inflight-login-page.png",
+      "size": 292677,
+      "mtime_ns": 1792045936705368641,
+      "kind": "file",
+      "sha256": "666489e7567abaf7541c3ac11f4c55fd712524c14ef6888da817ad7e9572f925"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/30-narrow-tenant-members.png",
+      "size": 26396,
+      "mtime_ns": 1792045936706627270,
+      "kind": "file",
+      "sha256": "b3a21014c1c9a064f7a0d5cc175edecb0d8d070180d671f6b88d94c53d255818"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/31-narrow-tenant-drawer.png",
+      "size": 20541,
+      "mtime_ns": 1792045936708152690,
+      "kind": "file",
+      "sha256": "842b5f7b5342dd7085f2149fca83167d6e5ec410ca2584cbdb50a003b4f7224c"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/32-narrow-member-dialog.png",
+      "size": 53326,
+      "mtime_ns": 1792045936709164817,
+      "kind": "file",
+      "sha256": "e60f03bdc9abf3148e7dcd50e1aacb87039e44c0f00b468a6a15e49b2227f8a7"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/33-narrow-department-create.png",
+      "size": 25495,
+      "mtime_ns": 1792045936710207737,
+      "kind": "file",
+      "sha256": "7b59b5ad2d436e7c60bde73f49cd6ff31f0e713cb1f9873e64427b5c3edd2a77"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/34-narrow-departments.png",
+      "size": 24570,
+      "mtime_ns": 1792045936710988238,
+      "kind": "file",
+      "sha256": "fa3c57ebec4c45545f5cb676965c4248bfc8099e03da9c69e0a761bb6127654e"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/dual-tenant-browser-evidence.md",
+      "size": 11121,
+      "mtime_ns": 1792046291410265293,
+      "kind": "file",
+      "sha256": "7871e4f5972701227e7dbfef18d9820e31fd561b7dc4de0fee7765dcb2e64ff6"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/secret-scan-final.txt",
+      "size": 279,
+      "mtime_ns": 1792046538535832126,
+      "kind": "file",
+      "sha256": "52b9b27d81da4b4380037cf07dae9631e0a4e8e74678d65c694d91786ed7f28e"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/secret-scan.txt",
+      "size": 279,
+      "mtime_ns": 1792046062754521293,
+      "kind": "file",
+      "sha256": "cf8cd83095c4f67dad1bcfaff57b79832707d45054e8d815eecdba7e0b74e385"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/stage1-desktop-flow.log",
+      "size": 3549,
+      "mtime_ns": 1792045961700012305,
+      "kind": "file",
+      "sha256": "5d683ae3aa9a2cdceddad61c447f5f63fa976aea2574e80a00a14a8a1ead5ae9"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/stage2-cas-late.log",
+      "size": 1222,
+      "mtime_ns": 1792045936738934597,
+      "kind": "file",
+      "sha256": "132776c1b192a46ba838543a6f37dffbd19e61eb3fc1679d5cdd4a736febd73a"
+    },
+    {
+      "path": "docs/reviews/evidence/group6/tenant-switch/stage3-narrow.json",
+      "size": 680,
+      "mtime_ns": 1792045961699652804,
+      "kind": "file",
+      "sha256": "3f34ac2feaa637a8d6b67b6397883ac0e9d801f37148ce46d1e9c34978f20075"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/dr-restore.txt",
+      "size": 1920,
+      "mtime_ns": 1792041492497772037,
+      "kind": "file",
+      "sha256": "cb4236f9d32fd749406ec6a31a954600cc4e36b262dc30c072a26c6f586631e6"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/perf-introspection.txt",
+      "size": 3956,
+      "mtime_ns": 1792041161985177423,
+      "kind": "file",
+      "sha256": "28e3d39ceaf74c365f0559c33ef0d37e71f66fec5fd05d2da42f18603459b05d"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/secret-scan.txt",
+      "size": 279,
+      "mtime_ns": 1792041217657726945,
+      "kind": "file",
+      "sha256": "4fbaeea97bca7351d002f136ef8e96ac41f19f345ce32e9c2c369d04fa7e6a65"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/ADMIN-20261015T044723Z.log",
+      "size": 10448,
+      "mtime_ns": 1792039762083071790,
+      "kind": "file",
+      "sha256": "27820c6d76db3914352b994bf47aa516930728eaf6dde34d1adb99757c35f007"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/ADMIN-20261015T045149Z.log",
+      "size": 10463,
+      "mtime_ns": 1792040076357342610,
+      "kind": "file",
+      "sha256": "e938d053bffc2d28a29a4bcf87907996d9f92a2a1fde893721339126ad071896"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/ADMIN-20261015T063455Z.log",
+      "size": 10463,
+      "mtime_ns": 1792046176185728335,
+      "kind": "file",
+      "sha256": "3696644dc71bb87ff678b66298e076dbf5e49dbefed54cbda3ac6a761c2ffd44"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/CONTRACT-20261015T044723Z.log",
+      "size": 2072,
+      "mtime_ns": 1792039661850152113,
+      "kind": "file",
+      "sha256": "bed93c1b4121c45f2e5aea1c1a61e8a1455db3689e5a4b4f7f452b4b096e9ad5"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/CONTRACT-20261015T045149Z.log",
+      "size": 2045,
+      "mtime_ns": 1792039942576746806,
+      "kind": "file",
+      "sha256": "73ad52931ea1b17996a40931b7ed2724e7da1161469b2fc3ff242e08598efa5c"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/CONTRACT-20261015T063455Z.log",
+      "size": 2045,
+      "mtime_ns": 1792046109170884423,
+      "kind": "file",
+      "sha256": "73ad52931ea1b17996a40931b7ed2724e7da1161469b2fc3ff242e08598efa5c"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/CRYPTO-20261015T044723Z.log",
+      "size": 1384,
+      "mtime_ns": 1792039660346117354,
+      "kind": "file",
+      "sha256": "ed4d168923fb59f04ff89ee7ee4ec5041e1282ec7c365738a84e399aea86ee25"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/CRYPTO-20261015T045149Z.log",
+      "size": 1384,
+      "mtime_ns": 1792039939535551617,
+      "kind": "file",
+      "sha256": "ed4d168923fb59f04ff89ee7ee4ec5041e1282ec7c365738a84e399aea86ee25"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/CRYPTO-20261015T063455Z.log",
+      "size": 1384,
+      "mtime_ns": 1792046108459473861,
+      "kind": "file",
+      "sha256": "ed4d168923fb59f04ff89ee7ee4ec5041e1282ec7c365738a84e399aea86ee25"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/DB-20261015T044723Z.log",
+      "size": 7513,
+      "mtime_ns": 1792039677553928040,
+      "kind": "file",
+      "sha256": "0fc7987e738db6698d1d49109f9e4dbc340a4630529ade6d05e474884c7b0c7d"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/DB-20261015T045149Z.log",
+      "size": 7500,
+      "mtime_ns": 1792039974251991294,
+      "kind": "file",
+      "sha256": "1fc70c5a772665a7f20fc656f345823b19d18be0808214fb68afbcdc5e33b142"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/DB-20261015T063455Z.log",
+      "size": 7511,
+      "mtime_ns": 1792046119217379723,
+      "kind": "file",
+      "sha256": "d72fd9594f0b732fe05716bd5d6249e387f8c382fe09db21847254923bf1228c"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/G0-20261015T044723Z.log",
+      "size": 6234,
+      "mtime_ns": 1792039645368882826,
+      "kind": "file",
+      "sha256": "16ad840de62b481493a516dbe124c4592ac1d8837adea770934e3122abe75019"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/G0-20261015T045149Z.log",
+      "size": 6234,
+      "mtime_ns": 1792039911799207377,
+      "kind": "file",
+      "sha256": "8e10f26fb1ae071ea594cd47cc29ec9f2275d6e8a5f1ba8b5aac5570e3f0aeeb"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/G0-20261015T063455Z.log",
+      "size": 6523,
+      "mtime_ns": 1792046096229596375,
+      "kind": "file",
+      "sha256": "cf184e91e55f4156500c71a27f2644a82f2675974bbfe9774d9359a0b703cc1c"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/INTERNAL-20261015T044723Z.log",
+      "size": 14899,
+      "mtime_ns": 1792039735100335316,
+      "kind": "file",
+      "sha256": "f86687cb65733229d913ca886514c9e37552a7972c738877c79527323ba8539f"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/INTERNAL-20261015T045149Z.log",
+      "size": 14899,
+      "mtime_ns": 1792040046501982446,
+      "kind": "file",
+      "sha256": "d2f1d9111caa65e58e8b9b08e8a33f6975ffd78091cc44f613a844f17b053177"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/INTERNAL-20261015T063455Z.log",
+      "size": 14897,
+      "mtime_ns": 1792046158677067237,
+      "kind": "file",
+      "sha256": "e1783c05f4cc31a40b82866f1204ae91f0a1b38982adef2c4c0b5b54f0ce4f71"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/SESSION-20261015T044723Z.log",
+      "size": 10914,
+      "mtime_ns": 1792039700935533837,
+      "kind": "file",
+      "sha256": "72b4a18f7d431f340d0f8d709a6a82edcb3bd41dbc2b9299a0ecca2404ca733e"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/SESSION-20261015T045149Z.log",
+      "size": 10914,
+      "mtime_ns": 1792040003328414887,
+      "kind": "file",
+      "sha256": "834661f118f221e1fa533278ac052c1b781c39c1658f472521b0aa675a9b66ab"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/SESSION-20261015T063455Z.log",
+      "size": 11026,
+      "mtime_ns": 1792046136239524593,
+      "kind": "file",
+      "sha256": "6437eefe827cf2c5408090d1d85a1803313f511ba631c1843ae6a38b4f37ddd5"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/WEB-20261015T044723Z.log",
+      "size": 7300,
+      "mtime_ns": 1792039781412723351,
+      "kind": "file",
+      "sha256": "efaf633132d749d257b073f31918e63019aa6663391951a369a0961c9e7fea8e"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/WEB-20261015T045149Z.log",
+      "size": 7302,
+      "mtime_ns": 1792040099623853093,
+      "kind": "file",
+      "sha256": "1afb957ac6c0f49e475d19673398510cda7750e6cba32fa63d29035b56cab18a"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/WEB-20261015T063455Z.log",
+      "size": 7301,
+      "mtime_ns": 1792046190066971495,
+      "kind": "file",
+      "sha256": "04a7e3a18f938fe8ca569c306c04dc00f222250924f15d73316a3b6f29b5e25f"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/matrix-20261015T044723Z.txt",
+      "size": 3827,
+      "mtime_ns": 1792039781453454607,
+      "kind": "file",
+      "sha256": "86f1ebc2a4a36cb5c63dd28b5db15a1452b91ccac57c18ffc7105bcbefefd6c0"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/matrix-20261015T045149Z.txt",
+      "size": 3823,
+      "mtime_ns": 1792040099671034563,
+      "kind": "file",
+      "sha256": "f65c57a8ffed4a35a33354633a69167b750700a4e64e0fd9778a2f3ab3ce7d61"
+    },
+    {
+      "path": "docs/reviews/evidence/group7/matrix/matrix-20261015T063455Z.txt",
+      "size": 3804,
+      "mtime_ns": 1792046190100281026,
+      "kind": "file",
+      "sha256": "ac68891ffb371d038d770d545e7f871782cf79ef4545f904194f4ea17936d207"
+    },
+    {
+      "path": "docs/setup/version-lock.md",
+      "size": 2964,
+      "mtime_ns": 1792004743655581270,
+      "kind": "file",
+      "sha256": "528ad67ac6db16f9760bc9e5358f93aadb8bf362bc67493b261e7b61822dabc2"
+    },
+    {
+      "path": "openspec/config.yaml",
+      "size": 939,
+      "mtime_ns": 1791995789766050648,
+      "kind": "file",
+      "sha256": "ba231eddb33e5b7611a8018402651b8f219d0b0f3f2060eb41709fbd5f0f27df"
+    },
+    {
+      "path": "openspec/changes/archive/.gitkeep",
+      "size": 0,
+      "mtime_ns": 1791991602565787900,
+      "kind": "file",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "openspec/changes/establish-shared-iam-service/.openspec.yaml",
+      "size": 40,
+      "mtime_ns": 1791991897793268979,
+      "kind": "file",
+      "sha256": "cd54fe01555559ffd5cf6f7f1d1b06209492e5ba9147cdc3800201c09e2291d0"
+    },
+    {
+      "path": "openspec/changes/establish-shared-iam-service/design.md",
+      "size": 9984,
+      "mtime_ns": 1791995789766328982,
+      "kind": "file",
+      "sha256": "444154fb3c84e2a5d55b9bec561bccf3513c0cc1afd23f75823db30ddd7bfe50"
+    },
+    {
+      "path": "openspec/changes/establish-shared-iam-service/http-contract.md",
+      "size": 21738,
+      "mtime_ns": 1791995789766592150,
+      "kind": "file",
+      "sha256": "f5936b938a9570360fca6e1e1de17b0edc1da9640b24f784ee7ee387c35e3d81"
+    },
+    {
+      "path": "openspec/changes/establish-shared-iam-service/proposal.md",
+      "size": 2784,
+      "mtime_ns": 1791995789766193648,
+      "kind": "file",
+      "sha256": "8a89c04485d4782cc9310afd19694fec8bf23e22833c3a8a07e38cd548497c19"
+    },
+    {
+      "path": "openspec/changes/establish-shared-iam-service/tasks.md",
+      "size": 17132,
+      "mtime_ns": 1792046361103981167,
+      "kind": "file",
+      "sha256": "4e868e10aa1e5e75670870f62e2d55cad55d6a50d0ef384c165b7c22e3200ece"
+    },
+    {
+      "path": "openspec/changes/establish-shared-iam-service/specs/iam-tenant-administration/spec.md",
+      "size": 5671,
+      "mtime_ns": 1791995789766868692,
+      "kind": "file",
+      "sha256": "e3df02812dc2a5ef8d1a1c6239daa8ac111a50157530d4c6db4ab2ea5664bcde"
+    },
+    {
+      "path": "openspec/changes/establish-shared-iam-service/specs/shared-iam-http-contract/spec.md",
+      "size": 6636,
+      "mtime_ns": 1791995789767016276,
+      "kind": "file",
+      "sha256": "b4ac8987c31d6555f9ebb6fdf9870df093af9256a3ce1473eadd2031ac103412"
+    },
+    {
+      "path": "openspec/specs/.gitkeep",
+      "size": 0,
+      "mtime_ns": 1791991602565660733,
+      "kind": "file",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scripts/infra-up.sh",
+      "size": 5576,
+      "mtime_ns": 1792004743714242735,
+      "kind": "file",
+      "sha256": "7b688bf6d92ba0fb6028301b33e4e0d3c4ec15a8f71868d519ed55a716c6d80d"
+    },
+    {
+      "path": "scripts/run-server.sh",
+      "size": 620,
+      "mtime_ns": 1792004743758348574,
+      "kind": "file",
+      "sha256": "364d5bde4fd8d48ececfb61dd4664229da47fe1f37ae7f63f204c023e5f3e94f"
+    },
+    {
+      "path": "scripts/seed-browser-fixture.sh",
+      "size": 2829,
+      "mtime_ns": 1792041920706569868,
+      "kind": "file",
+      "sha256": "d2363963d9e5d518a0740dcc24dd78e6e0a2178051e4207abe112624192b16cf"
+    },
+    {
+      "path": "scripts/verify-acceptance-matrix.sh",
+      "size": 4123,
+      "mtime_ns": 1792039632941309594,
+      "kind": "file",
+      "sha256": "d93033252830aeecb4a1d5764dab047db383c2c87fb030535efdf541e090a1d6"
+    },
+    {
+      "path": "scripts/verify-admin-apis.sh",
+      "size": 29209,
+      "mtime_ns": 1792015807642456938,
+      "kind": "file",
+      "sha256": "ac5e259fc3d8103e01018de8846d03c48c1668863e85f6de7e99596ff94a8413"
+    },
+    {
+      "path": "scripts/verify-contract.sh",
+      "size": 271,
+      "mtime_ns": 1792004743778894802,
+      "kind": "file",
+      "sha256": "af4559a6249c95c7eb073ff8eaa672ba212b6155d9003dd22b449174e1a6bcb4"
+    },
+    {
+      "path": "scripts/verify-crypto-vectors.sh",
+      "size": 601,
+      "mtime_ns": 1792004743793018552,
+      "kind": "file",
+      "sha256": "efaca96d16d5b70474301aab7c53b78a44b116048084413813373b3739b55722"
+    },
+    {
+      "path": "scripts/verify-db-isolation.sh",
+      "size": 499,
+      "mtime_ns": 1792004743804854628,
+      "kind": "file",
+      "sha256": "55b13e33e64d4c889135b88dbffbe297a8973c067955d4d48e2148d5b9787c36"
+    },
+    {
+      "path": "scripts/verify-dr-restore.sh",
+      "size": 10563,
+      "mtime_ns": 1792041462185058553,
+      "kind": "file",
+      "sha256": "fdce01e165463e429b2c82e5df16ce422ca63f88764f88c019e3e914ff3914b9"
+    },
+    {
+      "path": "scripts/verify-gate0-env.sh",
+      "size": 5477,
+      "mtime_ns": 1792004743816560246,
+      "kind": "file",
+      "sha256": "82695abd44b713d8ff42eddcf8ffab534e9fa0fa2b9baf36094a1e0319988f6e"
+    },
+    {
+      "path": "scripts/verify-internal-principals.sh",
+      "size": 24766,
+      "mtime_ns": 1792011709568726837,
+      "kind": "file",
+      "sha256": "c8237977eb469c074c6fbfb555a0df4aa0cbca1d7f3ddbf719f9cf88653731b3"
+    },
+    {
+      "path": "scripts/verify-perf-introspection.sh",
+      "size": 6093,
+      "mtime_ns": 1792040884454773343,
+      "kind": "file",
+      "sha256": "e6cd837ec11f9f1465ff80c4ff64bd0aa51edc815681b7e70aadd6598a9dff87"
+    },
+    {
+      "path": "scripts/verify-secret-scan.sh",
+      "size": 1654,
+      "mtime_ns": 1792040795039478350,
+      "kind": "file",
+      "sha256": "42b07cc485266537e6872bb662d1de442ce473f8dff10f337870fd015e1b3271"
+    },
+    {
+      "path": "scripts/verify-session-authority.sh",
+      "size": 9535,
+      "mtime_ns": 1792007696405163095,
+      "kind": "file",
+      "sha256": "f9ad795664e5ee9b63d24650d9157e8720ad6bd4b18f348488534cc515929f53"
+    },
+    {
+      "path": "scripts/verify-web-session.sh",
+      "size": 19441,
+      "mtime_ns": 1792024442476292374,
+      "kind": "file",
+      "sha256": "b28ee66f24c51c1ab24e60c580beb5234dfb0cff325d53429189d359b751ef1f"
+    },
+    {
+      "path": "server/mvnw",
+      "size": 11790,
+      "mtime_ns": 1757308868000000000,
+      "kind": "file",
+      "sha256": "cae96cef89ebea3531221f4ae17c23cf8edf67d00eae8306d4186ae1bbed4d02"
+    },
+    {
+      "path": "server/mvnw.cmd",
+      "size": 8481,
+      "mtime_ns": 1757308868000000000,
+      "kind": "file",
+      "sha256": "46eedb8419bd14fe70d5bb2916d7b6f51806e51b39d5b76a42610384ca929c1c"
+    },
+    {
+      "path": "server/pom.xml",
+      "size": 3305,
+      "mtime_ns": 1792019719180178528,
+      "kind": "file",
+      "sha256": "823884f93df974f5a6f865d5ef52676fc314aa9bfa43f057965aa5c36ed7bbea"
+    },
+    {
+      "path": "server/.mvn/wrapper/maven-wrapper.properties",
+      "size": 168,
+      "mtime_ns": 1791996929596233004,
+      "kind": "file",
+      "sha256": "e475c49e0cb54793fef372f979672f56bfe7d272b981ad6f5ebd5e50e08ee1dd"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/IamApplication.java",
+      "size": 579,
+      "mtime_ns": 1792004744202962429,
+      "kind": "file",
+      "sha256": "d8abbb6f037000c39f431418c4eeb36e07776ad868561f1cdd0777a525064167"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/AdminSupport.java",
+      "size": 6170,
+      "mtime_ns": 1792013119817920226,
+      "kind": "file",
+      "sha256": "a6206ae61cfdfb0c9a042a72860582b73af1b29fa1829a40605c03d148df420b"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/AuditAdminController.java",
+      "size": 1483,
+      "mtime_ns": 1792018924819545514,
+      "kind": "file",
+      "sha256": "b9815c06681ab9956e2fc6f11ced9f368602af2283b3d5697a4a73dd440279bc"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/AuditAdminService.java",
+      "size": 5006,
+      "mtime_ns": 1792012893346939336,
+      "kind": "file",
+      "sha256": "17574b8fdf4580d1e4b8bbe5bd64dfac61e87b2890dad3657a51886b72f413be"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/RoleAdminController.java",
+      "size": 3508,
+      "mtime_ns": 1792018905532764971,
+      "kind": "file",
+      "sha256": "7ae57a9d04443c062970dd28d6635fdbdae2c26583d2f16fb4fe629ad3db6e13"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/RoleAdminService.java",
+      "size": 16219,
+      "mtime_ns": 1792015623003492737,
+      "kind": "file",
+      "sha256": "4c7f2b802811cfd731f43f2d6d197520ed02343395c5e8c1e153676f39365a4d"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/TenantAdminController.java",
+      "size": 6430,
+      "mtime_ns": 1792018859754491205,
+      "kind": "file",
+      "sha256": "10a6400dd246bbcbab65588e3992a761ffb5ac642ad4ef21c0832ebc0e924aab"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/TenantAdminService.java",
+      "size": 31362,
+      "mtime_ns": 1792014409617346179,
+      "kind": "file",
+      "sha256": "aa518b9a9b2f06281b005e5f6778fc81c28de2b8cde4cd3629df8579a1c23ee4"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/UserAdminController.java",
+      "size": 3447,
+      "mtime_ns": 1792018859821551379,
+      "kind": "file",
+      "sha256": "8ddaed98c2f7860e1fd2406b17577de08e7d5e951699c7debbb64697c45bda51"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/UserAdminService.java",
+      "size": 13152,
+      "mtime_ns": 1792013873938929770,
+      "kind": "file",
+      "sha256": "662c25ee97da841620ae73e8a4e192d839b23f05d2dd8e7ca4ffbcff6ef41f29"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/admin/dto/AdminDtos.java",
+      "size": 5012,
+      "mtime_ns": 1792012757191897212,
+      "kind": "file",
+      "sha256": "abb1ecee9b6969d91624c6194a14f3af44418c5917aca4dd86b245197dd7a9fa"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/auth/AuthController.java",
+      "size": 4306,
+      "mtime_ns": 1792004743856676865,
+      "kind": "file",
+      "sha256": "f275541e7331668bbf30cade625976c282e3706963dff9a56b702191de920c68"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/auth/AuthoritySnapshot.java",
+      "size": 2143,
+      "mtime_ns": 1792004743896643942,
+      "kind": "file",
+      "sha256": "a3aa37519dbf5a727fe2064241d1b10c9bb46398f99b56761f3485502784765a"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/auth/BootstrapRunner.java",
+      "size": 5750,
+      "mtime_ns": 1792018957914376475,
+      "kind": "file",
+      "sha256": "abcc3b66bb7f77ad3b4a7f39c989a866e7ba0a0b492d1e516498b0d152895289"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/auth/CurrentSession.java",
+      "size": 376,
+      "mtime_ns": 1792004743964988934,
+      "kind": "file",
+      "sha256": "92df44c33a4a567a53fec79bba04c07fcc048a4dd42c29b05241c8676316d78c"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/auth/IdentityAssembler.java",
+      "size": 6357,
+      "mtime_ns": 1792008912165205232,
+      "kind": "file",
+      "sha256": "04f53c19a508e74d0494b7a1070175b9bfc9b49ea0d723a3919e9b9954fa4eed"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/auth/OutboxRelay.java",
+      "size": 3444,
+      "mtime_ns": 1792005251338703869,
+      "kind": "file",
+      "sha256": "9377919e5ef82cdd862f0b4fa1b045c6d30afcd831f7851ba921c8ac5d97a842"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/auth/SessionService.java",
+      "size": 26169,
+      "mtime_ns": 1792018488214046679,
+      "kind": "file",
+      "sha256": "92333de30bca1d95d37c1b13cfe30b263e79af38e0b1adecd50a6d50dda487c0"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/auth/dto/AuthRequests.java",
+      "size": 1041,
+      "mtime_ns": 1792004743987948377,
+      "kind": "file",
+      "sha256": "a44e0795c7c6e5c8eeadffdeb55f1d7474bf84c070302d3fc17158ea3806b907"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/auth/dto/IdentityResponse.java",
+      "size": 1678,
+      "mtime_ns": 1792004744000262872,
+      "kind": "file",
+      "sha256": "5aeb5cf64289efc9497bf90265d25183f0bb7999f01e836b06eb9833c3b2fdfe"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/config/IamProperties.java",
+      "size": 2654,
+      "mtime_ns": 1792017782535956752,
+      "kind": "file",
+      "sha256": "d040fd7e9340a9d1e0b88cace650c4a91d85edc9166ae2af209604b4f5eb0295"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/config/RedisConfig.java",
+      "size": 1300,
+      "mtime_ns": 1792004744155274038,
+      "kind": "file",
+      "sha256": "03f281a7184275d907a0fd4118c994496c88072acb34fe4978a946e0cc7d5afb"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/config/SaTokenConfiguration.java",
+      "size": 478,
+      "mtime_ns": 1792004744166609822,
+      "kind": "file",
+      "sha256": "a3a43d5e9d09cbc8eb408f35443ccb4c21bf790e584b6022ec872eeb34c8bccf"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/config/WebMvcConfiguration.java",
+      "size": 2579,
+      "mtime_ns": 1792018843879030522,
+      "kind": "file",
+      "sha256": "79d1227fc7223df4cc61c2c2c622b7ce337f9fdb8673a63b146424e9d8a319c9"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/internal/InternalApiController.java",
+      "size": 2152,
+      "mtime_ns": 1792009048325439361,
+      "kind": "file",
+      "sha256": "fac2b9662b710551f4cdf9d182aa02f87fa39749f103916cd17b324a6f627bab"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/internal/IntrospectionService.java",
+      "size": 16299,
+      "mtime_ns": 1792011139391818523,
+      "kind": "file",
+      "sha256": "23d9e8301e1ec5d5b6346b5d4707299c67b367a3db6cf306e40236bda7c1f10c"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/internal/RuntimeTicketService.java",
+      "size": 8236,
+      "mtime_ns": 1792009031107784266,
+      "kind": "file",
+      "sha256": "ae4bc4b4c692be78f12a51c3a39da352f6b81fbbb95319f54cc03b34e5abf9e9"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/internal/dto/InternalDtos.java",
+      "size": 3006,
+      "mtime_ns": 1792009376252339573,
+      "kind": "file",
+      "sha256": "17cb89374344c1af3fcb734b917fd54765f03a7ef8d3af7c7a54bbdeb9ed9716"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/internal/InternalClient.java",
+      "size": 636,
+      "mtime_ns": 1792008476746247321,
+      "kind": "file",
+      "sha256": "098725ebcb0a6863c601e2f8b1f62906de16e39fb30e3e72a9e557cd68cd5eeb"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/internal/InternalClientAuthenticator.java",
+      "size": 3789,
+      "mtime_ns": 1792009763095941456,
+      "kind": "file",
+      "sha256": "b3b00a8a7713c84dee14fe54791cba52e2b98a7a2ba5f09ceb5dd75bef058430"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/internal/InternalClientInterceptor.java",
+      "size": 2045,
+      "mtime_ns": 1792008577593310596,
+      "kind": "file",
+      "sha256": "ea0de1bed894417fcf042777dee55816221f458cd15c47c3f83458002aae48dd"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/internal/RateLimiter.java",
+      "size": 2565,
+      "mtime_ns": 1792008529558605801,
+      "kind": "file",
+      "sha256": "9702d9143d487ac6f44db3be5bfe9adc49c5c50255c08d8eb0819613926e2c93"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/password/PasswordHasher.java",
+      "size": 2350,
+      "mtime_ns": 1792012456657867705,
+      "kind": "file",
+      "sha256": "6230097089fe292416f71fbf4e074b65d2a620ddfd29e7694d791d7a9ad25426"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/rt/RtV1Body.java",
+      "size": 445,
+      "mtime_ns": 1792004744258125884,
+      "kind": "file",
+      "sha256": "6d67b70d29e777b933e8f09be0799f36a49bafe2b14faa28ea8cfcb1dd85a0a0"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/rt/RtV1Codec.java",
+      "size": 12400,
+      "mtime_ns": 1792004744276499271,
+      "kind": "file",
+      "sha256": "8b9e27dc663a690a43e698815bed220c923166d34f746e748e3cb633d6f55a4e"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/rt/RtV1VerifyResult.java",
+      "size": 344,
+      "mtime_ns": 1792004744288550390,
+      "kind": "file",
+      "sha256": "5fde79838b622b66c5e39a5560afcc44424a4df8119a45b8a3aa706acb0f3d5b"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/satoken/DigestStpLogic.java",
+      "size": 1961,
+      "mtime_ns": 1792020211258942526,
+      "kind": "file",
+      "sha256": "caec1314f42762ea1b00ff1207dc3d731d3ebd49fc580c33fd38d13a766e0abd"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/security/token/OpaqueTokens.java",
+      "size": 1543,
+      "mtime_ns": 1792004744334103442,
+      "kind": "file",
+      "sha256": "cfca069626963d14327404ac2265e346f0e59ca06e92441046d320f30e1cf220"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/serviceaccount/ServiceAccountAdminController.java",
+      "size": 3890,
+      "mtime_ns": 1792018859764961851,
+      "kind": "file",
+      "sha256": "c454d002c01770c617448534ff6ab8e70b0204c4a9f64d372908d6f41714e7ad"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/serviceaccount/ServiceAccountService.java",
+      "size": 20909,
+      "mtime_ns": 1792013770314809811,
+      "kind": "file",
+      "sha256": "f5c655d110feeb503c6ce43b59956a7fc985afba3ca1ec4ef3118944404f4bf5"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/serviceaccount/dto/ServiceAccountDtos.java",
+      "size": 1867,
+      "mtime_ns": 1792012983848334482,
+      "kind": "file",
+      "sha256": "3c2f9d7b24fb7e0562395974508cb17175136df2fe493bde19a477d2d0aae37a"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/web/BearerAuthInterceptor.java",
+      "size": 2061,
+      "mtime_ns": 1792004744349870738,
+      "kind": "file",
+      "sha256": "1cc1a8d072a829d2b707b46badcb5a0ca1987916b6836f42a15e09825d5fb64f"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/web/HealthController.java",
+      "size": 1751,
+      "mtime_ns": 1792004744409396372,
+      "kind": "file",
+      "sha256": "4c04390810cada45f40063c48b8ccaed9317481f7d58e5a218c9683e1ca49361"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/web/RequestIdFilter.java",
+      "size": 1307,
+      "mtime_ns": 1792004744424977252,
+      "kind": "file",
+      "sha256": "cb6535be1c7666196995e9425328fe362d50dda655244664f4ccd0410a6110cd"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/web/error/ApiException.java",
+      "size": 1583,
+      "mtime_ns": 1792004744362604651,
+      "kind": "file",
+      "sha256": "97ec4273ae8f096c442acbd7303d8e5ce73b72daadb76e069a8d70856e079e7a"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/web/error/ErrorEnvelope.java",
+      "size": 401,
+      "mtime_ns": 1792004744379495451,
+      "kind": "file",
+      "sha256": "59b3349b0f14b7b6b4f76865b48f613d66e79b3f43fcedb9208028a02e1a5090"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/web/error/GlobalExceptionHandler.java",
+      "size": 4547,
+      "mtime_ns": 1792019150148008172,
+      "kind": "file",
+      "sha256": "e8786876a71ed8ae2ed4af6fc831edb8cbb33ccb4a93d58a3795b9c9273ae271"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/web/error/PgErrorTranslator.java",
+      "size": 2475,
+      "mtime_ns": 1792014365776503439,
+      "kind": "file",
+      "sha256": "911edbc3fc38004602549bd8c62d6a27f6b3b2a071c16454a0e10c978b041784"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/BrowserHandleRow.java",
+      "size": 675,
+      "mtime_ns": 1792018123840244205,
+      "kind": "file",
+      "sha256": "4343a2f5e4f395e0693814b620373e5a76e48528d4dfac98cccf3835bc0eb7ee"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/BrowserSessionInterceptor.java",
+      "size": 3376,
+      "mtime_ns": 1792018275296296804,
+      "kind": "file",
+      "sha256": "74352423790802e07c385072c874b81f9f3c07b58727290b5a304f3c4be32479"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/BrowserSessionService.java",
+      "size": 4405,
+      "mtime_ns": 1792019884369462812,
+      "kind": "file",
+      "sha256": "e4afcdb5c243655f5708db6794b4e1564a06c48ef054a1710021d8fbdf5378c1"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/CsrfOriginInterceptor.java",
+      "size": 4140,
+      "mtime_ns": 1792019175830595656,
+      "kind": "file",
+      "sha256": "1f47a286ec453a6443df73386a3830ea35b9e7787de0d9165fa9a36608893750"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/MenuCatalog.java",
+      "size": 4484,
+      "mtime_ns": 1792020006365449660,
+      "kind": "file",
+      "sha256": "3b3218bda6dc916040a0ef14667ae00e591a29bcd983f49c5d195a74b9f59d63"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/SpaController.java",
+      "size": 2749,
+      "mtime_ns": 1792020370585567870,
+      "kind": "file",
+      "sha256": "451bbb3adbcf295ee72105976dd2b32c67720df5c987e1909485cf7510b944ba"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/StaticUiConfiguration.java",
+      "size": 2780,
+      "mtime_ns": 1792023394088576899,
+      "kind": "file",
+      "sha256": "0726dc2e57d6c3629ee11723095083d4d1191edf37e2e23602cadc3eb369c99a"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/WebApiAuthController.java",
+      "size": 8874,
+      "mtime_ns": 1792024634096186012,
+      "kind": "file",
+      "sha256": "2c265e97c69ff230711f92a915e7618622b5068a2c2e9af581bd3364d6c97623"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/WebApiDtos.java",
+      "size": 688,
+      "mtime_ns": 1792018333311730293,
+      "kind": "file",
+      "sha256": "be9c5629c182cac1cd8aeb1a6286a9ed895cffb15038fa39198b9a6ada2fc07b"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/WebCookies.java",
+      "size": 2662,
+      "mtime_ns": 1792018143660308926,
+      "kind": "file",
+      "sha256": "b19c428f9e686b0ad6129c7ae5d9d25644c039983070c4319462f34b11316c34"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoAuthorizeService.java",
+      "size": 6277,
+      "mtime_ns": 1792020490239296512,
+      "kind": "file",
+      "sha256": "55150bfe3c393fbee5abe7290d418513ba5bf5dc556de5e951cb48fc070a9fcf"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoClientAuthenticator.java",
+      "size": 3619,
+      "mtime_ns": 1792018458150961143,
+      "kind": "file",
+      "sha256": "7ec1f92d69945bfe48bec77172cc6c291f06c899202323ea4a78acf54abae8d6"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoClientView.java",
+      "size": 340,
+      "mtime_ns": 1792018433363957313,
+      "kind": "file",
+      "sha256": "9c60fb650b79f7e4fc093eb331f3b5de7fed6f9177a2b57af3563cc06c0d466a"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoController.java",
+      "size": 1687,
+      "mtime_ns": 1792018605969052210,
+      "kind": "file",
+      "sha256": "cd412c1491faffcf14fb9c01af4faa77f1ce5f268c70e992e6b19774afb4fd43"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoDtos.java",
+      "size": 314,
+      "mtime_ns": 1792018502401843133,
+      "kind": "file",
+      "sha256": "1ac2b3e655740c55cf70e550ae869b8161631e16b07bebfb4a892640ad55eb67"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoExchangeController.java",
+      "size": 1222,
+      "mtime_ns": 1792018539248454896,
+      "kind": "file",
+      "sha256": "5140330be54c124916f28e6e462de3c38ac780c929d644bf0a2d95fd99782c96"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoExchangeInterceptor.java",
+      "size": 1371,
+      "mtime_ns": 1792018475703897023,
+      "kind": "file",
+      "sha256": "eef11442b4d3865e5eaaaf47cc6f11419dd7510e013ec070491b5e25e27e3e6d"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoExchangeService.java",
+      "size": 3413,
+      "mtime_ns": 1792018525707136749,
+      "kind": "file",
+      "sha256": "856914f1e7722ddb5872c40761e9625cc03a44ce96818a6c924abb579a5d15f4"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/synthetic/SyntheticBffController.java",
+      "size": 11035,
+      "mtime_ns": 1792020924144449083,
+      "kind": "file",
+      "sha256": "8d91312a7d5d27c7e6f84b351172de5c47c0749f2e856c4f4673ec0000e88f5b"
+    },
+    {
+      "path": "server/src/main/java/com/airagent/iam/webapi/synthetic/SyntheticSessionStore.java",
+      "size": 1420,
+      "mtime_ns": 1792018645442702067,
+      "kind": "file",
+      "sha256": "7934b6d11c3f1cd49ff67adce72580548bc00450972e94fb3706e4f86f408de9"
+    },
+    {
+      "path": "server/src/main/resources/application.yml",
+      "size": 4298,
+      "mtime_ns": 1792023477934378068,
+      "kind": "file",
+      "sha256": "3d778dd2ae2dd4d26c699caf8cdbe572b32e2abe19ed954099e10c7876e45b72"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V10__browser_sso_functions.sql",
+      "size": 6808,
+      "mtime_ns": 1792016350689292679,
+      "kind": "file",
+      "sha256": "19ba258a50cd2abe17726a4447efcb744f6310ffa942f4db12f2ecc8bbd66db4"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V11__sso_clients_and_mint.sql",
+      "size": 4926,
+      "mtime_ns": 1792017557797328506,
+      "kind": "file",
+      "sha256": "39a2457ae8fc95d2e034339323b7b44ad0c800a6a2763fdbb8d9ac32095bf2a9"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V1__identity_schema.sql",
+      "size": 35868,
+      "mtime_ns": 1792004744464468535,
+      "kind": "file",
+      "sha256": "186949a03bf96e7ce0fb15cd27bdb1a2869951003a86a997e096630ff2ca083f"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V2__seed_catalog.sql",
+      "size": 5236,
+      "mtime_ns": 1792004744479245370,
+      "kind": "file",
+      "sha256": "aac46c54c4b4def9d43fab5bd5067c09112074ba1304904a20dce3511f65ec6a"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V3__session_revisions_and_authority.sql",
+      "size": 14536,
+      "mtime_ns": 1792004744491936200,
+      "kind": "file",
+      "sha256": "0736f7804317503ffc329691e5576f6ce99c9cb8c5fe5c994fe15b8ce5f6b0c8"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V4__audit_and_bootstrap.sql",
+      "size": 2271,
+      "mtime_ns": 1792004744498360760,
+      "kind": "file",
+      "sha256": "72b3384609ec64a1328ed8188646f64acc62155e3d806c28cf81f1e419297ea6"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V5__bootstrap_platform_context.sql",
+      "size": 1816,
+      "mtime_ns": 1792005067930106920,
+      "kind": "file",
+      "sha256": "05bfc9f8d4474a9594d46ae95f411c65079e9ea30061d1cd178181c0e3628192"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V6__drop_auth_sessions_touch_trigger.sql",
+      "size": 373,
+      "mtime_ns": 1792005584186335892,
+      "kind": "file",
+      "sha256": "3df428aa3f94813e3bcabd2949d345d3470b9bedce7261289e6fac5d0329bb3d"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V7__internal_clients_and_service_principals.sql",
+      "size": 11766,
+      "mtime_ns": 1792010507222235542,
+      "kind": "file",
+      "sha256": "6078d8ec35579f44b1bb0ae726989be171345f920652c42acca4adc71a12c972"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V8__service_token_listing.sql",
+      "size": 1033,
+      "mtime_ns": 1792014391322917467,
+      "kind": "file",
+      "sha256": "9021047abdb22e948f9ef99e80c52bf6919c7179be53ee01966d654d4355388a"
+    },
+    {
+      "path": "server/src/main/resources/db/migration/V9__member_user_brief.sql",
+      "size": 1084,
+      "mtime_ns": 1792014391393913203,
+      "kind": "file",
+      "sha256": "3d912d0449284d7ab6a6f307acefa670d49969e170e31fc2f75913e8139cbb7f"
+    },
+    {
+      "path": "server/src/main/resources/static/demo/agent/index.html",
+      "size": 2763,
+      "mtime_ns": 1792020616416040241,
+      "kind": "file",
+      "sha256": "2cdab56eddfadf3b75e4f524e2522f1575c1f958ba5e146219e5ccd28943c94a"
+    },
+    {
+      "path": "server/src/main/resources/static/demo/kb/index.html",
+      "size": 2626,
+      "mtime_ns": 1792020640273381103,
+      "kind": "file",
+      "sha256": "7b4f22bac7d19b54e5352c2de4baef6800479ac31b0e4e2a47d77770a3a7d1ed"
+    },
+    {
+      "path": "server/src/test/java/com/airagent/iam/admin/AdminApiIntegrationTest.java",
+      "size": 29923,
+      "mtime_ns": 1792014166725569089,
+      "kind": "file",
+      "sha256": "32948cdd238d4d7854b4a949d7c0bc1f0d6ee059bc58f2bde42d2f5f41116e74"
+    },
+    {
+      "path": "server/src/test/java/com/airagent/iam/auth/SessionAuthorityIntegrationTest.java",
+      "size": 29971,
+      "mtime_ns": 1792007207643467652,
+      "kind": "file",
+      "sha256": "d8862bc8597e6b7c7c5fc96955f7d4511356fb4f1fa5abe1f30353ae4fbcde35"
+    },
+    {
+      "path": "server/src/test/java/com/airagent/iam/db/DbIsolationIntegrationTest.java",
+      "size": 29358,
+      "mtime_ns": 1792004744510353463,
+      "kind": "file",
+      "sha256": "6cb9c63f0fd0ddd85efe76909b355be6dbbc1bf000ca3a0c7a73691eea30ad06"
+    },
+    {
+      "path": "server/src/test/java/com/airagent/iam/internal/InternalClientIntegrationTest.java",
+      "size": 38410,
+      "mtime_ns": 1792011159190537428,
+      "kind": "file",
+      "sha256": "b3b02fb77f5a333bd90fb5e9775c88fd135c42c6250f51a3948f2f5c46cfb91c"
+    },
+    {
+      "path": "server/src/test/java/com/airagent/iam/security/CrossLanguageVectorTest.java",
+      "size": 9506,
+      "mtime_ns": 1792004744524516671,
+      "kind": "file",
+      "sha256": "e65a6cd78e0fa6c9e4ed0636439128cd621e8cb7b79f5ecd18a38781ef527f63"
+    },
+    {
+      "path": "server/src/test/java/com/airagent/iam/security/internal/RateLimitIntegrationTest.java",
+      "size": 6089,
+      "mtime_ns": 1792010236391650971,
+      "kind": "file",
+      "sha256": "c39dcffecf6d590838d276a9cd23e8f26ffa0c11a7ff66e607f6f183c2af3d5b"
+    },
+    {
+      "path": "server/src/test/java/com/airagent/iam/webapi/BrowserSessionIntegrationTest.java",
+      "size": 24937,
+      "mtime_ns": 1792020348888474811,
+      "kind": "file",
+      "sha256": "c8e9b42f1038220a8213e0f3a966df4ccf43cd956c123849d3188895caeabf62"
+    },
+    {
+      "path": "server/src/test/resources/application-it.yml",
+      "size": 925,
+      "mtime_ns": 1792009505772908792,
+      "kind": "file",
+      "sha256": "f4e11d73eb155e80a51699c06a8238067d253c1a179757980107028baaf7e807"
+    },
+    {
+      "path": "server/src/test/resources/it-ui/index.html",
+      "size": 155,
+      "mtime_ns": 1792019308888931570,
+      "kind": "file",
+      "sha256": "3c1d2aebd03ec56877b6a827adf0bc1b5fe7ec4796f23ec7a6a11fe654edde57"
+    },
+    {
+      "path": "tools/perf_introspection.py",
+      "size": 5438,
+      "mtime_ns": 1792039747421914262,
+      "kind": "file",
+      "sha256": "2992b4a6497f7198f8d9ec6a04b08a174dee326eeb0dd1ea9028498d75b11a45"
+    },
+    {
+      "path": "tools/bcrypt-vectors/bcrypt_vectors.py",
+      "size": 3711,
+      "mtime_ns": 1792004744578923165,
+      "kind": "file",
+      "sha256": "b26dac21eb777726b9be642040c1d5deee7c4ae3caaf05701e1c74881c57d061"
+    },
+    {
+      "path": "tools/bcrypt-vectors/out/bcrypt-py-vectors.json",
+      "size": 2059,
+      "mtime_ns": 1792046097897841407,
+      "kind": "file",
+      "sha256": "0e35c5d34674e182b0af917d1b7b186b4cb3e9c3ee8148ff3829982a3d9d9896"
+    },
+    {
+      "path": "tools/rt-v1/rt_v1.py",
+      "size": 7022,
+      "mtime_ns": 1792004744593148124,
+      "kind": "file",
+      "sha256": "70344eb3fd31e15e3c7a2bc23716c696cbe05b0857c2e3b8f41897ff9df0b7b7"
+    },
+    {
+      "path": "tools/rt-v1/out/rt-v1-py-vectors.json",
+      "size": 3925,
+      "mtime_ns": 1792046097932437890,
+      "kind": "file",
+      "sha256": "be837abd5142892fe1a85e80f1a7e5c642bd714e85458f27775964c222d3ef61"
+    },
+    {
+      "path": "web/env.d.ts",
+      "size": 228,
+      "mtime_ns": 1792021914510153199,
+      "kind": "file",
+      "sha256": "f67fd0ef7641e43eb0fc3245c1b583d66c8477bd2fe81e102333f4dac2378156"
+    },
+    {
+      "path": "web/index.html",
+      "size": 399,
+      "mtime_ns": 1792021890577815403,
+      "kind": "file",
+      "sha256": "80b0858411e35de382e903a847610a40b22745c470a90556f6e00110a14e1704"
+    },
+    {
+      "path": "web/package-lock.json",
+      "size": 108935,
+      "mtime_ns": 1792021883442114541,
+      "kind": "file",
+      "sha256": "f7fccb5cc9f45e6dc92d3a6c06a53ab224f4684994ae3f806f92d1c95a2097f0"
+    },
+    {
+      "path": "web/package.json",
+      "size": 1011,
+      "mtime_ns": 1792023341811022711,
+      "kind": "file",
+      "sha256": "086b6ab34f66f9101bc6cf932e2b2296001a12310f26c0ccde8184cd3f9285b5"
+    },
+    {
+      "path": "web/tsconfig.json",
+      "size": 696,
+      "mtime_ns": 1792023112765869385,
+      "kind": "file",
+      "sha256": "8baad1477f928702b952225511520576af8a57f0dd895b00fd5c57f3a00cfd6b"
+    },
+    {
+      "path": "web/vite.config.ts",
+      "size": 916,
+      "mtime_ns": 1792021858646610034,
+      "kind": "file",
+      "sha256": "a2f8212fe9c92018b5d55b273acd5c872365bb36b05f35bf18f77e2011786e1a"
+    },
+    {
+      "path": "web/public/favicon.svg",
+      "size": 340,
+      "mtime_ns": 1792021903659865661,
+      "kind": "file",
+      "sha256": "790eaed1d95c6bf82410ad5fb8f0daf7dcad6641ee9f619fe33e2241b5885ae5"
+    },
+    {
+      "path": "web/src/App.vue",
+      "size": 1078,
+      "mtime_ns": 1792045141836086330,
+      "kind": "file",
+      "sha256": "56c7611660da0fe5803095c9d07cadf0a2863413be206e536f5d55466243c0e9"
+    },
+    {
+      "path": "web/src/main.ts",
+      "size": 754,
+      "mtime_ns": 1792022248343987106,
+      "kind": "file",
+      "sha256": "0a9a868000012cb492215f602354b330e5307ba2e8b845a8227f26b92d9b4948"
+    },
+    {
+      "path": "web/src/api/endpoints.ts",
+      "size": 7382,
+      "mtime_ns": 1792044256812775120,
+      "kind": "file",
+      "sha256": "8820035fb6a3ededb31526908890df75d37012bcec2a96450f2607ebcfaddddb"
+    },
+    {
+      "path": "web/src/api/http.ts",
+      "size": 3911,
+      "mtime_ns": 1792022024312246671,
+      "kind": "file",
+      "sha256": "4bf636fc23dce21ae72dbe98dd345e87f4a25cdcea2e9e9241d8c286b80a8b6d"
+    },
+    {
+      "path": "web/src/api/scope.spec.ts",
+      "size": 3800,
+      "mtime_ns": 1792023041334464208,
+      "kind": "file",
+      "sha256": "b370468376d3fa9546d447a15776f37925807cd460b9b838db51c0a0508b76c7"
+    },
+    {
+      "path": "web/src/api/scope.ts",
+      "size": 1008,
+      "mtime_ns": 1792022041595539327,
+      "kind": "file",
+      "sha256": "807a6d2ea3e609a30e0c8867db2d60926bd79cecf82d6ae074092ef0836d4d07"
+    },
+    {
+      "path": "web/src/api/types.ts",
+      "size": 3912,
+      "mtime_ns": 1792044238455676177,
+      "kind": "file",
+      "sha256": "6d459bdaf0e426287f96a730648cf25cc1666dde666d20cad0e249838734a0f8"
+    },
+    {
+      "path": "web/src/components/CursorPager.vue",
+      "size": 751,
+      "mtime_ns": 1792022589178740631,
+      "kind": "file",
+      "sha256": "cbf595a869fd4fe03a8b64c641f95a8aa8745faf19dabbd623dbc9714489ef68"
+    },
+    {
+      "path": "web/src/components/RoleEditDialog.vue",
+      "size": 4511,
+      "mtime_ns": 1792045119676870277,
+      "kind": "file",
+      "sha256": "5b9f9013815c6e9ce70cd8cb648940be10b5166164c1f64c720efbd9e64ffb10"
+    },
+    {
+      "path": "web/src/composables/usePagedList.spec.ts",
+      "size": 2909,
+      "mtime_ns": 1792039051637153089,
+      "kind": "file",
+      "sha256": "a9903744a0979f726d6907e8d4f7f009166e66fd90f0132b0ac0b4a8e22b1e8f"
+    },
+    {
+      "path": "web/src/composables/usePagedList.ts",
+      "size": 2700,
+      "mtime_ns": 1792022576605886782,
+      "kind": "file",
+      "sha256": "aacd8394c329ae6c548f138d84738bc59cb7bc550c1d800dee99dcacf91aa398"
+    },
+    {
+      "path": "web/src/layouts/AdminLayout.vue",
+      "size": 9003,
+      "mtime_ns": 1792044287405673540,
+      "kind": "file",
+      "sha256": "d4a783b77669c50be6ccd2623e99b96ff1e2cbde13fc84a3b8169e09eca83376"
+    },
+    {
+      "path": "web/src/router/index.ts",
+      "size": 4290,
+      "mtime_ns": 1792022235337773785,
+      "kind": "file",
+      "sha256": "7e98bcb721aa946c0bc176fcbc8d1a38d1d512bad9a9c7bfa81f30fc4442fede"
+    },
+    {
+      "path": "web/src/stores/auth.spec.ts",
+      "size": 4634,
+      "mtime_ns": 1792044537895065864,
+      "kind": "file",
+      "sha256": "a12529c94cb9e56cf6852ae65eab702bb62d52044927083716448f67cc1aaeb1"
+    },
+    {
+      "path": "web/src/stores/auth.ts",
+      "size": 5276,
+      "mtime_ns": 1792044470598667852,
+      "kind": "file",
+      "sha256": "c9dc7a0d4a1c51dafa9e26b7b9a40540b0b99cb03d0b8a5e2e2a7b6b0eee8dcd"
+    },
+    {
+      "path": "web/src/views/AuditView.vue",
+      "size": 4315,
+      "mtime_ns": 1792044343253378091,
+      "kind": "file",
+      "sha256": "8aef35920b4e7659bc410e837a238be03defb74311ba5aa238d9bc1b047c0871"
+    },
+    {
+      "path": "web/src/views/DashboardView.vue",
+      "size": 2401,
+      "mtime_ns": 1792023227539596888,
+      "kind": "file",
+      "sha256": "313edd51b2e01b89ca40b39f0eb4cfbb7ce15edbd34de04effe43e2e9ddfee1a"
+    },
+    {
+      "path": "web/src/views/ForbiddenView.vue",
+      "size": 638,
+      "mtime_ns": 1792022495956536937,
+      "kind": "file",
+      "sha256": "5a7c4db9fb7c87cfbebfe94f57431883c90151b3fcb1a169d66521e3ab9f4103"
+    },
+    {
+      "path": "web/src/views/LoginView.spec.ts",
+      "size": 3706,
+      "mtime_ns": 1792038923708570823,
+      "kind": "file",
+      "sha256": "081faa098505f8e6b6ced94d7243bf7adc432a878c4b7c222b247ddb25f28cd3"
+    },
+    {
+      "path": "web/src/views/LoginView.vue",
+      "size": 4745,
+      "mtime_ns": 1792024070035929802,
+      "kind": "file",
+      "sha256": "14498d78774f3597d194c1358bfa1d438b095b1aae4390edd619f01c4171fcf9"
+    },
+    {
+      "path": "web/src/views/NotFoundView.vue",
+      "size": 658,
+      "mtime_ns": 1792022507079435528,
+      "kind": "file",
+      "sha256": "4211bf8d7d8ebe2534317080bbd74f010690235fe4ac8833b535a0aaf552a912"
+    },
+    {
+      "path": "web/src/views/ProfileView.vue",
+      "size": 6066,
+      "mtime_ns": 1792044287448144006,
+      "kind": "file",
+      "sha256": "fc55e8ad837eb45ad9813f1f686380b0433a30bcca45495df704b16648097110"
+    },
+    {
+      "path": "web/src/views/platform/PlatformRolesView.vue",
+      "size": 2801,
+      "mtime_ns": 1792022739958354846,
+      "kind": "file",
+      "sha256": "ce23bba26f828b438e1084cfe961a8b75fc6400eb44c65611eacd1d4c79302bf"
+    },
+    {
+      "path": "web/src/views/platform/PlatformTenantsView.vue",
+      "size": 5584,
+      "mtime_ns": 1792045119536290832,
+      "kind": "file",
+      "sha256": "14c0d34e1c054ba71bc4747d08f71233486c6f26ac27b2d806197ca6b9dd8fa1"
+    },
+    {
+      "path": "web/src/views/platform/PlatformUsersView.vue",
+      "size": 10375,
+      "mtime_ns": 1792045119749416484,
+      "kind": "file",
+      "sha256": "31b68cf473c05d29f009e77dd699fdd1cd03e76611e9a46b3119ae91d73fec2b"
+    },
+    {
+      "path": "web/src/views/platform/ServiceAccountsView.vue",
+      "size": 11364,
+      "mtime_ns": 1792045119537160251,
+      "kind": "file",
+      "sha256": "b0798da68d40e9ac3e684169a5370e56f9cb27f30713b6b93b0ed1a93951ece8"
+    },
+    {
+      "path": "web/src/views/tenant/TenantDepartmentsView.vue",
+      "size": 7035,
+      "mtime_ns": 1792045119652064497,
+      "kind": "file",
+      "sha256": "c6770132efe85f319a70bf9450156215308741a6ac6e8f549670bb6b2d89398f"
+    },
+    {
+      "path": "web/src/views/tenant/TenantMembersView.vue",
+      "size": 12413,
+      "mtime_ns": 1792045119805317436,
+      "kind": "file",
+      "sha256": "d8b7a1998046b8400c35ece7436ab504451167429815b535c5e7953d1889fa9f"
+    },
+    {
+      "path": "web/src/views/tenant/TenantRolesView.vue",
+      "size": 3309,
+      "mtime_ns": 1792022781174557981,
+      "kind": "file",
+      "sha256": "fea91870bc0573f60776c4b5c22b348183b870a8ee2b701e80ad3939452b604a"
+    }
+  ],
+  "comparison": {
+    "added": [],
+    "removed": [],
+    "content_changed": [],
+    "sensitive_metadata_changed": []
+  }
+}

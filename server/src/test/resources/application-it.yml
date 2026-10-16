@@ -1,0 +1,23 @@
+spring:
+  data:
+    redis:
+      # 测试使用独立逻辑库，避免与本机运行服务的会话键交叉（不 FLUSH，不影响 DB0）
+      database: ${IAM_REDIS_TEST_DB:1}
+  datasource:
+    url: jdbc:postgresql://${IAM_PG_HOST:127.0.0.1}:${IAM_PG_PORT:19132}/iam_test?ApplicationName=iam-it&connectTimeout=3000&socketTimeout=10000&options=-c%20search_path%3Diam%2Ciam_auth
+    hikari:
+      pool-name: iam-it-hikari
+      maximum-pool-size: 1
+      minimum-idle: 0
+  flyway:
+    url: jdbc:postgresql://${IAM_PG_HOST:127.0.0.1}:${IAM_PG_PORT:19132}/iam_test?ApplicationName=iam-it-flyway
+
+# IT 自身会对同账号高频登录/核验；429 语义在独立的 RateLimitIntegrationTest 用低阈值验证
+iam:
+  rate-limit:
+    enabled: true
+    login-limit: 100000
+    internal-limit: 100000
+  rt:
+    kid: ${IAM_RT_KEYS_KID:local-it-1}
+    secret: ${IAM_RT_KEYS_SECRET:it-rt-secret-0123456789abcdef0123456789abcdef}

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/usr/local/bin/container",
+    "exec",
+    "iam-independent-20261015-5ohaeo-pg",
+    "pg_isready",
+    "-U",
+    "postgres",
+    "-d",
+    "iam"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:05:10.887443+00:00",
+  "elapsed_seconds": 0.139,
+  "exit_code": 0,
+  "stdout": "/var/run/postgresql:5432 - accepting connections\n",
+  "stderr": ""
+}

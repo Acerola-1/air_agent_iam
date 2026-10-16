@@ -1,0 +1,6 @@
+PASS stale-tab-switch-gets-real-409-conflict-bar {"bar":"企业上下文已被其他操作推进 当前页面数据可能已过期。 立即刷新上下文","tag":"UIA甲-082225（UIAA-082225）","switchStatuses":[409]}
+PASS conflict-reload-keeps-winning-context-A {"stillA":true,"barGone":true}
+PASS late-A-response-discarded-stays-B {"delayMs":3500,"afterSwitchMs":3249}
+PASS B-to-A-reloads-fresh-A-data {}
+PASS logout-discards-inflight-stays-login {"url":"http://127.0.0.1:19100/login","storage":{"ls":[],"ss":[]}}
+RESULT_JSON {"steps":[{"name":"stale-tab-switch-gets-real-409-conflict-bar","ok":true,"bar":"企业上下文已被其他操作推进 当前页面数据可能已过期。 立即刷新上下文","tag":"UIA甲-082225（UIAA-082225）","switchStatuses":[409]},{"name":"conflict-reload-keeps-winning-context-A","ok":true,"stillA":true,"barGone":true},{"name":"late-A-response-discarded-stays-B","ok":true,"delayMs":3500,"afterSwitchMs":3249},{"name":"B-to-A-reloads-fresh-A-data","ok":true},{"name":"logout-discards-inflight-stays-login","ok":true,"url":"http://127.0.0.1:19100/login","storage":{"ls":[],"ss":[]}}],"responses":[],"delayedRequestAt":1792045887866,"delayedFulfilledAt":1792045891366,"ok":true}

@@ -1,0 +1,8 @@
+{
+  "subject_token": "synthetic-opaque-token-0123456789abcdef",
+  "execution_context": {
+    "verification_ref": "55555555-5555-4555-8555-555555555555",
+    "expected_revisions": {"user_auth_revision": 0, "tenant_auth_revision": 5, "membership_revision": 3, "session_ctx_version": 7}
+  },
+  "audience": "langgraph-runtime"
+}

@@ -1,0 +1,21 @@
+# rt-v1 Python->Java 向量（由 tools/rt-v1/rt_v1.py generate 生成，Java CrossLanguageVectorTest 消费）
+PY  valid                      -> ok [OK]
+PY  wrong-audience             -> bad_audience [OK]
+PY  wrong-kid                  -> bad_kid [OK]
+PY  expired                    -> expired [OK]
+PY  wrong-secret-signature     -> bad_signature [OK]
+PY  mutated-signature          -> bad_signature [OK]
+written: /Users/acerola/Dev/Java/air_agent_iam/tools/rt-v1/out/rt-v1-py-vectors.json
+
+# rt-v1 Java->Python 反向验签（Java 测试写出 target/rt-v1-java-tokens.json）
+JAVA valid                      -> ok [OK]
+JAVA wrong-audience             -> bad_audience [OK]
+JAVA wrong-kid                  -> bad_kid [OK]
+JAVA expired                    -> expired [OK]
+JAVA wrong-secret-signature     -> bad_signature [OK]
+JAVA mutated-signature          -> bad_signature [OK]
+java tickets: checked=6 failures=0
+
+# bcrypt Java->Python 反向核验（$2b$ + 72 字节截断）
+java vectors: checked=6 failures=0
+# 2026-10-14T21:03:02Z

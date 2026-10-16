@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.admin.mapper.TenantMapper">
+    <resultMap id="TenantDO" type="com.airagent.iam.admin.entity.TenantDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="code" javaType="String"/>
+            <arg column="name" javaType="String"/>
+            <arg column="status" javaType="String"/>
+            <arg column="auth_revision" javaType="_long"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="MembershipDO" type="com.airagent.iam.admin.entity.MembershipDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="tenant_id" javaType="java.util.UUID"/>
+            <arg column="user_id" javaType="java.util.UUID"/>
+            <arg column="department_id" javaType="java.util.UUID"/>
+            <arg column="status" javaType="String"/>
+            <arg column="revision" javaType="_long"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="DepartmentDO" type="com.airagent.iam.admin.entity.DepartmentDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="tenant_id" javaType="java.util.UUID"/>
+            <arg column="parent_id" javaType="java.util.UUID"/>
+            <arg column="code" javaType="String"/>
+            <arg column="name" javaType="String"/>
+            <arg column="status" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <select id="selectTenants" resultMap="TenantDO" useCache="false">
+        SELECT id, code, name, status, auth_revision, created_at FROM iam.tenants <where><if test="afterId != null">id &gt; #{afterId}</if></where> ORDER BY id LIMIT #{fetchSize}
+    </select>
+    <select id="selectTenant" resultMap="TenantDO" useCache="false">
+        SELECT id, code, name, status, auth_revision, created_at FROM iam.tenants WHERE id = #{id}
+    </select>
+    <select id="lockTenant" resultMap="TenantDO" useCache="false">
+        SELECT id, code, name, status, auth_revision, created_at FROM iam.tenants WHERE id = #{id} FOR UPDATE
+    </select>
+    <select id="insertTenant" resultType="java.util.UUID" useCache="false" affectData="true" flushCache="true">
+        INSERT INTO iam.tenants(code, name, created_by) VALUES (#{code}, #{name}, #{actorId}) RETURNING id
+    </select>
+    <update id="updateTenant">
+        UPDATE iam.tenants SET name = COALESCE(#{name,jdbcType=VARCHAR}, name), status = COALESCE(#{status,jdbcType=VARCHAR}, status) WHERE id = #{id}
+    </update>
+    <select id="selectMembers" resultMap="MembershipDO" useCache="false">
+        SELECT id, tenant_id, user_id, department_id, status, revision FROM iam.tenant_memberships WHERE tenant_id = #{tenantId} <if test="afterId != null">AND id &gt; #{afterId}</if> ORDER BY id LIMIT #{fetchSize}
+    </select>
+    <select id="selectMembership" resultMap="MembershipDO" useCache="false">
+        SELECT id, tenant_id, user_id, department_id, status, revision FROM iam.tenant_memberships WHERE id = #{id} AND tenant_id = #{tenantId}
+    </select>
+    <select id="lockMembership" resultMap="MembershipDO" useCache="false">
+        SELECT id, tenant_id, user_id, department_id, status, revision FROM iam.tenant_memberships WHERE id = #{id} AND tenant_id = #{tenantId} FOR UPDATE
+    </select>
+    <select id="countMembership" resultType="int" useCache="false">
+        SELECT count(*) FROM iam.tenant_memberships WHERE tenant_id = #{tenantId} AND user_id = #{userId}
+    </select>
+    <select id="findUserIds" resultType="java.util.UUID" useCache="false">
+        SELECT id FROM iam.users WHERE realm = 'workforce' AND account = #{account}
+    </select>
+    <select id="insertMembership" resultType="java.util.UUID" useCache="false" affectData="true" flushCache="true">
+        INSERT INTO iam.tenant_memberships(tenant_id, user_id, department_id, created_by) VALUES (#{tenantId}, #{userId}, #{departmentId,jdbcType=OTHER}, #{actorId}) RETURNING id
+    </select>
+    <insert id="insertMemberRole">
+        INSERT INTO iam.membership_roles(tenant_id, membership_id, role_id, granted_by) VALUES (#{tenantId}, #{membershipId}, #{roleId}, #{actorId})
+    </insert>
+    <delete id="deleteMemberRoles">
+        DELETE FROM iam.membership_roles WHERE tenant_id = #{tenantId} AND membership_id = #{membershipId}
+    </delete>
+    <update id="updateMembership">
+        UPDATE iam.tenant_memberships SET department_id = #{departmentId,jdbcType=OTHER}, status = COALESCE(#{status,jdbcType=VARCHAR}, status) WHERE id = #{membershipId} AND tenant_id = #{tenantId}
+    </update>
+    <delete id="deleteMembership">
+        DELETE FROM iam.tenant_memberships WHERE id = #{membershipId} AND tenant_id = #{tenantId}
+    </delete>
+    <select id="selectDepartments" resultMap="DepartmentDO" useCache="false">
+        SELECT id, tenant_id, parent_id, code, name, status FROM iam.departments WHERE tenant_id = #{tenantId} <if test="afterId != null">AND id &gt; #{afterId}</if> ORDER BY id LIMIT #{fetchSize}
+    </select>
+    <select id="selectDepartment" resultMap="DepartmentDO" useCache="false">
+        SELECT id, tenant_id, parent_id, code, name, status FROM iam.departments WHERE id = #{id}
+    </select>
+    <select id="insertDepartment" resultType="java.util.UUID" useCache="false" affectData="true" flushCache="true">
+        INSERT INTO iam.departments(tenant_id, parent_id, code, name) VALUES (#{tenantId}, #{parentId,jdbcType=OTHER}, #{code}, #{name}) RETURNING id
+    </select>
+    <update id="updateDepartment">
+        UPDATE iam.departments SET name = COALESCE(#{name,jdbcType=VARCHAR}, name), parent_id = CASE WHEN #{replaceParent} THEN #{parentId,jdbcType=OTHER} ELSE parent_id END, status = COALESCE(#{status,jdbcType=VARCHAR}, status) WHERE id = #{id} AND tenant_id = #{tenantId}
+    </update>
+    <select id="selectTenantRoleIds" resultType="java.util.UUID" useCache="false">
+        SELECT id FROM iam.roles WHERE scope = 'tenant' AND status = 'active' AND (tenant_id IS NULL OR tenant_id = #{tenantId}) AND code IN <foreach collection="codes" item="code" open="(" separator="," close=")">#{code}</foreach>
+    </select>
+    <select id="selectMemberUser" resultMap="com.airagent.iam.admin.mapper.UserMapper.user" useCache="false">
+        SELECT user_id AS id, realm, account, display_name, status, auth_revision, created_at FROM iam_auth.member_user_brief(#{membershipId})
+    </select>
+    <select id="selectMemberRoleCodes" resultType="String" useCache="false">
+        SELECT r.code FROM iam.membership_roles mr JOIN iam.roles r ON r.id = mr.role_id WHERE mr.membership_id = #{membershipId} ORDER BY r.code
+    </select>
+</mapper>

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "npm",
+    "--version"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:04:29.999572+00:00",
+  "elapsed_seconds": 0.394,
+  "exit_code": 0,
+  "stdout": "12.2.0\n",
+  "stderr": ""
+}

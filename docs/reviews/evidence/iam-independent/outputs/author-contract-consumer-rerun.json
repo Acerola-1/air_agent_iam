@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/tmp/iam-independent-20261015-5ohAEo/venv/bin/python",
+    "contracts/consumer/protocol_consumer_test.py"
+  ],
+  "cwd": "/tmp/iam-independent-20261015-5ohAEo/source",
+  "time_utc": "2026-10-15T07:16:56.372831+00:00",
+  "elapsed_seconds": 2.421,
+  "exit_code": 0,
+  "stdout": "PASS identity-valid/i1-human-needs-tenant-selection.json\nPASS identity-valid/i1-human-needs-tenant-selection.json/semantic\nPASS identity-valid/i1-human-with-tenant.json\nPASS identity-valid/i1-human-with-tenant.json/semantic\nPASS identity-valid/inactive-account-disabled.json\nPASS identity-valid/inactive-account-disabled.json/no-leak\nPASS identity-valid/inactive-invalid-or-revoked.json\nPASS identity-valid/inactive-invalid-or-revoked.json/no-leak\nPASS identity-invalid/context-version-mismatch.json/schema-pass\nPASS identity-invalid/context-version-mismatch.json/semantic-rejected\nPASS identity-invalid/ctx-version-mismatch-session.json/schema-pass\nPASS identity-invalid/ctx-version-mismatch-session.json/semantic-rejected\nPASS identity-invalid/inactive-missing-reason.json/rejected\nPASS identity-invalid/inactive-with-identity-leak.json/rejected\nPASS identity-invalid/missing-schema-version.json/rejected\nPASS identity-invalid/non-uuid-user.json/rejected\nPASS identity-invalid/revision-bool.json/rejected\nPASS identity-invalid/revision-string.json/rejected\nPASS identity-invalid/unknown-audience.json/rejected\nPASS identity-invalid/unknown-principal-type.json/rejected\nPASS request-valid/introspect-ref.valid.json/accepted\nPASS request-valid/introspect-token.valid.json/accepted\nPASS request-invalid/introspect.both-modes.invalid.json/rejected\nPASS request-invalid/login.bad-audience.invalid.json/rejected\nPASS request-invalid/login.missing-audience.invalid.json/rejected\nPASS request-invalid/login.password-short.invalid.json/rejected\nPASS request-valid/login.valid.json/accepted\nPASS request-valid/renew.valid.json/accepted\nPASS request-invalid/runtime-ticket.bad-audience.invalid.json/rejected\nPASS request-valid/runtime-ticket.valid.json/accepted\nPASS request-valid/sso-exchange.valid.json/accepted\nPASS request-invalid/switch-tenant.revision-bool.invalid.json/rejected\nPASS request-valid/switch-tenant.valid.json/accepted\nPASS c12/inactive-envelope-no-identity\nPASS openapi/3.1/spec-valid\nPASS openapi/required-paths\n\n36 passed, 0 failed\n",
+  "stderr": ""
+}

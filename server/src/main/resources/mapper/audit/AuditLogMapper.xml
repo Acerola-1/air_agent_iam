@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.audit.mapper.AuditLogMapper">
+    <resultMap id="auditLog" type="com.airagent.iam.audit.entity.AuditLogDO">
+        <constructor>
+            <idArg column="id" javaType="_long"/>
+            <arg column="tenant_id" javaType="java.util.UUID"/>
+            <arg column="actor_user_id" javaType="java.util.UUID"/>
+            <arg column="actor_type" javaType="String"/>
+            <arg column="action" javaType="String"/>
+            <arg column="target_type" javaType="String"/>
+            <arg column="target_id" javaType="String"/>
+            <arg column="detail_json" javaType="String"/>
+            <arg column="request_id" javaType="String"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <select id="selectPage" resultMap="auditLog" useCache="false">
+        SELECT id, tenant_id, actor_user_id, actor_type, action, target_type, target_id,
+               detail::text AS detail_json, request_id, created_at
+        FROM iam.audit_logs
+        <where>
+            <if test="beforeId != null">id &lt; #{beforeId}</if>
+            <if test="actionPattern != null">AND action LIKE #{actionPattern}</if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{fetchSize}
+    </select>
+</mapper>

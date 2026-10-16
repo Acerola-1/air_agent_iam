@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python3",
+    "-m",
+    "venv",
+    "/tmp/iam-independent-20261015-5ohAEo/venv"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:05:31.763353+00:00",
+  "elapsed_seconds": 1.592,
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": ""
+}

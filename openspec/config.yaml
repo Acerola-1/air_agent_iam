@@ -1,0 +1,10 @@
+schema: spec-driven
+context: |
+  本项目是独立共享IAM服务，规划和产品界面使用中文；保留OpenSpec固定英文标记。
+  首期目标Spring Boot4 + JDK21 + Sa-Token有状态令牌，显式Redis适配，PG实时修订/撤销权威。
+  管理前端已确认Vue3 + TypeScript + Vite + Vue Router + Pinia + Element Plus；不用Next.js/React/Nuxt。
+  Spring Boot承接同源浏览器会话/CSRF/SSO回调，Vite仅为构建/开发代理，不承担服务端鉴权。
+  docs/reference为历史快照；当前Vue决定以docs/vue-admin-plan.md及本change为准。
+  首期仅在本项目自有环境实现；Agent和知识库原仓库只读，不切真实身份源、不迁真实用户。
+  完整租户隔离、即时撤销、失败关闭与回环监听不可回退，不使用跨请求正向授权缓存。
+  不自动commit、push或archive。用户评审后按单个change实施；目标提示词见START-GOAL.md。

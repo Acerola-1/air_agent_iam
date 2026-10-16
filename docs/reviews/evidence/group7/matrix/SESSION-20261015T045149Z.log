@@ -1,0 +1,168 @@
+
+========== 环境与前置 ==========
+2026-10-15T04:52:54Z
+java: openjdk version "21.0.12.1" 2026-08-18 LTS
+复用已在 http://127.0.0.1:19100 运行的服务
+{"status":"ok","issuer":"air-agent-iam","postgres":true,"redis":true}
+
+========== A 段：SessionAuthorityIntegrationTest（真实 PG/Redis，无 mock 授权） ==========
+[INFO] Scanning for projects...
+[INFO] Loaded 24086 auto-discovered prefixes for remote repository central (prefixes-central.txt)
+[INFO] 
+[INFO] ----------------------< com.airagent:iam-server >-----------------------
+[INFO] Building air-agent-iam-server 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] Loaded 74 auto-discovered prefixes for remote repository apache.snapshots (prefixes-apache.snapshots.txt)
+[INFO] Loaded 24086 auto-discovered prefixes for remote repository maven-central (prefixes-maven-central.txt)
+[WARNING] Could not transfer metadata /.meta/prefixes.txt from/to flyway-community-db-support (https://maven.pkg.github.com/flyway/flyway-community-db-support): HTTP Status: 401
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ iam-server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 13 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ iam-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ iam-server ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ iam-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ iam-server ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.airagent.iam.auth.SessionAuthorityIntegrationTest
+12:53:04.813 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.airagent.iam.auth.SessionAuthorityIntegrationTest]: SessionAuthorityIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:53:04.981 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.airagent.iam.IamApplication for test class com.airagent.iam.auth.SessionAuthorityIntegrationTest
+12:53:05.081 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.airagent.iam.auth.SessionAuthorityIntegrationTest]: SessionAuthorityIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:53:05.083 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.airagent.iam.IamApplication for test class com.airagent.iam.auth.SessionAuthorityIntegrationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.8)
+
+2026-10-15 12:53:05.521 INFO  [main] c.a.i.a.SessionAuthorityIntegrationTest - Starting SessionAuthorityIntegrationTest using Java 21.0.12.1 with PID 72106 (started by acerola in /Users/acerola/Dev/Java/air_agent_iam/server)
+2026-10-15 12:53:05.523 INFO  [main] c.a.i.a.SessionAuthorityIntegrationTest - The following 1 profile is active: "it"
+2026-10-15 12:53:06.334 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-15 12:53:06.337 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-10-15 12:53:06.384 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 0 Redis repository interfaces.
+2026-10-15 12:53:07.436 INFO  [main] org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://127.0.0.1:19132/iam_test?ApplicationName=iam-it-flyway (PostgreSQL 17.10)
+2026-10-15 12:53:07.503 INFO  [main] o.f.core.internal.command.DbValidate - Successfully validated 12 migrations (execution time 00:00.036s)
+2026-10-15 12:53:07.556 INFO  [main] o.f.core.internal.command.DbMigrate - Current version of schema "iam": 11
+2026-10-15 12:53:07.560 INFO  [main] o.f.core.internal.command.DbMigrate - Schema "iam" is up to date. No migration necessary.
+2026-10-15 12:53:07.843 WARN  [main] i.n.r.d.DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+____ ____    ___ ____ _  _ ____ _  _ 
+[__  |__| __  |  |  | |_/  |___ |\ | 
+___] |  |     |  |__| | \_ |___ | \| 
+https://sa-token.com (v1.46.0)
+2026-10-15 12:53:08.996 INFO  [main] c.a.i.a.SessionAuthorityIntegrationTest - Started SessionAuthorityIntegrationTest in 3.836 seconds (process running for 5.465)
+2026-10-15 12:53:09.012 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource - iam-it-hikari - Starting...
+2026-10-15 12:53:09.046 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource - iam-it-hikari - Start completed.
+2026-10-15 12:53:09.083 INFO  [main] c.airagent.iam.auth.BootstrapRunner - SSO 客户端处理完成 client_id=air-agent-local created=true
+2026-10-15 12:53:09.084 INFO  [main] c.airagent.iam.auth.BootstrapRunner - SSO 客户端处理完成 client_id=knowledge-local created=true
+2026-10-15 12:53:09.185 INFO  [main] c.airagent.iam.auth.BootstrapRunner - Bootstrap 账号处理完成 account=platform_boot created=true
+2026-10-15 12:53:09.188 INFO  [main] c.airagent.iam.auth.BootstrapRunner - 内部 runtime 客户端处理完成 client_id=runtime-local created=true revision=1
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/Users/acerola/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-10-15 12:53:14.340 WARN  [main] com.airagent.iam.auth.OutboxRelay - outbox 投递失败 id=4242 kind=redis_delete_keys attempts=1 reason=RedisConnectionFailureException
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.13 s -- in com.airagent.iam.auth.SessionAuthorityIntegrationTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  20.603 s
+[INFO] Finished at: 2026-10-15T12:53:19+08:00
+[INFO] ------------------------------------------------------------------------
+
+========== B1：错口令必须 401 且返回统一错误信封 ==========
+envelope ok: unauthenticated
+
+========== B2：无令牌/垃圾令牌访问 /me 必须 401 ==========
+
+========== B3：正确登录 200，返回不透明令牌与四类修订，不含口令材料 ==========
+identity ok: principal=human platform_admin=True permissions=12
+
+========== B4：/me、/menus、/tenants ==========
+me ok
+menus ok: 12 权限码
+tenants ok: 7 条
+
+========== B5：续期 200；陈旧 expected_ctx_version 必须 409 context_changed ==========
+renew ok
+stale CAS ok: context_changed
+
+========== B6：切到不存在的企业必须 403（非成员/不可用） ==========
+switch guard ok: forbidden
+
+========== B7：登出 204；随后 /me 必须 401（PG 权威即时撤销） ==========
+
+========== B8：Redis 键必须已由 outbox 中继删除；PG 会话已撤销；outbox done ==========
+redis EXISTS Authorization:login:token:9379a8178e7cbd7ac4cb28d82351fd6a947e8138c408dbd56359b2bb0be96946 = 0
+BEGIN
+ set_request_context 
+---------------------
+ 
+(1 row)
+
+                           token_digest                           | status  | revoke_reason 
+------------------------------------------------------------------+---------+---------------
+ 9379a8178e7cbd7ac4cb28d82351fd6a947e8138c408dbd56359b2bb0be96946 | revoked | user.logout
+(1 row)
+
+       kind        | status | attempts 
+-------------------+--------+----------
+ redis_delete_keys | done   |        1
+(1 row)
+
+             action             | count 
+--------------------------------+-------
+ admin.department.create        |    10
+ admin.membership.create        |    10
+ admin.membership.roles.replace |     5
+ admin.membership.update        |     5
+ admin.role.create              |     5
+ admin.tenant.create            |     7
+ admin.tenant.update            |     5
+ admin.user.create              |    42
+ admin.user.password_reset      |    17
+ admin.user.update              |     6
+ auth.login                     |    94
+ auth.logout                    |    13
+ auth.renew                     |     2
+ auth.runtime_ticket_issue      |     7
+ auth.sso_authorize             |    20
+ auth.sso_exchange              |    15
+ auth.switch_tenant             |    18
+ bootstrap.user.ensure          |     1
+ service_account.create         |     9
+ service_account.status_update  |     4
+ service_account.token_issue    |     9
+ service_account.token_revoke   |     4
+(22 rows)
+
+COMMIT
+
+========== B9：响应与服务日志秘密扫描（原令牌/bcrypt/明文口令零命中） ==========
+登录响应：令牌仅在 access_token 顶层字段一次性下发，identity 无令牌材料
+me/menus/tenants/renew 响应无原令牌/无哈希
+服务日志秘密命中 = 0（/tmp/iam-server.log）
+
+========== 全部通过：2026-10-15T04:53:23Z ==========

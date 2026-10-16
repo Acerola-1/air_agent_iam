@@ -1,0 +1,82 @@
+
+========== 环境与前置 ==========
+2026-10-15T06:36:16Z
+java: openjdk version "21.0.12.1" 2026-08-18 LTS
+复用已在 http://127.0.0.1:19100 运行的服务
+{"status":"ok","issuer":"air-agent-iam","postgres":true,"redis":true}
+
+========== A 段：BrowserSessionIntegrationTest(9)，真实 PG iam_test/Redis ==========
+14:36:21.527 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.airagent.iam.webapi.BrowserSessionIntegrationTest]: BrowserSessionIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:36:21.627 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.airagent.iam.IamApplication for test class com.airagent.iam.webapi.BrowserSessionIntegrationTest
+14:36:21.674 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.airagent.iam.webapi.BrowserSessionIntegrationTest]: BrowserSessionIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:36:21.677 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.airagent.iam.IamApplication for test class com.airagent.iam.webapi.BrowserSessionIntegrationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.8)
+
+2026-10-15 14:36:21.936 INFO  [main] c.a.i.w.BrowserSessionIntegrationTest - Starting BrowserSessionIntegrationTest using Java 21.0.12.1 with PID 2035 (started by acerola in /Users/acerola/Dev/Java/air_agent_iam/server)
+2026-10-15 14:36:21.937 INFO  [main] c.a.i.w.BrowserSessionIntegrationTest - The following 1 profile is active: "it"
+2026-10-15 14:36:22.408 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-15 14:36:22.410 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-10-15 14:36:22.445 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 22 ms. Found 0 Redis repository interfaces.
+2026-10-15 14:36:23.070 INFO  [main] org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://127.0.0.1:19132/iam_test?ApplicationName=iam-it-flyway (PostgreSQL 17.10)
+2026-10-15 14:36:23.113 INFO  [main] o.f.core.internal.command.DbValidate - Successfully validated 12 migrations (execution time 00:00.023s)
+2026-10-15 14:36:23.148 INFO  [main] o.f.core.internal.command.DbMigrate - Current version of schema "iam": 11
+2026-10-15 14:36:23.151 INFO  [main] o.f.core.internal.command.DbMigrate - Schema "iam" is up to date. No migration necessary.
+2026-10-15 14:36:23.292 WARN  [main] i.n.r.d.DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+____ ____    ___ ____ _  _ ____ _  _ 
+[__  |__| __  |  |  | |_/  |___ |\ | 
+___] |  |     |  |__| | \_ |___ | \| 
+https://sa-token.com (v1.46.0)
+2026-10-15 14:36:23.874 INFO  [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-10-15 14:36:23.874 INFO  [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-10-15 14:36:23.880 INFO  [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 5 ms
+2026-10-15 14:36:23.904 INFO  [main] c.a.i.w.BrowserSessionIntegrationTest - Started BrowserSessionIntegrationTest in 2.187 seconds (process running for 2.951)
+2026-10-15 14:36:23.907 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource - iam-it-hikari - Starting...
+2026-10-15 14:36:23.927 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource - iam-it-hikari - Start completed.
+2026-10-15 14:36:23.955 INFO  [main] c.airagent.iam.auth.BootstrapRunner - SSO 客户端处理完成 client_id=air-agent-local created=true
+2026-10-15 14:36:23.961 INFO  [main] c.airagent.iam.auth.BootstrapRunner - SSO 客户端处理完成 client_id=knowledge-local created=true
+2026-10-15 14:36:24.056 INFO  [main] c.airagent.iam.auth.BootstrapRunner - Bootstrap 账号处理完成 account=platform_boot created=true
+2026-10-15 14:36:24.059 INFO  [main] c.airagent.iam.auth.BootstrapRunner - 内部 runtime 客户端处理完成 client_id=runtime-local created=true revision=1
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/Users/acerola/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+2026-10-15 14:36:27.935 WARN  [main] o.s.web.servlet.PageNotFound - No mapping for GET /v1/admin/nope
+2026-10-15 14:36:28.026 WARN  [main] o.s.web.servlet.PageNotFound - No mapping for GET /web-api/auth/missing
+
+========== B1：仅回环监听 + CSRF cookie 属性 + 写请求四道闸 ==========
+java    25610 acerola   23u  IPv6 0xf921f53ef2da6f4a      0t0  TCP 127.0.0.1:19100 (LISTEN)
+
+========== B2：web 登录成功（响应不出现令牌）+ 句柄轮换 + me/menus ==========
+
+========== B2.5：登录后再取 CSRF 不得撤销/降级已登录句柄（页面刷新保真） ==========
+
+========== B3：/web-api/admin 与 /v1/admin 同权；未知路径保持 JSON 404 ==========
+web/v1 角色目录一致，条目数=12
+
+========== B4：重置密码即时撤销浏览器会话 ==========
+
+========== B5：SSO 合成消费者全链路 + 重放/错密钥/错回调反例 + 受众隔离 ==========
+BFF cookie 清单（浏览器侧可见凭据，仅限不透明句柄）：
+  - air_iam_demo_agent
+  - air_iam_demo_agent_state
+  - air_iam_demo_kb
+  - air_iam_dev_csrf
+  - air_iam_dev_session
+
+========== B6：秘密卫生（证据文件 + 服务日志零命中） ==========
+引导口令、两个 SSO 密钥在证据与日志零命中
+
+========== SPA 托管现状（web/dist 构建后应返回 index.html） ==========
+SPA 已构建：深链 /admin/platform/users 200 HTML
+
+========== 通过：第6组浏览器会话/SSO 证据全部完成 2026-10-15T06:36:30Z ==========

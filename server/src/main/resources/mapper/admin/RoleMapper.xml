@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.admin.mapper.RoleMapper">
+    <resultMap id="role" type="com.airagent.iam.admin.entity.RoleDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="code" javaType="String"/>
+            <arg column="scope" javaType="String"/>
+            <arg column="tenant_id" javaType="java.util.UUID"/>
+            <arg column="name" javaType="String"/>
+            <arg column="description" javaType="String"/>
+            <arg column="is_builtin" javaType="_boolean"/>
+            <arg column="status" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="permission" type="com.airagent.iam.admin.entity.PermissionDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="code" javaType="String"/>
+            <arg column="name_zh" javaType="String"/>
+            <arg column="scope" javaType="String"/>
+            <arg column="resource_code" javaType="String"/>
+            <arg column="grantable_to_tenants" javaType="_boolean"/>
+        </constructor>
+    </resultMap>
+    <sql id="roleColumns">id, code, scope, tenant_id, name, description, is_builtin, status</sql>
+    <sql id="permissionColumns">id, code, name_zh, scope, resource_code, grantable_to_tenants</sql>
+    <select id="selectPage" resultMap="role" useCache="false">
+        SELECT <include refid="roleColumns"/> FROM iam.roles
+        <where>
+            <if test="scope != null">scope = #{scope}</if>
+            <if test="afterId != null">AND id &gt; #{afterId}</if>
+        </where>
+        ORDER BY id ASC LIMIT #{fetchSize}
+    </select>
+    <select id="selectById" resultMap="role" useCache="false">
+        SELECT <include refid="roleColumns"/> FROM iam.roles WHERE id = #{id}
+    </select>
+    <select id="insert" resultType="java.util.UUID" affectData="true" flushCache="true" useCache="false">
+        INSERT INTO iam.roles(scope, tenant_id, code, name, description, is_builtin)
+        VALUES (#{scope}, #{tenantId,jdbcType=OTHER}, #{code}, #{name},
+                COALESCE(#{description,jdbcType=VARCHAR}, ''), false) RETURNING id
+    </select>
+    <update id="update">
+        UPDATE iam.roles SET name = COALESCE(#{name,jdbcType=VARCHAR}, name),
+            description = COALESCE(#{description,jdbcType=VARCHAR}, description),
+            status = COALESCE(#{status,jdbcType=VARCHAR}, status) WHERE id = #{id}
+    </update>
+    <select id="selectPermissionCodes" resultType="String" useCache="false">
+        SELECT p.code FROM iam.role_permissions rp
+        JOIN iam.permissions p ON p.id = rp.permission_id
+        WHERE rp.role_id = #{roleId} ORDER BY p.code
+    </select>
+    <select id="selectCatalog" resultMap="permission" useCache="false">
+        SELECT <include refid="permissionColumns"/> FROM iam.permissions
+        WHERE resource_code IS NULL AND (#{includePlatform} OR scope = 'tenant')
+        ORDER BY sort ASC, code ASC
+    </select>
+    <select id="selectGrantable" resultMap="permission" useCache="false">
+        SELECT <include refid="permissionColumns"/> FROM iam.permissions
+        WHERE scope = #{scope} AND resource_code IS NULL AND status = 'active'
+          AND (scope = 'platform' OR grantable_to_tenants)
+        ORDER BY sort ASC, code ASC
+    </select>
+    <select id="selectPermissionsByCodes" resultMap="permission" useCache="false">
+        SELECT <include refid="permissionColumns"/> FROM iam.permissions
+        WHERE code IN
+        <foreach collection="codes" item="code" open="(" separator="," close=")">#{code}</foreach>
+        ORDER BY code
+    </select>
+    <delete id="deletePermissions">DELETE FROM iam.role_permissions WHERE role_id = #{roleId}</delete>
+    <insert id="insertPermissions">
+        INSERT INTO iam.role_permissions(role_id, permission_id, granted_by) VALUES
+        <foreach collection="permissions" item="permission" separator=",">
+            (#{roleId}, #{permission.id}, #{actorId})
+        </foreach>
+    </insert>
+</mapper>

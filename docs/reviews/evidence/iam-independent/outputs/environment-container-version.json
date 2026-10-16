@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/usr/local/bin/container",
+    "system",
+    "status"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:04:29.122603+00:00",
+  "elapsed_seconds": 0.102,
+  "exit_code": 0,
+  "stdout": "FIELD               VALUE\nstatus              running\nclient.version      1.5.0\nclient.build        release\nclient.commit       d265d669ecae041bf338cb3b39c4118316d138f0\nhost.os             Version 27.0.1 (Build 26A434)\nhost.architecture   arm64\nhost.cpus           10\nserver.version      1.5.0\nserver.build        release\nserver.commit       d265d669ecae041bf338cb3b39c4118316d138f0\nserver.appName      container-apiserver\npaths.appRoot       /Users/acerola/Library/Application Support/com.apple.container/\npaths.installRoot   /usr/local/\npaths.logRoot       \ncontainers.total    25\ncontainers.running  16\nimages.total        25\n",
+  "stderr": ""
+}

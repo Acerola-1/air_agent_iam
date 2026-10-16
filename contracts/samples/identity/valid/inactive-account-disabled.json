@@ -1,0 +1,6 @@
+{
+  "schema_version": "iam.introspection.v1",
+  "active": false,
+  "reason": "account_disabled",
+  "evaluated_at": "2026-10-14T01:00:00Z"
+}

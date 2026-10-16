@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.webapi.sso.mapper.SsoMapper">
+    <resultMap id="SsoClientView" type="com.airagent.iam.webapi.sso.SsoClientView">
+        <constructor>
+            <arg column="client_id" javaType="String"/>
+            <arg column="name" javaType="String"/>
+            <arg column="callback_url" javaType="String"/>
+            <arg column="origins" javaType="java.util.List"/>
+            <arg column="audience" javaType="String"/>
+            <arg column="status" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="SsoStateDO" type="com.airagent.iam.webapi.sso.entity.SsoStateDO">
+        <constructor>
+            <arg column="client_id" javaType="String"/>
+            <arg column="redirect_uri" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <select id="authenticate" resultMap="SsoClientView" useCache="false">
+        SELECT client_id, name, callback_url, origins, audience, status FROM iam_auth.authenticate_sso_client(#{clientId}, #{digest})
+    </select>
+    <resultMap id="registration" type="com.airagent.iam.webapi.sso.entity.SsoRegistrationDO">
+        <constructor>
+            <arg column="client_id" javaType="String"/>
+            <arg column="callback_url" javaType="String"/>
+            <arg column="origins" javaType="java.util.List"/>
+            <arg column="status" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <select id="selectClient" resultMap="registration" useCache="false">
+        SELECT client_id, callback_url, origins, status FROM iam_auth.sso_client_get(#{clientId})
+    </select>
+    <select id="saveState" resultType="int" useCache="false" affectData="true" flushCache="true">
+        SELECT 1 FROM iam_auth.sso_state_save(#{digest}, #{clientId}, #{handleDigest}, #{callbackUrl}, #{expiresAt})
+    </select>
+    <select id="saveTicket" resultType="int" useCache="false" affectData="true" flushCache="true">
+        SELECT 1 FROM iam_auth.sso_ticket_save(#{digest}, #{clientId}, #{sessionId}, #{callbackUrl}, #{expiresAt})
+    </select>
+    <select id="consumeTicket" resultType="java.util.UUID" useCache="false" affectData="true" flushCache="true">
+        SELECT session_id FROM iam_auth.sso_ticket_consume(#{digest}, #{clientId}, #{callbackUrl})
+    </select>
+    <select id="consumeState" resultMap="SsoStateDO" useCache="false" affectData="true" flushCache="true">
+        SELECT client_id, redirect_uri FROM iam_auth.sso_state_consume(#{digest})
+    </select>
+    <select id="authenticateBearer" resultMap="SsoClientView" useCache="false">
+        SELECT client_id, name, callback_url, origins, audience, status FROM iam_auth.authenticate_sso_bearer(#{digest})
+    </select>
+</mapper>

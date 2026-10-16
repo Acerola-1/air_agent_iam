@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://air-agent.local/contracts/schemas/requests.schema.json",
+  "title": "v1 请求体集合",
+  "$defs": {
+    "login": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["account", "password", "realm", "audience"],
+      "properties": {
+        "account": { "type": "string", "minLength": 3, "maxLength": 64 },
+        "password": { "type": "string", "minLength": 8, "maxLength": 256 },
+        "realm": { "const": "workforce" },
+        "audience": { "enum": ["air-agent", "knowledge", "iam-admin"] }
+      }
+    },
+    "switch_tenant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tenant_id", "expected_ctx_version"],
+      "properties": {
+        "tenant_id": { "type": "string", "format": "uuid" },
+        "expected_ctx_version": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "renew": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected_ctx_version"],
+      "properties": {
+        "expected_ctx_version": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "change_password": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["old_password", "new_password"],
+      "properties": {
+        "old_password": { "type": "string", "minLength": 1 },
+        "new_password": { "type": "string", "minLength": 8, "maxLength": 256 }
+      }
+    },
+    "introspect": {
+      "type": "object",
+      "additionalProperties": false,
+      "oneOf": [
+        { "required": ["subject_token", "audience"] },
+        { "required": ["execution_context", "audience"] }
+      ],
+      "properties": {
+        "subject_token": { "type": "string", "minLength": 16 },
+        "execution_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["verification_ref", "expected_revisions"],
+          "properties": {
+            "verification_ref": { "type": "string", "format": "uuid" },
+            "expected_revisions": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "user_auth_revision", "tenant_auth_revision",
+                "membership_revision", "session_ctx_version"
+              ],
+              "properties": {
+                "user_auth_revision": { "type": "integer", "minimum": 0 },
+                "tenant_auth_revision": { "type": "integer", "minimum": 0 },
+                "membership_revision": { "type": "integer", "minimum": 0 },
+                "session_ctx_version": { "type": "integer", "minimum": 1 }
+              }
+            }
+          }
+        },
+        "audience": { "type": "string", "minLength": 1 },
+        "expected_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tenant_id", "ctx_version"],
+          "properties": {
+            "tenant_id": { "type": "string", "format": "uuid" },
+            "ctx_version": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "include_execution_context": { "type": "boolean" }
+      }
+    },
+    "runtime_ticket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_token", "audience", "target_tenant_id", "expected_ctx_version"],
+      "properties": {
+        "subject_token": { "type": "string", "minLength": 16 },
+        "audience": { "const": "langgraph-runtime" },
+        "target_tenant_id": { "type": "string", "format": "uuid" },
+        "expected_ctx_version": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "sso_exchange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ticket", "redirect_uri"],
+      "properties": {
+        "ticket": { "type": "string", "minLength": 16 },
+        "redirect_uri": { "type": "string", "format": "uri" }
+      }
+    },
+    "page_query": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "limit": { "type": "integer", "minimum": 1, "maximum": 200, "default": 20 },
+        "cursor": { "type": "string" }
+      }
+    }
+  }
+}

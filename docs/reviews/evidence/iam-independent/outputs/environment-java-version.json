@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/Users/acerola/Library/Java/JavaVirtualMachines/corretto-21.0.12.1/Contents/Home/bin/java",
+    "-version"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:04:29.469151+00:00",
+  "elapsed_seconds": 0.214,
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "openjdk version \"21.0.12.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Corretto-21.0.12.9.1 (build 21.0.12.1+9-LTS)\nOpenJDK 64-Bit Server VM Corretto-21.0.12.9.1 (build 21.0.12.1+9-LTS, mixed mode, sharing)\n"
+}

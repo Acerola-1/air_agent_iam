@@ -1,0 +1,25 @@
+{
+  "older_transaction_renewal": {
+    "request_role": "iam_app",
+    "transaction_started_before_newer_deadline": "2026-10-16T02:24:42.729290+00:00",
+    "deadline_regression_ms": 0,
+    "absolute_bound_preserved": true,
+    "passed": true
+  },
+  "two_nonowner_disable_transactions": {
+    "request_role": "iam_app",
+    "outcomes": [
+      {
+        "committed": false,
+        "sqlstate": "23514"
+      },
+      {
+        "committed": true
+      }
+    ],
+    "final_effective_platform_admins": 1,
+    "fixture_boundary": "temporarily replaced grants only in own iam_test; existing grants restored",
+    "passed": true
+  },
+  "original_grants_restored": true
+}

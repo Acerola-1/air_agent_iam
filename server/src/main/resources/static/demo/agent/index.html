@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>合成 Agent 客户端（仅本机验收）</title>
+  <style>
+    body { font-family: -apple-system, "PingFang SC", sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; color: #1f2933; }
+    h1 { font-size: 20px; }
+    a.btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border-radius: 6px; text-decoration: none; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 8px; overflow: auto; min-height: 48px; }
+    .err { color: #b91c1c; font-weight: 600; }
+    .hint { color: #64748b; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>合成 Agent 客户端 · air-agent 受众（仅本机验收）</h1>
+  <p class="hint">本页面是 IAM 自带的合成应用，模拟真实 Agent 的服务端 BFF：
+    浏览器只有本应用自己的 HttpOnly 会话 cookie，应用令牌由服务端用一次性 ticket 兑换，不出现在 URL 历史之外的存储中。</p>
+  <p>
+    <a class="btn" href="/web-api/sso/callback/agent/login">使用中央 IAM 登录</a>
+    <a href="/web-api/sso/callback/agent/logout" style="margin-left:12px">退出本应用</a>
+  </p>
+  <p id="error" class="err"></p>
+  <h2>服务端实时回传的安全身份（/v1/auth/me 经 BFF 代理）</h2>
+  <pre id="identity">加载中…</pre>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var errorMap = {
+        missing_grant: "回调缺少一次性 ticket 或 state",
+        state_mismatch: "state 与发起时不一致，可能为重放或 CSRF，已拒绝",
+        exchange_rejected: "服务端兑换被中央 IAM 拒绝（ticket 过期/重放/凭据不匹配）",
+        exchange_payload_invalid: "兑换响应缺少令牌或身份"
+      };
+      var err = params.get("error");
+      if (err) {
+        document.getElementById("error").textContent = errorMap[err] || ("兑换失败：" + err);
+      }
+      fetch("/web-api/sso/callback/agent/me", { credentials: "same-origin" })
+        .then(function (resp) {
+          if (!resp.ok) {
+            document.getElementById("identity").textContent =
+                "尚未登录或会话已失效（HTTP " + resp.status + "），请点击上方登录。";
+            return null;
+          }
+          return resp.json();
+        })
+        .then(function (data) {
+          if (data) {
+            document.getElementById("identity").textContent = JSON.stringify(data, null, 2);
+          }
+        })
+        .catch(function () {
+          document.getElementById("identity").textContent = "身份查询失败";
+        });
+    })();
+  </script>
+</body>
+</html>

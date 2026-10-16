@@ -1,0 +1,750 @@
+[
+  {
+    "path": ".env.example",
+    "byte_identical": true
+  },
+  {
+    "path": ".gitignore",
+    "byte_identical": true
+  },
+  {
+    "path": "README.md",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/consumer/protocol_consumer_test.py",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/openapi/iam-identity-v1.openapi.yaml",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/context-version-mismatch.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/ctx-version-mismatch-session.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/inactive-missing-reason.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/inactive-with-identity-leak.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/missing-schema-version.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/non-uuid-user.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/revision-bool.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/revision-string.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/unknown-audience.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/invalid/unknown-principal-type.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/valid/i1-human-needs-tenant-selection.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/valid/i1-human-with-tenant.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/valid/inactive-account-disabled.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/identity/valid/inactive-invalid-or-revoked.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/introspect-ref.valid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/introspect-token.valid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/introspect.both-modes.invalid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/login.bad-audience.invalid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/login.missing-audience.invalid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/login.password-short.invalid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/login.valid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/renew.valid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/runtime-ticket.bad-audience.invalid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/runtime-ticket.valid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/sso-exchange.valid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/switch-tenant.revision-bool.invalid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/samples/request/switch-tenant.valid.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/schemas/error.schema.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/schemas/identity.schema.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/schemas/introspection-inactive.schema.json",
+    "byte_identical": true
+  },
+  {
+    "path": "contracts/schemas/requests.schema.json",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/infra-up.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/run-server.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/seed-browser-fixture.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-acceptance-matrix.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-admin-apis.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-contract.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-crypto-vectors.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-db-isolation.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-dr-restore.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-gate0-env.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-internal-principals.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-perf-introspection.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-secret-scan.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-session-authority.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "scripts/verify-web-session.sh",
+    "byte_identical": true
+  },
+  {
+    "path": "server/.mvn/wrapper/maven-wrapper.properties",
+    "byte_identical": true
+  },
+  {
+    "path": "server/mvnw",
+    "byte_identical": true
+  },
+  {
+    "path": "server/mvnw.cmd",
+    "byte_identical": true
+  },
+  {
+    "path": "server/pom.xml",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/IamApplication.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/AdminSupport.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/AuditAdminController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/AuditAdminService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/RoleAdminController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/RoleAdminService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/TenantAdminController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/TenantAdminService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/UserAdminController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/UserAdminService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/admin/dto/AdminDtos.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/auth/AuthController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/auth/AuthoritySnapshot.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/auth/BootstrapRunner.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/auth/CurrentSession.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/auth/IdentityAssembler.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/auth/OutboxRelay.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/auth/SessionService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/auth/dto/AuthRequests.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/auth/dto/IdentityResponse.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/config/IamProperties.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/config/RedisConfig.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/config/SaTokenConfiguration.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/config/WebMvcConfiguration.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/internal/InternalApiController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/internal/IntrospectionService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/internal/RuntimeTicketService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/internal/dto/InternalDtos.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/internal/InternalClient.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/internal/InternalClientAuthenticator.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/internal/InternalClientInterceptor.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/internal/RateLimiter.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/password/PasswordHasher.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/rt/RtV1Body.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/rt/RtV1Codec.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/rt/RtV1VerifyResult.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/satoken/DigestStpLogic.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/security/token/OpaqueTokens.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/serviceaccount/ServiceAccountAdminController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/serviceaccount/ServiceAccountService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/serviceaccount/dto/ServiceAccountDtos.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/web/BearerAuthInterceptor.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/web/HealthController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/web/RequestIdFilter.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/web/error/ApiException.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/web/error/ErrorEnvelope.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/web/error/GlobalExceptionHandler.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/web/error/PgErrorTranslator.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/BrowserHandleRow.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/BrowserSessionInterceptor.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/BrowserSessionService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/CsrfOriginInterceptor.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/MenuCatalog.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/SpaController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/StaticUiConfiguration.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/WebApiAuthController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/WebApiDtos.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/WebCookies.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoAuthorizeService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoClientAuthenticator.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoClientView.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoDtos.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoExchangeController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoExchangeInterceptor.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/sso/SsoExchangeService.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/synthetic/SyntheticBffController.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/java/com/airagent/iam/webapi/synthetic/SyntheticSessionStore.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/application.yml",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V10__browser_sso_functions.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V11__sso_clients_and_mint.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V1__identity_schema.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V2__seed_catalog.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V3__session_revisions_and_authority.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V4__audit_and_bootstrap.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V5__bootstrap_platform_context.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V6__drop_auth_sessions_touch_trigger.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V7__internal_clients_and_service_principals.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V8__service_token_listing.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/db/migration/V9__member_user_brief.sql",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/static/demo/agent/index.html",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/main/resources/static/demo/kb/index.html",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/test/java/com/airagent/iam/admin/AdminApiIntegrationTest.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/test/java/com/airagent/iam/auth/SessionAuthorityIntegrationTest.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/test/java/com/airagent/iam/db/DbIsolationIntegrationTest.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/test/java/com/airagent/iam/internal/InternalClientIntegrationTest.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/test/java/com/airagent/iam/security/CrossLanguageVectorTest.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/test/java/com/airagent/iam/security/internal/RateLimitIntegrationTest.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/test/java/com/airagent/iam/webapi/BrowserSessionIntegrationTest.java",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/test/resources/application-it.yml",
+    "byte_identical": true
+  },
+  {
+    "path": "server/src/test/resources/it-ui/index.html",
+    "byte_identical": true
+  },
+  {
+    "path": "tools/bcrypt-vectors/bcrypt_vectors.py",
+    "byte_identical": true
+  },
+  {
+    "path": "tools/bcrypt-vectors/out/bcrypt-py-vectors.json",
+    "byte_identical": true
+  },
+  {
+    "path": "tools/perf_introspection.py",
+    "byte_identical": true
+  },
+  {
+    "path": "tools/rt-v1/out/rt-v1-py-vectors.json",
+    "byte_identical": true
+  },
+  {
+    "path": "tools/rt-v1/rt_v1.py",
+    "byte_identical": true
+  },
+  {
+    "path": "web/env.d.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/index.html",
+    "byte_identical": true
+  },
+  {
+    "path": "web/package-lock.json",
+    "byte_identical": true
+  },
+  {
+    "path": "web/package.json",
+    "byte_identical": true
+  },
+  {
+    "path": "web/public/favicon.svg",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/App.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/api/endpoints.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/api/http.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/api/scope.spec.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/api/scope.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/api/types.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/components/CursorPager.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/components/RoleEditDialog.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/composables/usePagedList.spec.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/composables/usePagedList.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/layouts/AdminLayout.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/main.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/router/index.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/stores/auth.spec.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/stores/auth.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/AuditView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/DashboardView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/ForbiddenView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/LoginView.spec.ts",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/LoginView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/NotFoundView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/ProfileView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/platform/PlatformRolesView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/platform/PlatformTenantsView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/platform/PlatformUsersView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/platform/ServiceAccountsView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/tenant/TenantDepartmentsView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/tenant/TenantMembersView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/src/views/tenant/TenantRolesView.vue",
+    "byte_identical": true
+  },
+  {
+    "path": "web/tsconfig.json",
+    "byte_identical": true
+  },
+  {
+    "path": "web/vite.config.ts",
+    "byte_identical": true
+  }
+]

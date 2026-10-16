@@ -1,0 +1,20 @@
+{
+  "private_root": "/tmp/iam-remediation-20261015-ugpg7l0a",
+  "source": "/Users/acerola/Dev/Java/air_agent_iam",
+  "phase": "authorized remediation",
+  "original_audit_source_copy_untouched": true,
+  "build_copy": "/tmp/iam-remediation-20261015-ugpg7l0a/server",
+  "database": "iam_test",
+  "pg_port": 29132,
+  "redis_port": 29179,
+  "initial_changes": [
+    "MyBatis4.0.0 setup",
+    "Health MVC service/mapper/XML/VO",
+    "AdminSupport request context Mapper",
+    "real transaction integration checks"
+  ],
+  "integration_test_database": "iam_test",
+  "runtime_database": "iam_remediation",
+  "runtime_http_port": 29107,
+  "validation_receipt": "docs/reviews/iam-remediation-validation.md"
+}

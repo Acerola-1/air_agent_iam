@@ -1,0 +1,19 @@
+PASS login-shows-two-enterprises-no-token {"cookies":"air_iam_dev_csrf=<redacted>"}
+PASS switch-to-A-from-profile {}
+PASS A-department-create {"skipped":"already exists"}
+PASS A-member-create-with-reader {"skipped":"already exists"}
+PASS A-duplicate-save-failure-recoverable {"toast":"账号已存在；关联既有成员必须显式传 user_id，禁止按同名自动合并"}
+PASS A-member-role-cas-replace {"readerTags":1}
+PASS A-reload-persists-member-and-context {}
+PASS A-custom-role-create {"skipped":"already exists"}
+PASS A-custom-role-persist-reopen {}
+PASS header-shows-B {}
+PASS B-departments-isolated-after-goto {}
+PASS AFTER-FIX-departments-reload-on-header-switch {"tableHead":"部门编码 部门名称 上级部门 状态 操作 D-OPS-0822 运营保障组 — 正常 编辑"}
+PASS B-department-create {"skipped":"already exists"}
+PASS AFTER-FIX-members-reload-on-header-switch {"tableHead":"账号 显示名 部门 企业角色 状态 修订 操作 uia-082225 浏览器验收用户 — 企业管理员 正常 2 部门/状态 角色 移除 uia-mbr-b-0822 乙企业成员01 运营保障组 企业查询成员 正常 2 部门/状态 角色 移除"}
+PASS B-member-create {"skipped":"already exists"}
+PASS B-server-scoped-no-A-data {"accounts":["uia-082225","uia-mbr-b-0822"],"depts":["D-OPS-0822"]}
+PASS A-after-B-A-restored {}
+PASS tenant-admin-direct-platform-api-403 {"status":403}
+RESULT_JSON {"steps":[{"name":"login-shows-two-enterprises-no-token","ok":true,"cookies":"air_iam_dev_csrf=<redacted>"},{"name":"switch-to-A-from-profile","ok":true},{"name":"A-department-create","ok":true,"skipped":"already exists"},{"name":"A-member-create-with-reader","ok":true,"skipped":"already exists"},{"name":"A-duplicate-save-failure-recoverable","ok":true,"toast":"账号已存在；关联既有成员必须显式传 user_id，禁止按同名自动合并"},{"name":"A-member-role-cas-replace","ok":true,"readerTags":1},{"name":"A-reload-persists-member-and-context","ok":true},{"name":"A-custom-role-create","ok":true,"skipped":"already exists"},{"name":"A-custom-role-persist-reopen","ok":true},{"name":"header-shows-B","ok":true},{"name":"B-departments-isolated-after-goto","ok":true},{"name":"AFTER-FIX-departments-reload-on-header-switch","ok":true,"tableHead":"部门编码 部门名称 上级部门 状态 操作 D-OPS-0822 运营保障组 — 正常 编辑"},{"name":"B-department-create","ok":true,"skipped":"already exists"},{"name":"AFTER-FIX-members-reload-on-header-switch","ok":true,"tableHead":"账号 显示名 部门 企业角色 状态 修订 操作 uia-082225 浏览器验收用户 — 企业管理员 正常 2 部门/状态 角色 移除 uia-mbr-b-0822 乙企业成员01 运营保障组 企业查询成员 正常 2 部门/状态 角色 移除"},{"name":"B-member-create","ok":true,"skipped":"already exists"},{"name":"B-server-scoped-no-A-data","ok":true,"accounts":["uia-082225","uia-mbr-b-0822"],"depts":["D-OPS-0822"]},{"name":"A-after-B-A-restored","ok":true},{"name":"tenant-admin-direct-platform-api-403","ok":true,"status":403}],"consoleErrors":["Failed to load resource: the server responded with a status of 401 ()","Failed to load resource: the server responded with a status of 401 ()","Failed to load resource: the server responded with a status of 401 ()","Failed to load resource: the server responded with a status of 409 ()","Failed to load resource: the server responded with a status of 403 ()"],"secrets":{"localStorage":[],"sessionStorage":[],"readableCookie":"air_iam_dev_csrf=<redacted>"},"ok":true}

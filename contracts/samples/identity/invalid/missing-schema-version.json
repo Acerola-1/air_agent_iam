@@ -1,0 +1,19 @@
+{
+  "active": true,
+  "issuer": "air-agent-iam",
+  "audience": "iam-admin",
+  "principal": {"type": "human", "id": "11111111-1111-4111-8111-111111111111", "realm": "workforce"},
+  "user": {"id": "11111111-1111-4111-8111-111111111111", "account": "member_a", "display_name": "演示成员", "status": "active"},
+  "session": {"id": "22222222-2222-4222-8222-222222222222", "ctx_version": 7, "created_at": "2026-10-14T00:00:00Z", "expires_at": "2026-10-21T01:00:00Z", "absolute_expires_at": "2026-11-13T00:00:00Z", "idle_expires_at": "2026-10-21T01:00:00Z"},
+  "current_tenant": {"id": "33333333-3333-4333-8333-333333333333", "code": "tenant-a", "name": "演示企业", "status": "active"},
+  "membership": {"id": "44444444-4444-4444-8444-444444444444", "tenant_id": "33333333-3333-4333-8333-333333333333", "department_id": null, "status": "active", "revision": 3},
+  "platform_roles": [],
+  "tenant_roles": [{"code": "tenant_reader", "name": "企业查询成员"}],
+  "permissions": ["tenant:member:read"],
+  "revisions": {"user_auth_revision": 0, "tenant_auth_revision": 5, "membership_revision": 3, "session_ctx_version": 7},
+  "context_version": 7,
+  "platform_admin": false,
+  "context_usable": true,
+  "needs_tenant_selection": false,
+  "evaluated_at": "2026-10-14T01:00:00Z"
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.auth.mapper.SessionMapper">
+    <resultMap id="LoginUserDO" type="com.airagent.iam.auth.entity.LoginUserDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="password_hash" javaType="String"/>
+            <arg column="status" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="SessionContextDO" type="com.airagent.iam.auth.entity.SessionContextDO">
+        <constructor>
+            <arg column="user_id" javaType="java.util.UUID"/>
+            <arg column="current_tenant_id" javaType="java.util.UUID"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="SessionTimerDO" type="com.airagent.iam.auth.entity.SessionTimerDO">
+        <constructor>
+            <arg column="absolute_expires_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="idle_expires_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="TenantMembershipSummary" type="com.airagent.iam.auth.vo.TenantMembershipVO">
+        <constructor>
+            <arg column="id" javaType="String"/>
+            <arg column="code" javaType="String"/>
+            <arg column="name" javaType="String"/>
+            <arg column="status" javaType="String"/>
+            <arg column="member_status" javaType="String"/>
+            <arg column="is_owner" javaType="_boolean"/>
+        </constructor>
+    </resultMap>
+    <select id="findLogin" resultMap="LoginUserDO" useCache="false">
+        SELECT id, password_hash, status FROM iam_auth.find_user_for_login(#{realm}, #{account})
+    </select>
+    <select id="createSession" resultType="java.util.UUID" useCache="false" affectData="true" flushCache="true">
+        SELECT id FROM iam_auth.create_session(#{userId}, #{realm}, #{audience}, #{digest}, #{idleSeconds}, #{absoluteSeconds})
+    </select>
+    <select id="mintSsoSession" resultType="java.util.UUID" useCache="false" affectData="true" flushCache="true">
+        SELECT id FROM iam_auth.mint_sso_session(#{sourceId}, #{audience}, #{digest}, #{idleSeconds}, #{absoluteSeconds})
+    </select>
+    <select id="revokeSession" resultType="String" useCache="false" affectData="true" flushCache="true">
+        SELECT iam_auth.revoke_session(#{sessionId}, #{reason})
+    </select>
+    <select id="revokeUserSessions" resultType="String" useCache="false" affectData="true" flushCache="true">
+        SELECT digest FROM iam_auth.revoke_user_sessions(#{userId}, NULL, #{reason})
+    </select>
+    <select id="selectTenants" resultMap="TenantMembershipSummary" useCache="false">
+        SELECT t.id::text, t.code, t.name, t.status, m.status AS member_status,
+            EXISTS (SELECT 1 FROM iam.membership_roles mr JOIN iam.roles r ON r.id = mr.role_id
+                     WHERE mr.membership_id = m.id AND r.code = 'tenant_admin' AND r.status = 'active') AS is_owner
+        FROM iam.tenant_memberships m JOIN iam.tenants t ON t.id = m.tenant_id
+        WHERE m.user_id = #{userId} AND m.status = 'active' AND t.status = 'active' ORDER BY t.code
+    </select>
+    <select id="switchContext" resultType="java.util.UUID" useCache="false" affectData="true" flushCache="true">
+        SELECT id FROM iam_auth.switch_session_context(#{sessionId}, #{tenantId}, #{expectedVersion})
+    </select>
+    <select id="renew" resultMap="SessionTimerDO" useCache="false" affectData="true" flushCache="true">
+        SELECT absolute_expires_at, idle_expires_at FROM iam_auth.renew_session(#{sessionId}, #{expectedVersion}, #{idleSeconds})
+    </select>
+    <select id="setPassword" resultType="long" useCache="false" affectData="true" flushCache="true">
+        SELECT iam_auth.set_user_password(#{userId}, #{passwordHash})
+    </select>
+    <select id="selectTokenDigest" resultType="String" useCache="false">
+        SELECT iam_auth.session_token_digest(#{sessionId})
+    </select>
+    <select id="findContext" resultMap="SessionContextDO" useCache="false">
+        SELECT user_id, current_tenant_id FROM iam_auth.find_session_by_digest(#{digest})
+    </select>
+    <select id="loadSnapshotJson" resultType="String" useCache="false">
+        SELECT iam_auth.load_trusted_authority_snapshot(#{digest})::text
+    </select>
+</mapper>

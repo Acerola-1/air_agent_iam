@@ -1,0 +1,62 @@
+{
+  "databases": [
+    {
+      "database": "iam_remediation_empty",
+      "first_target": "latest",
+      "successful_versions": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ],
+      "idempotent_rerun": true,
+      "passed": true,
+      "own_database_removed": true
+    },
+    {
+      "database": "iam_remediation_upgrade",
+      "first_target": "5",
+      "business_uuid_and_hash_preserved": true,
+      "successful_versions": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ],
+      "idempotent_rerun": true,
+      "passed": true,
+      "own_database_removed": true
+    }
+  ],
+  "original_migrations_unchanged": true
+}

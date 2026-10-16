@@ -1,0 +1,34 @@
+=== 7.3 备份/恢复/撤销重施演练 2026-10-15T05:18:00Z（后缀 123842） ===
+--- 1. 种子内部客户端 + 建档演习用户（主实例 19100）
+BEGIN
+ set_request_context 
+---------------------
+ 
+(1 row)
+
+INSERT 0 1
+COMMIT
+建档 201 id=93a670f5… revision=0
+授权 200 platform_auditor revision=0
+T1 active，权限数=4，含 platform:audit:read=True
+--- 2. 备份（pg_dump custom format，文件不进版本库）
+dump: 229125 字节 sha256=b707648e18ff45589c6be1e23aa797e813f778af36a8f8ed276a0b7f56c2cda3
+--- 3. 备份后变更（模拟灾备窗口内的真实撤销）：重置密码 + 移除平台角色
+T1 已即时撤销: invalid_or_revoked
+主实例撤销完成（重置密码→旧会话 invalid_or_revoked；角色已清空）
+--- 4. 恢复到一次性 SCRATCH 库 iam_dr_123842（主库不动）
+CREATE DATABASE
+scratch 库已恢复；Redis 逻辑库3 已清空（0 库不动）
+--- 5. 第二实例 19102 挂 scratch 库启动
+恢复实例就绪: {"status":"ok","issuer":"air-agent-iam","postgres":true,"redis":true}
+--- 6. 恢复点确认：备份时的状态回来了（T1 active、auditor 权限在）
+恢复点状态一致: active=True, platform:audit:read 存在, 权限数=4
+--- 7. 撤销重施（runbook：按审计事件顺序，在恢复实例补放备份后的撤销）
+恢复点旧会话重施撤销后仍 invalid_or_revoked
+角色限制仍生效: 新会话 active 但无 platform:audit:read（权限数=0）
+撤销重施完成：恢复前撤销的会话不复活、角色限制有效、陈旧修订 409 不回退
+--- 8. 主实例存活确认
+主实例 healthz: {"status":"ok","issuer":"air-agent-iam","postgres":true,"redis":true}
+
+结果：PASS（备份可恢复；撤销重施后旧会话不复活、角色限制生效；仅操作自有库与 scratch）
+边界声明：本演练只覆盖新项目自有 iam 库，不代表旧 Python 业务库拆库迁移演练（C24 归 I4）。

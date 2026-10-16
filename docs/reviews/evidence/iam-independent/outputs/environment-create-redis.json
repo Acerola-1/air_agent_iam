@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/usr/local/bin/container",
+    "run",
+    "-d",
+    "--name",
+    "iam-independent-20261015-5ohaeo-redis",
+    "--label",
+    "audit.run=iam-independent-20261015-5ohaeo",
+    "--cpus",
+    "4",
+    "--memory",
+    "1G",
+    "-p",
+    "127.0.0.1:29179:6379",
+    "--mount",
+    "type=bind,source=/tmp/iam-independent-20261015-5ohAEo/redis.conf,target=/audit-redis.conf,readonly",
+    "docker.io/library/redis:7-alpine",
+    "redis-server",
+    "/audit-redis.conf"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:04:32.048451+00:00",
+  "elapsed_seconds": 0.344,
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "[0/6] [0s]\n[1/6] Fetching image [0s]\n[2/6] Unpacking image [0s]\n[3/6] Fetching kernel [0s]\n[4/6] Fetching init image [0s]\n[5/6] Unpacking init image [0s]\n[5/6] Unpacking init image [0s]\nError: path '/tmp/iam-independent-20261015-5ohAEo/redis.conf' is not a directory\n"
+}

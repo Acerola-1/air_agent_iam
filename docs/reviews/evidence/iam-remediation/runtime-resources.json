@@ -1,0 +1,19 @@
+{
+  "pid": 89269,
+  "jar": "/tmp/iam-remediation-20261015-ugpg7l0a/server/target/iam-server.jar",
+  "jar_sha256": "f4345c8dcdfab2e1f81fda3325e36a3d4cd93d94c4156cf79565405e85514496",
+  "http_port": 29107,
+  "postgres_port": 29132,
+  "database": "iam_remediation",
+  "redis_port": 29179,
+  "redis_database": 2,
+  "private_log": "/tmp/iam-remediation-20261015-ugpg7l0a/runtime-1792118537753423000.log",
+  "status": "running",
+  "rate_limit": "disabled only for independent counterexample/performance probes; production default remains enabled",
+  "health": {
+    "status": "ok",
+    "issuer": "air-agent-iam",
+    "postgres": true,
+    "redis": true
+  }
+}

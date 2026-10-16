@@ -1,0 +1,27 @@
+# 本地真实合成秘密与运行产物，不入库
+.env.local
+*.local
+server/logs/
+docs/reviews/evidence/run/
+tools/bcrypt-vectors/out/
+tools/rt-v1/out/
+contracts/consumer/.venv/
+contracts/consumer/__pycache__/
+tools/**/__pycache__/
+.venv/
+*.pyc
+
+# Java / Maven
+server/target/
+.mvn/wrapper/maven-wrapper.jar
+
+# Node / Vue
+web/node_modules/
+web/dist/
+web/coverage/
+npm-debug.log*
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store

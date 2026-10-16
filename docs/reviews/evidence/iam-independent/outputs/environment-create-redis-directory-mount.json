@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/usr/local/bin/container",
+    "run",
+    "-d",
+    "--name",
+    "iam-independent-20261015-5ohaeo-redis",
+    "--label",
+    "audit.run=iam-independent-20261015-5ohaeo",
+    "--cpus",
+    "4",
+    "--memory",
+    "1G",
+    "-p",
+    "127.0.0.1:29179:6379",
+    "--mount",
+    "type=bind,source=/tmp/iam-independent-20261015-5ohAEo/redis-config,target=/audit-config,readonly",
+    "docker.io/library/redis:7-alpine",
+    "redis-server",
+    "/audit-config/redis.conf"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:05:10.744294+00:00",
+  "elapsed_seconds": 1.124,
+  "exit_code": 0,
+  "stdout": "iam-independent-20261015-5ohaeo-redis\n",
+  "stderr": "[0/6] [0s]\n[1/6] Fetching image [0s]\n[2/6] Unpacking image [0s]\n[3/6] Fetching kernel [0s]\n[4/6] Fetching init image [0s]\n[5/6] Unpacking init image [0s]\n[6/6] Starting container [0s]\n[6/6] Starting container [0s]\n"
+}

@@ -1,0 +1,25 @@
+{
+  "login": "ok",
+  "storageAfterLogin": {
+    "localStorage": [],
+    "sessionStorage": [],
+    "cookieNames": [
+      "air_iam_dev_session",
+      "air_iam_dev_csrf"
+    ],
+    "readableCookie": "air_iam_dev_csrf=i05j0cSt_Z1Bc8EccCNApttBR23MAd3Sq0gJAtEAVhw"
+  },
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "beforeToggle": {
+    "sidebarVisible": false,
+    "hamburgerVisible": true
+  },
+  "drawerOpenVisible": true,
+  "drawerText": "IAM 身份管理 平台管理 平台用户 企业与组织 平台角色 服务账号 平台审计 个人设置",
+  "maskVisible": true,
+  "drawerAfterEscape": false,
+  "sidebarAfterEscape": false
+}

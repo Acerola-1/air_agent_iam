@@ -1,0 +1,13 @@
+{
+  "http_port": 29107,
+  "database": "iam_remediation",
+  "health": {
+    "status": "ok",
+    "issuer": "air-agent-iam",
+    "postgres": true,
+    "redis": true
+  },
+  "admin_status": 200,
+  "jar_sha256": "f4345c8dcdfab2e1f81fda3325e36a3d4cd93d94c4156cf79565405e85514496",
+  "source_matches_tested_copy": true
+}

@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/usr/local/bin/container",
+    "run",
+    "-d",
+    "--name",
+    "iam-independent-20261015-5ohaeo-pg",
+    "--label",
+    "audit.run=iam-independent-20261015-5ohaeo",
+    "--cpus",
+    "4",
+    "--memory",
+    "1G",
+    "-p",
+    "127.0.0.1:29132:5432",
+    "-e",
+    "POSTGRES_USER=postgres",
+    "-e",
+    "POSTGRES_PASSWORD",
+    "-e",
+    "POSTGRES_DB=iam",
+    "docker.io/library/postgres:17-alpine"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:04:31.702610+00:00",
+  "elapsed_seconds": 1.332,
+  "exit_code": 0,
+  "stdout": "iam-independent-20261015-5ohaeo-pg\n",
+  "stderr": "[0/6] [0s]\n[1/6] Fetching image [0s]\n[2/6] Unpacking image [0s]\n[3/6] Fetching kernel [0s]\n[4/6] Fetching init image [0s]\n[5/6] Unpacking init image [0s]\n[6/6] Starting container [0s]\n[6/6] Starting container [1s]\n[6/6] Starting container [1s]\n"
+}

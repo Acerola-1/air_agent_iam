@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/tmp/iam-independent-20261015-5ohAEo/venv/bin/python",
+    "tools/bcrypt-vectors/bcrypt_vectors.py",
+    "generate"
+  ],
+  "cwd": "/tmp/iam-independent-20261015-5ohAEo/source",
+  "time_utc": "2026-10-15T07:07:44.099659+00:00",
+  "elapsed_seconds": 1.283,
+  "exit_code": 0,
+  "stdout": "PY  ascii                    [BCRYPT-REDACTED]\nPY  chinese                  [BCRYPT-REDACTED]\nPY  multibyte-mixed          [BCRYPT-REDACTED]\nPY  exactly-72-bytes         [BCRYPT-REDACTED]\nPY  73-bytes-truncated-to-72 [BCRYPT-REDACTED]\nPY  empty                    [BCRYPT-REDACTED]\nwritten: /private/tmp/iam-independent-20261015-5ohAEo/source/tools/bcrypt-vectors/out/bcrypt-py-vectors.json\n",
+  "stderr": ""
+}

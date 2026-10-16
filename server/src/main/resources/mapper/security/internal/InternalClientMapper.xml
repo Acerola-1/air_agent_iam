@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.security.internal.mapper.InternalClientMapper">
+    <resultMap id="InternalClient" type="com.airagent.iam.security.internal.InternalClient">
+        <constructor>
+            <arg column="client_id" javaType="String"/>
+            <arg column="name" javaType="String"/>
+            <arg column="scopes" javaType="java.util.List"/>
+            <arg column="audiences" javaType="java.util.List"/>
+            <arg column="status" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <select id="authenticate" resultMap="InternalClient" useCache="false">
+        SELECT client_id, name, scopes, audiences, status FROM iam_auth.authenticate_internal_client(#{clientId}, #{digest})
+    </select>
+    <select id="authenticateBearer" resultMap="InternalClient" useCache="false">
+        SELECT client_id, name, scopes, audiences, status FROM iam_auth.authenticate_internal_bearer(#{digest})
+    </select>
+</mapper>

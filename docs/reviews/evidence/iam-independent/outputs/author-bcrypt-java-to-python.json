@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/tmp/iam-independent-20261015-5ohAEo/venv/bin/python",
+    "tools/bcrypt-vectors/bcrypt_vectors.py",
+    "verify-java",
+    "server/target/bcrypt-java-vectors.json"
+  ],
+  "cwd": "/tmp/iam-independent-20261015-5ohAEo/source",
+  "time_utc": "2026-10-15T07:08:53.931689+00:00",
+  "elapsed_seconds": 2.473,
+  "exit_code": 0,
+  "stdout": "java vectors: checked=6 failures=0\n",
+  "stderr": ""
+}

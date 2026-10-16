@@ -1,0 +1,78 @@
+{
+  "state": "IN_PROGRESS — 独立验收未完成，不能据本检查点交付最终结论",
+  "scope": "I1独立IAM；I1a/I2/I3/I4未实施，不触碰原Python仓库及既有服务",
+  "private_root": "/tmp/iam-independent-20261015-5ohAEo",
+  "product_copy": "/tmp/iam-independent-20261015-5ohAEo/source",
+  "resources": "resources.json；本轮自建PG/Redis容器及Java进程仍在运行以供后续验收，不可遗漏最终清理",
+  "runtime": {
+    "http": "http://127.0.0.1:29100",
+    "pg_port": 29132,
+    "redis_port": 29179,
+    "database": "iam",
+    "author_test_database": "iam_test",
+    "java_pid": 15859,
+    "credentials": "仅存在private_root下environment.json及副本.env.local；不要读取或输出其内容，用探针内部加载",
+    "app_user": "iam_app",
+    "migrate_user": "iam_migrate",
+    "bootstrap_account": "audit.root",
+    "browser_engine": "Microsoft Edge 155.0.4283.45 / Playwright 1.64.0"
+  },
+  "input_integrity": {
+    "git": "非Git；未初始化Git",
+    "baseline": "input-baseline.json",
+    "checkpoint": "input-checkpoint-1.json",
+    "file_count": 282,
+    "content_changes": [],
+    "generated_exclusions": "node_modules/target/dist/logs/.venv等；真实.env仅统计元数据，不读秘密",
+    "applicable_rules": "项目内和所有上级未找到AGENTS.md；无项目.qoder/skills"
+  },
+  "completed_observations": [
+    "空Maven依赖仓库、独立源码副本JDK21构建成功；Boot4.0.8/Sa-Token1.46.0；Jackson3.1.5与Flyway引入的Jackson2.21.5同时存在，无Boot3 starter",
+    "npm ci、Vue build（含vue-tsc）成功；作者Vitest 17/17通过",
+    "作者Maven测试72/72通过；6项作者bcrypt和6项作者rt向量双向通过，但不能替代真实旧消费者兼容性",
+    "专属空库V1–V11成功迁移，运行请求角色真实非owner/non-super/nonBYPASS",
+    "未知账号500；正确用户错误密码401；无token及垃圾token /me均401",
+    "Redis单个本次合成会话键删除后 /me401，但内部introspection200且active=true",
+    "logout204事务提交后首次introspection active=false；恢复同一旧Redis键仍不能绕过PG撤销",
+    "浏览器适配缺CSRF/外Origin/Authorization注入被拒绝；未知API与缺失JS返回404而非HTML；SPA深链接正常",
+    "真实Edge经UI登录深链接到用户页、刷新保持会话；JS仅见CSRF cookie，未见HttpOnly句柄；storage为空",
+    "真实Edge点击续期会话触发400 expected_ctx_version必填；API提供正确CAS字段的正向对照200",
+    "真实Edge390×844：抽屉Escape关闭，8步Tab焦点已记录；截图实际全页宽度有异常空白，待进一步检查，不能仅凭document.scrollWidth宣布完全适配",
+    "真实原Python消费者模块只读字节副本与实际Java JAR导出类双向签验：各自正向有效；Java→原Python ticket shape invalid；原Python→Java malformed；Java3段签header.payload，原rt-v1两段签原body文本"
+  ],
+  "confirmed_findings_pending_report": [
+    {"id":"F-RT-COMPAT","severity":"高","files":["server/src/main/java/com/airagent/iam/security/rt/RtV1Codec.java:30","server/src/main/java/com/airagent/iam/security/rt/RtV1Codec.java:42"],"evidence":"independent-rt-cross-consumer.jsonl","note":"需补真实runtime-tickets HTTP签发→原Python消费者，再核对http-contract与原规格对应行"},
+    {"id":"F-REDIS-SESSION","severity":"高","files":["server/src/main/java/com/airagent/iam/internal/IntrospectionService.java:73","server/src/main/java/com/airagent/iam/internal/IntrospectionService.java:254"],"evidence":"independent-initial-http.jsonl","note":"实际缺Redis会话仍internal active；完整依赖停机/重启/提交窗口尚未覆盖"},
+    {"id":"F-WEB-RENEW","severity":"中","files":["web/src/api/endpoints.ts:38","web/src/stores/auth.ts:157","server/src/main/java/com/airagent/iam/webapi/WebApiAuthController.java:151","server/src/main/java/com/airagent/iam/auth/SessionService.java:292"],"evidence":"browser-smoke-r2.jsonl + independent-initial-http.jsonl","note":"真实UI必需功能失败，不能有条件通过"},
+    {"id":"F-UNKNOWN-LOGIN","severity":"中","files":["server/src/main/java/com/airagent/iam/auth/SessionService.java:75"],"evidence":"independent-initial-http.jsonl + browser-smoke-r2.jsonl","note":"未知账号500与已知账号错密401形成差异；需核对GlobalExceptionHandler具体行"}
+  ],
+  "static_hypotheses_not_yet_runtime_verified": [
+    "web/src/stores/auth.ts:125 switchTenant没有epoch freshness guard；迟到切换/退出竞态待验证",
+    "TenantDepartmentsView.vue:158提交不含tenant/ctx_version，跨标签页切企业后旧表单可能写入新企业；草稿未清理，需真实浏览器双标签和HTTP正反对照",
+    "IntrospectionService对human没有核对请求audience与login_audience，IdentityAssembler:57/73返回登录audience；需要契约逐字段校验",
+    "application.yml pg connectTimeout=3000/socketTimeout=10000是驱动秒单位，Hikari3000ms/Redis1s与设计500/100/50ms目标不一致，需故障实测"
+  ],
+  "read_complete_by_primary": [
+    "README.md","openspec/config.yaml","openspec/changes/establish-shared-iam-service/proposal.md","openspec/changes/establish-shared-iam-service/design.md","docs/vue-admin-plan.md","docs/reference/cross-service-acceptance.md",
+    "server/pom.xml","server/src/main/resources/application.yml","server/src/test/resources/application-it.yml","server/.mvn/wrapper/maven-wrapper.properties",".env.example",
+    "scripts/infra-up.sh","scripts/run-server.sh","scripts/verify-acceptance-matrix.sh","scripts/verify-gate0-env.sh","scripts/verify-crypto-vectors.sh","scripts/verify-db-isolation.sh",
+    "SessionService.java","IntrospectionService.java","IdentityAssembler.java","InternalApiController.java","RuntimeTicketService.java","InternalClientAuthenticator.java","InternalClientInterceptor.java","BearerAuthInterceptor.java","BrowserSessionService.java","CsrfOriginInterceptor.java","WebApiAuthController.java","WebMvcConfiguration.java","RtV1Codec.java","RtV1VerifyResult.java",
+    "web/package.json","web/src/api/http.ts","web/src/api/endpoints.ts","web/src/stores/auth.ts","web/src/layouts/AdminLayout.vue","web/src/views/tenant/TenantDepartmentsView.vue","web/src/views/LoginView.vue","web/src/router/index.ts",
+    "原Python/src/common/identity/ticket.py；原Python/admin/api/app/security.py前330行"
+  ],
+  "research_interruption": "两个general-purpose静态研究任务在约509秒被中断，未交付static-db-admin.json或spec-author-evidence-review.json；不可据其意图认为已完成阅读/审查。不要重复启动大规模研究；主审须继续直接读取相关规格/代码/历史证据。所有研究任务已终止，无待收结果。",
+  "next_work_required": [
+    "补完整读取http-contract、两specs、tasks、contracts、作者报告与原始证据，建立C01–C30适用性及全部用户要求映射；Gate0/合同作者脚本不能未审查就执行",
+    "读取迁移、AdminSupport/管理服务/控制器、SSO与服务账号实现；以真实API创建全新A/B企业、双成员用户、低权用户夹具",
+    "执行多租户ID替换/部门环/列权限/FK/GUC清理与取消/池复用/最后管理员真实并发/平台权限可授边界",
+    "执行全部撤销生命周期、CAS并发、A→B→A、续期期限/并发/不可复活、client/服务账号分型/受众/范围/期限/轮换/verification_ref绑定与撤销",
+    "补独立bcrypt固定向量真实Java/Python双向；rt-v1 HTTP签票与原消费者核验；保留原模块只读与未真实接入边界",
+    "故障仅注入自建容器：PG/Redis异常、提交窗口、审计同事务/outbox重试、恢复后撤销重放；新空库已测，升级和备份恢复还未测",
+    "真实浏览器完整用户/企业/部门/成员/角色/审计/改密/退出CRUD及刷新；空态失败403/409/503/过期/IME/焦点/Escape/双标签/迟到/在飞写操作",
+    "独立SSO双合成客户端、Origin/CORS/CSRF/Secure cookie、白名单及ticket一次性消费",
+    "C25暖连接至少100样本×3轮×并发1/10/30，原始授权结果和P50/P95/P99/错误/开销/等待分开；阈值P50≤10ms/P95≤30ms，单核验P95≤50ms，不放宽不缓存",
+    "最终报告docs/reviews/iam-independent-acceptance.md，逐条漏洞与未验证风险和修复顺序；prompt-to-artifact逐项完成审计；秘密扫描；资源停止确认；原源码指纹最终核对；仅全部交付后UpdateGoal complete"
+  ],
+  "timing": "本检查点约2026-10-15T07:14Z；目标开始2026-10-15T06:58:53Z；构建/测试/HTTP延迟分别在原始JSON记录",
+  "token_usage": "未采集"
+}

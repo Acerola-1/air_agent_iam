@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--version"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:04:29.604439+00:00",
+  "elapsed_seconds": 0.135,
+  "exit_code": 0,
+  "stdout": "v26.11.1\n",
+  "stderr": ""
+}

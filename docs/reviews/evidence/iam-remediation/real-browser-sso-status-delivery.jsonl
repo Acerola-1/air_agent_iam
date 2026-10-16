@@ -1,0 +1,6 @@
+{"case": "real-agent-SSO-server-exchange", "status": 200, "passed": true}
+{"case": "real-kb-SSO-server-exchange", "status": 200, "passed": true}
+{"case": "central-context-shared-with-both-BFFs", "passed": true}
+{"case": "central-logout-rejects-both-old-BFF-cookies", "statuses": [401, 401], "passed": true}
+{"case": "real-enterprise-disable-and-enable", "statuses": ["suspended", "active"], "passed": true}
+{"case": "narrow-dialog-keyboard", "fits_width": true, "tab_focus_inside": true, "escape_closes": true, "passed": true}

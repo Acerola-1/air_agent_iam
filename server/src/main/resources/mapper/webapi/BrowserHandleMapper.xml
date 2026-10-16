@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.webapi.mapper.BrowserHandleMapper">
+    <resultMap id="BrowserHandleRow" type="com.airagent.iam.webapi.BrowserHandleRow">
+        <constructor>
+            <arg column="handle_digest" javaType="String"/>
+            <arg column="session_id" javaType="java.util.UUID"/>
+            <arg column="csrf_token" javaType="String"/>
+            <arg column="authenticated_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="expires_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="revoked_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <select id="open" resultType="int" useCache="false" affectData="true" flushCache="true">
+        SELECT 1 FROM iam_auth.browser_handle_open(#{digest}, #{csrfToken}, #{expiresAt})
+    </select>
+    <select id="bind" resultType="int" useCache="false" affectData="true" flushCache="true">
+        SELECT 1 FROM iam_auth.browser_handle_bind(#{oldDigest,jdbcType=VARCHAR}, #{newDigest}, #{sessionId}, #{csrfToken}, #{expiresAt})
+    </select>
+    <select id="resolve" resultMap="BrowserHandleRow" useCache="false">
+        SELECT handle_digest, session_id, csrf_token, authenticated_at, expires_at, revoked_at FROM iam_auth.browser_handle_get(#{digest})
+    </select>
+    <select id="touch" resultType="int" useCache="false" affectData="true" flushCache="true">
+        SELECT 1 FROM iam_auth.browser_handle_touch(#{digest}, #{expiresAt})
+    </select>
+    <select id="revoke" resultType="java.util.UUID" useCache="false" affectData="true" flushCache="true">
+        SELECT iam_auth.browser_handle_revoke(#{digest})
+    </select>
+</mapper>

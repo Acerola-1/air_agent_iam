@@ -1,0 +1,62 @@
+# Gate0 源仓库只读基线（建立于 2026-10-14T18:34:38Z）
+# 用途：verify-gate0-env.sh 比对本包实施期间未向两 Python 源仓库新增写入。
+# HEAD/未提交条目为开工时预存状态（产品基线 2d6f7c8 之后的 Agent 规划 8620cf7 工作区），非本包产生。
+[/Users/acerola/Dev/Python/air_agent]
+# HEAD 8620cf78b22cb7234fe650fa5c9f032359e0d70d
+ M .env.example
+ M DESIGN.md
+ M UX-CONTRACT.md
+ M admin/api/app/config.py
+ M admin/api/app/models_ledger.py
+ M admin/api/app/routers/ledger.py
+ M admin/api/app/schemas_ledger.py
+ M admin/api/app/services/enterprise_permissions.py
+ M admin/api/app/services/ledger.py
+ M docs/contracts/agent-events-v1/event-registry.json
+ M docs/contracts/agent-events-v1/samples/samples.json
+ M frontend/app/api/[..._path]/route.ts
+ M frontend/components/chat/ChatPanel.tsx
+ M frontend/lib/agent-events/contract-data.ts
+ M frontend/lib/agent-ledger.ts
+ M frontend/lib/chat-store.ts
+ M frontend/lib/langgraph-api.ts
+ M frontend/next-env.d.ts
+ M frontend/package.json
+ M frontend/tests/agent-events-contract.test.cjs
+ M frontend/tests/chat-contract.test.cjs
+ M openspec/changes/add-skill-tool-selection/tasks.md
+ M src/common/artifact_http.py
+ M src/common/business_graph/nodes.py
+ M src/common/business_graph/skill_content.py
+ M src/common/config/settings.py
+ M src/common/event_ledger/contract_data/event-registry.json
+ M src/common/event_ledger/contract_data/samples.json
+ M src/common/event_ledger/store.py
+ M src/common/identity/db.py
+ M src/common/identity/langgraph_auth.py
+ M src/common/mcp_scoped.py
+ M src/common/middleware/tenant_runtime_guard_middleware.py
+ M src/common/observability/store.py
+ M src/common/skill_discovery.py
+ M src/common/skill_router.py
+ M src/data_analysis/nodes.py
+ M src/deep_research/graph.py
+ M src/intelligent_report/graph.py
+ M src/intelligent_tracing/graph.py
+ M tests/mcp_fixture/server.py
+ M tests/unit_tests/test_event_ledger_contract.py
+?? admin/api/migrations/versions/0013s_capability_selection.py
+?? admin/api/tests/test_ledger_selection_persistence.py
+?? docs/reviews/evidence/flash-05/
+?? docs/reviews/skill-tool-selection-acceptance.md
+?? frontend/app/api/capabilities/
+?? frontend/components/chat/CapabilitySelector.tsx
+?? frontend/lib/capability-store.ts
+?? frontend/tests/capability-store-contract.test.cjs
+?? src/common/capabilities.py
+?? tests/benchmark_capability_overhead.py
+?? tests/test_capabilities_catalog.py
+?? tests/test_gate0_verification.py
+?? tests/test_six_graphs_execution_constraints.py
+[/Users/acerola/Dev/Python/RAG/env-rag-final]
+# HEAD 1aa52b04976a94ad6e969775ced07cf1828ca81e

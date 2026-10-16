@@ -1,0 +1,15 @@
+{
+  "command": [
+    "./mvnw",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=/tmp/iam-independent-20261015-5ohAEo/m2-clean",
+    "-Dtest=CrossLanguageVectorTest",
+    "test"
+  ],
+  "cwd": "/tmp/iam-remediation-20261015-ugpg7l0a/server",
+  "elapsed_seconds": 20.711,
+  "exit_code": 0,
+  "stdout": "[INFO] Scanning for projects...\n[INFO] Loaded 24102 auto-discovered prefixes for remote repository central (prefixes-central.txt)\n[INFO] \n[INFO] ----------------------< com.airagent:iam-server >-----------------------\n[INFO] Building air-agent-iam-server 1.0.0-SNAPSHOT\n[INFO]   from pom.xml\n[INFO] --------------------------------[ jar ]---------------------------------\n[INFO] Loaded 74 auto-discovered prefixes for remote repository apache.snapshots (prefixes-apache.snapshots.txt)\n[INFO] Loaded 24102 auto-discovered prefixes for remote repository maven-central (prefixes-maven-central.txt)\n[WARNING] Could not transfer metadata /.meta/prefixes.txt from/to flyway-community-db-support (https://maven.pkg.github.com/flyway/flyway-community-db-support): HTTP Status: 401\n[INFO] \n[INFO] --- resources:3.3.1:resources (default-resources) @ iam-server ---\n[INFO] Copying 1 resource from src/main/resources to target/classes\n[INFO] Copying 15 resources from src/main/resources to target/classes\n[INFO] \n[INFO] --- compiler:3.14.1:compile (default-compile) @ iam-server ---\n[INFO] Nothing to compile - all classes are up to date.\n[INFO] \n[INFO] --- resources:3.3.1:testResources (default-testResources) @ iam-server ---\n[INFO] Copying 2 resources from src/test/resources to target/test-classes\n[INFO] \n[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ iam-server ---\n[INFO] Nothing to compile - all classes are up to date.\n[INFO] \n[INFO] --- surefire:3.5.6:test (default-test) @ iam-server ---\n[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO] \n[INFO] -------------------------------------------------------\n[INFO]  T E S T S\n[INFO] -------------------------------------------------------\n[INFO] Running com.airagent.iam.security.CrossLanguageVectorTest\n[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.707 s -- in com.airagent.iam.security.CrossLanguageVectorTest\n[INFO] \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO] BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO] Total time:  18.928 s\n[INFO] Finished at: 2026-10-16T08:49:01+08:00\n[INFO] ------------------------------------------------------------------------\n",
+  "stderr": ""
+}

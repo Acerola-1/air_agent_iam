@@ -1,0 +1,9 @@
+{"case": "member-create-roles", "time_utc": "2026-10-15T12:38:19.724361+00:00", "status": 201, "expected": "201"}
+{"case": "member-role-replace", "time_utc": "2026-10-15T12:38:21.759931+00:00", "status": 200, "expected": "200"}
+{"case": "stale-tab-real-switch-conflict", "time_utc": "2026-10-15T12:38:22.943794+00:00", "status": 409, "expected": "409"}
+{"case": "settled-narrow-dialog-geometry", "time_utc": "2026-10-15T12:38:23.535588+00:00", "actual": {"x": 15.59375, "y": 126.59375, "width": 358.796875, "height": 360}, "expected": "all boundaries within390x844"}
+{"case": "browser-ime-composition", "time_utc": "2026-10-15T12:38:23.557171+00:00", "actual": {"value": "中文组合完成", "method": "Chromium CDP IME protocol; physical OS IME not measured"}}
+{"case": "narrow-select-open", "time_utc": "2026-10-15T12:38:23.811913+00:00", "actual": {"popup_count": 1, "geometry": {"x": 33, "y": 417.9873352050781, "width": 325, "height": 112.55490112304688}}}
+{"case": "settled-escape-closes-dialog", "time_utc": "2026-10-15T12:38:24.260663+00:00", "actual": false}
+{"case": "tenant-direct-platform-deep-link", "time_utc": "2026-10-15T12:38:24.363730+00:00", "actual": "http://127.0.0.1:29100/403", "expected": "403 route"}
+{"case": "real-ui-logout-confirmed", "time_utc": "2026-10-15T12:38:25.192478+00:00", "actual": "http://127.0.0.1:29100/login"}

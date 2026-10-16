@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/tmp/iam-independent-20261015-5ohAEo/venv/bin/python",
+    "tools/rt-v1/rt_v1.py",
+    "verify",
+    "server/target/rt-v1-java-tokens.json"
+  ],
+  "cwd": "/tmp/iam-independent-20261015-5ohAEo/source",
+  "time_utc": "2026-10-15T07:08:54.000566+00:00",
+  "elapsed_seconds": 0.068,
+  "exit_code": 0,
+  "stdout": "JAVA valid                      -> ok [OK]\nJAVA wrong-audience             -> bad_audience [OK]\nJAVA wrong-kid                  -> bad_kid [OK]\nJAVA expired                    -> expired [OK]\nJAVA wrong-secret-signature     -> bad_signature [OK]\nJAVA mutated-signature          -> bad_signature [OK]\njava tickets: checked=6 failures=0\n",
+  "stderr": ""
+}

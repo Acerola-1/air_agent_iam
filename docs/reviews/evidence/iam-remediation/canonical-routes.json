@@ -1,0 +1,24 @@
+{
+  "rows": [
+    {
+      "case": "canonical-csrf",
+      "status": 200
+    },
+    {
+      "case": "canonical-sso-authorize",
+      "status": 303,
+      "exact_callback": true,
+      "no_user_bearer_in_url": true
+    },
+    {
+      "case": "SSO-registered-client-Bearer",
+      "status": 200,
+      "audience": "air-agent"
+    },
+    {
+      "case": "canonical-menu-items",
+      "status": 200,
+      "items_present": true
+    }
+  ]
+}

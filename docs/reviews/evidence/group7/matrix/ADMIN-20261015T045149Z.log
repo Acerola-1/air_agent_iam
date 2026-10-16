@@ -1,0 +1,162 @@
+
+========== 环境与前置 ==========
+2026-10-15T04:54:06Z
+java: openjdk version "21.0.12.1" 2026-08-18 LTS
+复用已在 http://127.0.0.1:19100 运行的服务
+{"status":"ok","issuer":"air-agent-iam","postgres":true,"redis":true}
+
+========== A 段：AdminApiIntegrationTest(8)，真实 PG iam_test/Redis ==========
+[INFO] Scanning for projects...
+[INFO] Loaded 24086 auto-discovered prefixes for remote repository central (prefixes-central.txt)
+[INFO] 
+[INFO] ----------------------< com.airagent:iam-server >-----------------------
+[INFO] Building air-agent-iam-server 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] Loaded 74 auto-discovered prefixes for remote repository apache.snapshots (prefixes-apache.snapshots.txt)
+[INFO] Loaded 24086 auto-discovered prefixes for remote repository maven-central (prefixes-maven-central.txt)
+[WARNING] Could not transfer metadata /.meta/prefixes.txt from/to flyway-community-db-support (https://maven.pkg.github.com/flyway/flyway-community-db-support): HTTP Status: 401
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ iam-server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 13 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ iam-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ iam-server ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ iam-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ iam-server ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.airagent.iam.admin.AdminApiIntegrationTest
+12:54:17.534 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.airagent.iam.admin.AdminApiIntegrationTest]: AdminApiIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:54:17.697 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.airagent.iam.IamApplication for test class com.airagent.iam.admin.AdminApiIntegrationTest
+12:54:17.780 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.airagent.iam.admin.AdminApiIntegrationTest]: AdminApiIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:54:17.782 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.airagent.iam.IamApplication for test class com.airagent.iam.admin.AdminApiIntegrationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.8)
+
+2026-10-15 12:54:18.070 INFO  [main] c.a.i.admin.AdminApiIntegrationTest - Starting AdminApiIntegrationTest using Java 21.0.12.1 with PID 72837 (started by acerola in /Users/acerola/Dev/Java/air_agent_iam/server)
+2026-10-15 12:54:18.071 INFO  [main] c.a.i.admin.AdminApiIntegrationTest - The following 1 profile is active: "it"
+2026-10-15 12:54:18.726 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-15 12:54:18.729 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-10-15 12:54:18.771 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 28 ms. Found 0 Redis repository interfaces.
+2026-10-15 12:54:19.554 INFO  [main] org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://127.0.0.1:19132/iam_test?ApplicationName=iam-it-flyway (PostgreSQL 17.10)
+2026-10-15 12:54:19.605 INFO  [main] o.f.core.internal.command.DbValidate - Successfully validated 12 migrations (execution time 00:00.028s)
+2026-10-15 12:54:19.650 INFO  [main] o.f.core.internal.command.DbMigrate - Current version of schema "iam": 11
+2026-10-15 12:54:19.652 INFO  [main] o.f.core.internal.command.DbMigrate - Schema "iam" is up to date. No migration necessary.
+2026-10-15 12:54:19.853 WARN  [main] i.n.r.d.DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+____ ____    ___ ____ _  _ ____ _  _ 
+[__  |__| __  |  |  | |_/  |___ |\ | 
+___] |  |     |  |__| | \_ |___ | \| 
+https://sa-token.com (v1.46.0)
+2026-10-15 12:54:21.323 INFO  [main] c.a.i.admin.AdminApiIntegrationTest - Started AdminApiIntegrationTest in 3.49 seconds (process running for 4.575)
+2026-10-15 12:54:21.333 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource - iam-it-hikari - Starting...
+2026-10-15 12:54:21.382 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource - iam-it-hikari - Start completed.
+2026-10-15 12:54:21.476 INFO  [main] c.airagent.iam.auth.BootstrapRunner - SSO 客户端处理完成 client_id=air-agent-local created=true
+2026-10-15 12:54:21.483 INFO  [main] c.airagent.iam.auth.BootstrapRunner - SSO 客户端处理完成 client_id=knowledge-local created=true
+2026-10-15 12:54:21.645 INFO  [main] c.airagent.iam.auth.BootstrapRunner - Bootstrap 账号处理完成 account=platform_boot created=true
+2026-10-15 12:54:21.648 INFO  [main] c.airagent.iam.auth.BootstrapRunner - 内部 runtime 客户端处理完成 client_id=runtime-local created=true revision=1
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/Users/acerola/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.27 s -- in com.airagent.iam.admin.AdminApiIntegrationTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.725 s
+[INFO] Finished at: 2026-10-15T12:54:28+08:00
+[INFO] ------------------------------------------------------------------------
+
+========== B0：平台登录 + 首位企业管理员种子（成员关系由 migrate 角色单事务植入） ==========
+BEGIN
+ set_request_context 
+---------------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+ set_request_context 
+---------------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+COMMIT
+首位企业管理员就绪 tenant=B5-125406558 admin=b5adm-125406558
+
+========== B1：用户建档/弱口令/重复/搜索/资料 CAS/重置密码即时撤销/最后超管保护 ==========
+建档 201 id=f0a4cd8f-dda8 auth_revision=0 响应无口令字段
+弱口令 400: password 长度必须在 8 到 256 之间
+重复账号 409 ok
+搜索命中 1 条，含目标账号
+资料 CAS 成功且不推进 auth_revision（仍 0）
+旧会话即时撤销 401 ok
+旧口令 401 / 新口令 200 ok
+最后平台超管保护 409 ok
+
+========== B2：企业建档/修订/停用 ==========
+企业建档 201 revision=1: B5T2-125406558
+企业停用 CAS ok；企业管理员写企业接口必须 403
+
+========== B3：成员建档/不自动合并/显式关联/角色 CAS/停用即时失效/平台接口越权 ==========
+成员建档 201 membership revision=2（建档带角色触发器已推进）
+同名不合并 409 / 显式 user_id 201 / 重复关联 409 ok
+角色全量替换 CAS ok，revision=4
+成员停用即时生效 403 ok
+平台/企业可授分离 403 ok
+
+========== B4：部门树建档与成环拒绝 ==========
+层级成环 409 ok
+
+========== B5：企业角色可授边界/内置角色保护/可授树 ==========
+可授边界：tenant 角色授 platform 码 409 ok
+内置角色保护 403 ok
+可授树分组: [('tenant', 7)]
+权限目录 7 条，仅企业可授，无资源型
+
+========== B6：审计日志隔离/分页/页宽钳制/坏游标 ==========
+平台审计首页页宽生效，本页 5 条
+平台审计跨租户可见：NULL 平台级事件 + 租户事件共存，共 200 条
+企业审计 10 条全部属于本租户（RLS 强制，无 NULL/跨租户泄漏）
+页宽上界拒绝: limit 必须在 1 到 200 之间
+limit=200 边界放行，实际 200 条（分页恒 ≤200）
+坏游标 400 ok
+
+========== B7：服务账号列表/详情无明文/停用即时/恢复 ==========
+列表/详情仅凭据元数据：credential_id=sak_919b6ade status=active
+停用前 introspect active
+停用后 introspect 即时 inactive: account_disabled
+恢复后 introspect active
+
+========== B8：秘密扫描（证据文件 + 服务日志） ==========
+复用外部服务实例，跳过服务日志扫描（仅扫描证据文件，零命中）
+
+========== 结论：全部黑盒断言通过 ==========
+2026-10-15T04:54:36Z
+证据：docs/reviews/evidence/group5/admin-apis.txt

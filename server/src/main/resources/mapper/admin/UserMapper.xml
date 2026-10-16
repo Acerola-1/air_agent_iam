@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.admin.mapper.UserMapper">
+    <resultMap id="user" type="com.airagent.iam.admin.entity.UserDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="realm" javaType="String"/>
+            <arg column="account" javaType="String"/>
+            <arg column="display_name" javaType="String"/>
+            <arg column="status" javaType="String"/>
+            <arg column="auth_revision" javaType="_long"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <sql id="userColumns">id, realm, account, display_name, status, auth_revision, created_at</sql>
+    <select id="selectPage" resultMap="user" useCache="false">
+        SELECT <include refid="userColumns"/> FROM iam.users
+        <where>
+            <if test="query != null">position(lower(#{query}) in lower(account)) &gt; 0</if>
+            <if test="afterId != null">AND id &gt; #{afterId}</if>
+        </where>
+        ORDER BY id ASC LIMIT #{fetchSize}
+    </select>
+    <select id="selectById" resultMap="user" useCache="false">
+        SELECT <include refid="userColumns"/> FROM iam.users WHERE id = #{id}
+    </select>
+    <select id="selectForUpdate" resultMap="user" useCache="false">
+        SELECT <include refid="userColumns"/> FROM iam.users WHERE id = #{id} FOR UPDATE
+    </select>
+    <select id="insert" resultType="java.util.UUID" affectData="true" flushCache="true" useCache="false">
+        INSERT INTO iam.users(realm, account, display_name, password_hash)
+        VALUES ('workforce', #{account}, #{displayName}, #{passwordHash}) RETURNING id
+    </select>
+    <update id="updateDisplayName">UPDATE iam.users SET display_name = #{displayName} WHERE id = #{id}</update>
+    <update id="updateStatus">UPDATE iam.users SET status = #{status} WHERE id = #{id}</update>
+    <select id="setPassword" resultType="long" affectData="true" flushCache="true" useCache="false">
+        SELECT iam_auth.set_user_password(#{id}, #{passwordHash})
+    </select>
+    <select id="revokeSessions" resultType="String" affectData="true" flushCache="true" useCache="false">
+        SELECT digest FROM iam_auth.revoke_user_sessions(#{id}, NULL, #{reason})
+    </select>
+    <select id="selectPlatformRoleIds" resultType="java.util.UUID" useCache="false">
+        SELECT id FROM iam.roles WHERE scope = 'platform' AND status = 'active' AND code IN
+        <foreach collection="codes" item="code" open="(" separator="," close=")">#{code}</foreach>
+    </select>
+    <delete id="deletePlatformRoles">DELETE FROM iam.user_roles WHERE user_id = #{userId}</delete>
+    <insert id="insertPlatformRole">
+        INSERT INTO iam.user_roles(user_id, role_id, granted_by) VALUES (#{userId}, #{roleId}, #{actorId})
+    </insert>
+    <select id="selectPlatformRoleCodes" resultType="String" useCache="false">
+        SELECT r.code FROM iam.user_roles ur JOIN iam.roles r ON r.id = ur.role_id
+        WHERE ur.user_id = #{userId} ORDER BY r.code
+    </select>
+</mapper>

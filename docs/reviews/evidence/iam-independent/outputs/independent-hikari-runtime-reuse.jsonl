@@ -1,0 +1,2 @@
+{"case": "actual-hikari-one-connection", "time_utc": "2026-10-15T12:45:54.910394+00:00", "actual": [], "expected": "exactly one iam_app backend"}
+{"case": "hikari-owned-jvm-cleanup", "time_utc": "2026-10-15T12:45:55.358093+00:00", "actual": {"stopped": true}}

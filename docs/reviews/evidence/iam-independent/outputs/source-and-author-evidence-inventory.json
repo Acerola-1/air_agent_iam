@@ -1,0 +1,585 @@
+{
+  "author_raw_text_evidence": [
+    {
+      "file": "docs/reviews/evidence/gate0/c01-build-start.txt",
+      "sha256": "06d29bc665430511e55ce423a357e81cc741c46fad9aefbc076a6ae403015a45",
+      "lines": 20,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/gate0/c13-loopback-env-shape.txt",
+      "sha256": "16682187c1369a070deaf1793fb38cdf9e25f18484ff9e84c1d5c9a4460d768c",
+      "lines": 60,
+      "pass_markers": 12,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/gate0/source-repo-baseline.txt",
+      "sha256": "42d7374fd7524aec7edab7f6b3741b8b01c4db8ed9c9354949aaf3601fbd3f4b",
+      "lines": 62,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group1/c02-c03-crypto-vectors.txt",
+      "sha256": "ed4d168923fb59f04ff89ee7ee4ec5041e1282ec7c365738a84e399aea86ee25",
+      "lines": 22,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group1/c04-c12-contract-freeze.txt",
+      "sha256": "73ad52931ea1b17996a40931b7ed2724e7da1161469b2fc3ff242e08598efa5c",
+      "lines": 38,
+      "pass_markers": 37,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group2/c04-c08-c09-c10-c16-db-isolation.txt",
+      "sha256": "aa85911fa77a09da432d2ea9c736f7b9cdc64654d4cbe85430f2734553186ff1",
+      "lines": 80,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group3/c05-c06-c07-c11-c16-session-authority.txt",
+      "sha256": "6437eefe827cf2c5408090d1d85a1803313f511ba631c1843ae6a38b4f37ddd5",
+      "lines": 169,
+      "pass_markers": 0,
+      "failure_marker_count": 1
+    },
+    {
+      "file": "docs/reviews/evidence/group4/c02-c03-cross-language-vectors.txt",
+      "sha256": "32f8b5f56b77d3b624a0f71ae026c7b35b821dcd75d8a283e8363bae6b18e4e1",
+      "lines": 21,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group4/c12-c13-c03-c15-internal-principals.txt",
+      "sha256": "e1783c05f4cc31a40b82866f1204ae91f0a1b38982adef2c4c0b5b54f0ce4f71",
+      "lines": 196,
+      "pass_markers": 0,
+      "failure_marker_count": 4
+    },
+    {
+      "file": "docs/reviews/evidence/group5/admin-apis.txt",
+      "sha256": "3696644dc71bb87ff678b66298e076dbf5e49dbefed54cbda3ac6a761c2ffd44",
+      "lines": 162,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group6/browser-evidence.md",
+      "sha256": "3e78f019c432410b2f733074b776b031d3c1810dafc0132ab2a9d705dcffb239",
+      "lines": 67,
+      "pass_markers": 0,
+      "failure_marker_count": 1
+    },
+    {
+      "file": "docs/reviews/evidence/group6/dependency-failure-503.txt",
+      "sha256": "9fa6a1b05646c4da9528b3274355c829b93db5763d00f3ce3dc8da2e606a2991",
+      "lines": 11,
+      "pass_markers": 0,
+      "failure_marker_count": 2
+    },
+    {
+      "file": "docs/reviews/evidence/group6/narrow-390.json",
+      "sha256": "40380faa0313fe3325f1016d18d2c55dcf870a4d735d1c11c8cc66c27562c9aa",
+      "lines": 25,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group6/tenant-switch/dual-tenant-browser-evidence.md",
+      "sha256": "7871e4f5972701227e7dbfef18d9820e31fd561b7dc4de0fee7765dcb2e64ff6",
+      "lines": 83,
+      "pass_markers": 3,
+      "failure_marker_count": 2
+    },
+    {
+      "file": "docs/reviews/evidence/group6/tenant-switch/secret-scan-final.txt",
+      "sha256": "52b9b27d81da4b4380037cf07dae9631e0a4e8e74678d65c694d91786ed7f28e",
+      "lines": 4,
+      "pass_markers": 1,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group6/tenant-switch/secret-scan.txt",
+      "sha256": "cf8cd83095c4f67dad1bcfaff57b79832707d45054e8d815eecdba7e0b74e385",
+      "lines": 4,
+      "pass_markers": 1,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group6/tenant-switch/stage1-desktop-flow.log",
+      "sha256": "5d683ae3aa9a2cdceddad61c447f5f63fa976aea2574e80a00a14a8a1ead5ae9",
+      "lines": 19,
+      "pass_markers": 18,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group6/tenant-switch/stage2-cas-late.log",
+      "sha256": "132776c1b192a46ba838543a6f37dffbd19e61eb3fc1679d5cdd4a736febd73a",
+      "lines": 6,
+      "pass_markers": 5,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group6/tenant-switch/stage3-narrow.json",
+      "sha256": "3f34ac2feaa637a8d6b67b6397883ac0e9d801f37148ce46d1e9c34978f20075",
+      "lines": 29,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group6/web-session-final.txt",
+      "sha256": "f4a06aa819726522dd6a907112f12de7dae63af26512294cec0a4af8e144c6ab",
+      "lines": 82,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group6/web-session-postbuild.txt",
+      "sha256": "566d1530b159d163dd399423a3f9911c7122ada2a37f303b8a3de05c78f38976",
+      "lines": 80,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group6/web-session.txt",
+      "sha256": "04a7e3a18f938fe8ca569c306c04dc00f222250924f15d73316a3b6f29b5e25f",
+      "lines": 82,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/dr-restore.txt",
+      "sha256": "cb4236f9d32fd749406ec6a31a954600cc4e36b262dc30c072a26c6f586631e6",
+      "lines": 34,
+      "pass_markers": 1,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/ADMIN-20261015T044723Z.log",
+      "sha256": "27820c6d76db3914352b994bf47aa516930728eaf6dde34d1adb99757c35f007",
+      "lines": 162,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/ADMIN-20261015T045149Z.log",
+      "sha256": "e938d053bffc2d28a29a4bcf87907996d9f92a2a1fde893721339126ad071896",
+      "lines": 162,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/ADMIN-20261015T063455Z.log",
+      "sha256": "3696644dc71bb87ff678b66298e076dbf5e49dbefed54cbda3ac6a761c2ffd44",
+      "lines": 162,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/CONTRACT-20261015T044723Z.log",
+      "sha256": "bed93c1b4121c45f2e5aea1c1a61e8a1455db3689e5a4b4f7f452b4b096e9ad5",
+      "lines": 38,
+      "pass_markers": 36,
+      "failure_marker_count": 1
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/CONTRACT-20261015T045149Z.log",
+      "sha256": "73ad52931ea1b17996a40931b7ed2724e7da1161469b2fc3ff242e08598efa5c",
+      "lines": 38,
+      "pass_markers": 37,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/CONTRACT-20261015T063455Z.log",
+      "sha256": "73ad52931ea1b17996a40931b7ed2724e7da1161469b2fc3ff242e08598efa5c",
+      "lines": 38,
+      "pass_markers": 37,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/CRYPTO-20261015T044723Z.log",
+      "sha256": "ed4d168923fb59f04ff89ee7ee4ec5041e1282ec7c365738a84e399aea86ee25",
+      "lines": 22,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/CRYPTO-20261015T045149Z.log",
+      "sha256": "ed4d168923fb59f04ff89ee7ee4ec5041e1282ec7c365738a84e399aea86ee25",
+      "lines": 22,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/CRYPTO-20261015T063455Z.log",
+      "sha256": "ed4d168923fb59f04ff89ee7ee4ec5041e1282ec7c365738a84e399aea86ee25",
+      "lines": 22,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/DB-20261015T044723Z.log",
+      "sha256": "0fc7987e738db6698d1d49109f9e4dbc340a4630529ade6d05e474884c7b0c7d",
+      "lines": 84,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/DB-20261015T045149Z.log",
+      "sha256": "1fc70c5a772665a7f20fc656f345823b19d18be0808214fb68afbcdc5e33b142",
+      "lines": 84,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/DB-20261015T063455Z.log",
+      "sha256": "d72fd9594f0b732fe05716bd5d6249e387f8c382fe09db21847254923bf1228c",
+      "lines": 84,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/G0-20261015T044723Z.log",
+      "sha256": "16ad840de62b481493a516dbe124c4592ac1d8837adea770934e3122abe75019",
+      "lines": 90,
+      "pass_markers": 12,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/G0-20261015T045149Z.log",
+      "sha256": "8e10f26fb1ae071ea594cd47cc29ec9f2275d6e8a5f1ba8b5aac5570e3f0aeeb",
+      "lines": 90,
+      "pass_markers": 12,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/G0-20261015T063455Z.log",
+      "sha256": "cf184e91e55f4156500c71a27f2644a82f2675974bbfe9774d9359a0b703cc1c",
+      "lines": 94,
+      "pass_markers": 12,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/INTERNAL-20261015T044723Z.log",
+      "sha256": "f86687cb65733229d913ca886514c9e37552a7972c738877c79527323ba8539f",
+      "lines": 196,
+      "pass_markers": 0,
+      "failure_marker_count": 4
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/INTERNAL-20261015T045149Z.log",
+      "sha256": "d2f1d9111caa65e58e8b9b08e8a33f6975ffd78091cc44f613a844f17b053177",
+      "lines": 196,
+      "pass_markers": 0,
+      "failure_marker_count": 4
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/INTERNAL-20261015T063455Z.log",
+      "sha256": "e1783c05f4cc31a40b82866f1204ae91f0a1b38982adef2c4c0b5b54f0ce4f71",
+      "lines": 196,
+      "pass_markers": 0,
+      "failure_marker_count": 4
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/SESSION-20261015T044723Z.log",
+      "sha256": "72b4a18f7d431f340d0f8d709a6a82edcb3bd41dbc2b9299a0ecca2404ca733e",
+      "lines": 168,
+      "pass_markers": 0,
+      "failure_marker_count": 1
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/SESSION-20261015T045149Z.log",
+      "sha256": "834661f118f221e1fa533278ac052c1b781c39c1658f472521b0aa675a9b66ab",
+      "lines": 168,
+      "pass_markers": 0,
+      "failure_marker_count": 1
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/SESSION-20261015T063455Z.log",
+      "sha256": "6437eefe827cf2c5408090d1d85a1803313f511ba631c1843ae6a38b4f37ddd5",
+      "lines": 169,
+      "pass_markers": 0,
+      "failure_marker_count": 1
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/WEB-20261015T044723Z.log",
+      "sha256": "efaf633132d749d257b073f31918e63019aa6663391951a369a0961c9e7fea8e",
+      "lines": 82,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/WEB-20261015T045149Z.log",
+      "sha256": "1afb957ac6c0f49e475d19673398510cda7750e6cba32fa63d29035b56cab18a",
+      "lines": 82,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/WEB-20261015T063455Z.log",
+      "sha256": "04a7e3a18f938fe8ca569c306c04dc00f222250924f15d73316a3b6f29b5e25f",
+      "lines": 82,
+      "pass_markers": 0,
+      "failure_marker_count": 0
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/matrix-20261015T044723Z.txt",
+      "sha256": "86f1ebc2a4a36cb5c63dd28b5db15a1452b91ccac57c18ffc7105bcbefefd6c0",
+      "lines": 49,
+      "pass_markers": 7,
+      "failure_marker_count": 2
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/matrix-20261015T045149Z.txt",
+      "sha256": "f65c57a8ffed4a35a33354633a69167b750700a4e64e0fd9778a2f3ab3ce7d61",
+      "lines": 49,
+      "pass_markers": 8,
+      "failure_marker_count": 1
+    },
+    {
+      "file": "docs/reviews/evidence/group7/matrix/matrix-20261015T063455Z.txt",
+      "sha256": "ac68891ffb371d038d770d545e7f871782cf79ef4545f904194f4ea17936d207",
+      "lines": 49,
+      "pass_markers": 8,
+      "failure_marker_count": 1
+    },
+    {
+      "file": "docs/reviews/evidence/group7/perf-introspection.txt",
+      "sha256": "28e3d39ceaf74c365f0559c33ef0d37e71f66fec5fd05d2da42f18603459b05d",
+      "lines": 38,
+      "pass_markers": 0,
+      "failure_marker_count": 2
+    },
+    {
+      "file": "docs/reviews/evidence/group7/secret-scan.txt",
+      "sha256": "4fbaeea97bca7351d002f136ef8e96ac41f19f345ce32e9c2c369d04fa7e6a65",
+      "lines": 4,
+      "pass_markers": 1,
+      "failure_marker_count": 0
+    }
+  ],
+  "all_spec_requirements": [
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/iam-tenant-administration/spec.md",
+      "line": 7,
+      "requirement": "独立账号与企业组织建档",
+      "scenarios": [
+        {
+          "line": 10,
+          "title": "同一账号在两企业"
+        },
+        {
+          "line": 14,
+          "title": "跨企业关联与循环"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/iam-tenant-administration/spec.md",
+      "line": 18,
+      "requirement": "平台与企业授权分离",
+      "scenarios": [
+        {
+          "line": 21,
+          "title": "伪造平台能力"
+        },
+        {
+          "line": 25,
+          "title": "知识库entitlement尚未实施"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/iam-tenant-administration/spec.md",
+      "line": 29,
+      "requirement": "修订与审计一致的管理操作",
+      "scenarios": [
+        {
+          "line": 32,
+          "title": "并发移除最后管理员"
+        },
+        {
+          "line": 36,
+          "title": "审计写入失败"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/iam-tenant-administration/spec.md",
+      "line": 40,
+      "requirement": "数据库请求角色与租户防护",
+      "scenarios": [
+        {
+          "line": 43,
+          "title": "A到B再到无上下文"
+        },
+        {
+          "line": 47,
+          "title": "数据库直写跨企业关系"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/iam-tenant-administration/spec.md",
+      "line": 51,
+      "requirement": "中文管理界面完整流程",
+      "scenarios": [
+        {
+          "line": 54,
+          "title": "创建用户并加入企业"
+        },
+        {
+          "line": 58,
+          "title": "保存失败或越权直连"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/iam-tenant-administration/spec.md",
+      "line": 62,
+      "requirement": "浏览器上下文隔离与直接访问",
+      "scenarios": [
+        {
+          "line": 65,
+          "title": "企业A切B再切A的迟到响应"
+        },
+        {
+          "line": 69,
+          "title": "管理地址直接刷新与无权访问"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/iam-tenant-administration/spec.md",
+      "line": 73,
+      "requirement": "隔离首期交付与兼容证据",
+      "scenarios": [
+        {
+          "line": 76,
+          "title": "初次启动与迁移复跑"
+        },
+        {
+          "line": 80,
+          "title": "交接下一阶段"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/shared-iam-http-contract/spec.md",
+      "line": 7,
+      "requirement": "不透明令牌与完整实时身份",
+      "scenarios": [
+        {
+          "line": 10,
+          "title": "多企业首次登录"
+        },
+        {
+          "line": 15,
+          "title": "改变令牌实现"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/shared-iam-http-contract/spec.md",
+      "line": 19,
+      "requirement": "即时撤销与故障失败关闭",
+      "scenarios": [
+        {
+          "line": 22,
+          "title": "改密或停用后旧令牌仍在"
+        },
+        {
+          "line": 26,
+          "title": "权限回收与网络分区同时发生"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/shared-iam-http-contract/spec.md",
+      "line": 30,
+      "requirement": "企业切换与修订并发",
+      "scenarios": [
+        {
+          "line": 33,
+          "title": "同版本并发切换"
+        },
+        {
+          "line": 37,
+          "title": "A切B再切A"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/shared-iam-http-contract/spec.md",
+      "line": 41,
+      "requirement": "执行上下文复查不传播秘密",
+      "scenarios": [
+        {
+          "line": 44,
+          "title": "短票据到期但会话有效"
+        },
+        {
+          "line": 48,
+          "title": "外部伪造复查引用"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/shared-iam-http-contract/spec.md",
+      "line": 52,
+      "requirement": "会话续期与服务账号分型",
+      "scenarios": [
+        {
+          "line": 55,
+          "title": "过期后请求续期"
+        },
+        {
+          "line": 59,
+          "title": "无人值守知识库脚本"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/shared-iam-http-contract/spec.md",
+      "line": 63,
+      "requirement": "内部票据与浏览器会话隔离",
+      "scenarios": [
+        {
+          "line": 66,
+          "title": "普通浏览器签票或重用校准票据"
+        },
+        {
+          "line": 70,
+          "title": "SSO全局登出"
+        }
+      ]
+    },
+    {
+      "file": "openspec/changes/establish-shared-iam-service/specs/shared-iam-http-contract/spec.md",
+      "line": 75,
+      "requirement": "同源浏览器会话适配",
+      "scenarios": [
+        {
+          "line": 78,
+          "title": "正常浏览器登录与刷新"
+        },
+        {
+          "line": 82,
+          "title": "伪造写请求和内部代理"
+        },
+        {
+          "line": 86,
+          "title": "合法页面与未知API"
+        }
+      ]
+    }
+  ],
+  "policy": "Author markers inventoried as claims only; independent probes contradict several PASS claims. No original evidence rewritten."
+}

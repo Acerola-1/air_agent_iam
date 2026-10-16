@@ -1,0 +1,110 @@
+{
+  "java_files": 168,
+  "mapper_xml_files": 14,
+  "service_interfaces": 12,
+  "violations": [],
+  "scope": "Layer dependency, SQL placement, parameter binding only; not a certification of the complete Alibaba handbook",
+  "mapper_interface_xml_checks": [
+    {
+      "namespace": "com.airagent.iam.auth.mapper.SessionMapper",
+      "method_count": 12,
+      "statement_count": 12,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.auth.mapper.InfrastructureMapper",
+      "method_count": 6,
+      "statement_count": 6,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.health.mapper.HealthMapper",
+      "method_count": 1,
+      "statement_count": 1,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.admin.mapper.UserMapper",
+      "method_count": 12,
+      "statement_count": 12,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.admin.mapper.TenantMapper",
+      "method_count": 22,
+      "statement_count": 22,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.admin.mapper.RoleMapper",
+      "method_count": 10,
+      "statement_count": 10,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.internal.mapper.IdentityMapper",
+      "method_count": 5,
+      "statement_count": 5,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.serviceaccount.mapper.ServiceAccountMapper",
+      "method_count": 11,
+      "statement_count": 11,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.common.mapper.AdminEventMapper",
+      "method_count": 2,
+      "statement_count": 2,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.common.mapper.RequestContextMapper",
+      "method_count": 1,
+      "statement_count": 1,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.audit.mapper.AuditLogMapper",
+      "method_count": 1,
+      "statement_count": 1,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.webapi.mapper.BrowserHandleMapper",
+      "method_count": 5,
+      "statement_count": 5,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.security.internal.mapper.InternalClientMapper",
+      "method_count": 2,
+      "statement_count": 2,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    },
+    {
+      "namespace": "com.airagent.iam.webapi.sso.mapper.SsoMapper",
+      "method_count": 7,
+      "statement_count": 7,
+      "unmapped_methods": [],
+      "unknown_statements": []
+    }
+  ],
+  "mapper_interface_xml_mismatches": [],
+  "runtime_database": "iam_remediation",
+  "integration_test_database": "iam_test"
+}

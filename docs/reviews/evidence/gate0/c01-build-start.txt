@@ -1,0 +1,20 @@
+# C01 构建与启动证据（Gate0）
+
+时间：2026-10-15 01:05:21 CST
+
+## 监听地址（lsof）
+COMMAND  PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+java    7936 acerola   20u  IPv6 0x28225fa5ea3211d0      0t0  TCP 127.0.0.1:19100 (LISTEN)
+
+## GET /healthz
+HTTP/1.1 200 
+Cache-Control: no-store
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 14 Oct 2026 17:05:21 GMT
+
+{"status":"ok","issuer":"air-agent-iam","postgres":true,"redis":true}
+## Flyway 历史表
+ERROR:  relation "iam.flyway_schema_history" does not exist
+LINE 1: ...T installed_rank,version,description,success FROM iam.flyway...
+                                                             ^

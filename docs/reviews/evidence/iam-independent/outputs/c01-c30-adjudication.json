@@ -1,0 +1,368 @@
+[
+  {
+    "id": "C01",
+    "scope": "I1",
+    "input_and_control": "构建、版本、Redis重启",
+    "expected": "干净依赖构建/真实启动；旧缓存不得复活",
+    "actual": "JDK21/Boot4/Sa-Token构建启动通过；Redis缺会话仍内部有效，F07",
+    "verdict": "不通过",
+    "evidence_files": [
+      "clean-maven-package.json",
+      "clean-maven-dependency-tree.json",
+      "independent-initial-http.jsonl",
+      "independent-http-commit-window-r2.jsonl"
+    ]
+  },
+  {
+    "id": "C02",
+    "scope": "I1",
+    "input_and_control": "固定bcrypt双向向量",
+    "expected": "ASCII/中文/71–74UTF8字节/2a2b2y/坏哈希一致",
+    "actual": "真实JAR与bcrypt4.3双向均符合，错误口令/异常哈希拒绝",
+    "verdict": "符合已测范围",
+    "evidence_files": [
+      "independent-bcrypt-fixed-vectors.jsonl"
+    ]
+  },
+  {
+    "id": "C03",
+    "scope": "I1",
+    "input_and_control": "旧消费者rt-v1",
+    "expected": "各自自验成功，跨语言互验、原签名字节兼容",
+    "actual": "互验及真实HTTP票据送原Python失败，F06",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-rt-cross-consumer.jsonl",
+      "independent-internal-principals.jsonl"
+    ]
+  },
+  {
+    "id": "C04",
+    "scope": "I1",
+    "input_and_control": "多成员/空上下文/身份DTO",
+    "expected": "多企业不自动选首家，身份UUID和类型完整",
+    "actual": "多企业null/正常DTO符合；首位管理员流程缺失F20",
+    "verdict": "部分符合，必需流程失败",
+    "evidence_files": [
+      "independent-fixture-setup.jsonl",
+      "independent-tenant-boundaries.jsonl",
+      "independent-live-contract.jsonl"
+    ]
+  },
+  {
+    "id": "C05",
+    "scope": "I1",
+    "input_and_control": "登录/退出/全退/改密/账号",
+    "expected": "权威提交后旧许可立即拒绝",
+    "actual": "重置/全退/停用拒绝；改密保留调用方、未知账号500、重复退出401，F04/F09/F18",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-revocation-lifecycle.jsonl",
+      "independent-expiry-surface.jsonl"
+    ]
+  },
+  {
+    "id": "C06",
+    "scope": "I1；I2发送不适用",
+    "input_and_control": "A角色/权限撤销，B正对照",
+    "expected": "A权限及旧执行上下文即时失效，B不受污染",
+    "actual": "普通A权限清空且B正常；旧引用仍active，F19",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-permission-revocations.jsonl",
+      "independent-permission-reference-atomicity.jsonl"
+    ]
+  },
+  {
+    "id": "C07",
+    "scope": "I1；I2运行不适用",
+    "input_and_control": "同版本并发、ABA、旧表单",
+    "expected": "一200一409、旧代次不写入新企业",
+    "actual": "CAS正确；旧A写B和迟到切换覆盖新账号，F02/F15",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-tenant-boundaries.jsonl",
+      "browser-followups-r2.jsonl",
+      "browser-response-races-r2.jsonl"
+    ]
+  },
+  {
+    "id": "C08",
+    "scope": "I1",
+    "input_and_control": "复合FK、部门环、最后管理员",
+    "expected": "跨关联/环拒绝，最后有效管理员>=1",
+    "actual": "FK/环及企业成员并发控制符合；全局停用和平台事务失守F13",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-db-boundaries.jsonl",
+      "independent-global-admin-guards.jsonl"
+    ]
+  },
+  {
+    "id": "C09",
+    "scope": "I1",
+    "input_and_control": "低权限、平台能力、内置模板",
+    "expected": "直接API裁决、不可超可授集合或任意关联",
+    "actual": "平台API403和资源默认拒绝；模板提权/任意关联，F01/F03",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-tenant-boundaries.jsonl",
+      "independent-internal-principals.jsonl"
+    ]
+  },
+  {
+    "id": "C10",
+    "scope": "I1；I4不适用",
+    "input_and_control": "非owner、A/B/无ctx、异常取消、Hikari",
+    "expected": "角色真实受限，数据库挡漏过滤，复用不留GUC，敏感列受限",
+    "actual": "单PID复用/取消后正常；部门RLS跨当前企业，密码列可读写，F05",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-rls-scope-detail.jsonl",
+      "independent-hikari-runtime-reuse-r2.jsonl"
+    ]
+  },
+  {
+    "id": "C11",
+    "scope": "I1",
+    "input_and_control": "审计失败、PG/Redis故障、HTTP提交窗口/outbox",
+    "expected": "审计同事务；503关闭；旧Redis不能覆盖撤销",
+    "actual": "账号/权限回滚、HTTP退出204+审计1+outbox重试、旧键inactive符合；PG首次500，F17",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-dependency-faults-r2.jsonl",
+      "independent-http-commit-window-r2.jsonl",
+      "independent-permission-reference-atomicity.jsonl",
+      "independent-final-http-boundaries.jsonl"
+    ]
+  },
+  {
+    "id": "C12",
+    "scope": "I1；I2/I3消费者不适用",
+    "input_and_control": "真实DTO与冻结Schema、类型/aud/路由",
+    "expected": "非法类型/aud失败关闭，固定版本传输一致",
+    "actual": "正常DTO格式符合；字符串强转、错aud返回、路由和Basic漂移F10/F16/F18",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-live-contract.jsonl",
+      "independent-final-http-boundaries.jsonl"
+    ]
+  },
+  {
+    "id": "C13",
+    "scope": "I1；I2发送不适用",
+    "input_and_control": "client/ref绑定、真实>60s、撤销",
+    "expected": "错服务/aud/伪造/换票拒绝；有效长引用可复查；撤权失效",
+    "actual": "绑定、100s实等、登出/ctx失效符合；权限收回旧ref仍active，F19",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-internal-principals.jsonl",
+      "independent-long-reference-r2.jsonl",
+      "independent-permission-reference-atomicity.jsonl"
+    ]
+  },
+  {
+    "id": "C14",
+    "scope": "I2",
+    "input_and_control": "模型/摘要/MCP真实发送",
+    "expected": "本阶段不切换原业务",
+    "actual": "未执行原业务模型/MCP，不以合成HTTP冒充",
+    "verdict": "不适用",
+    "evidence_files": [
+      "source-and-author-evidence-inventory.json"
+    ]
+  },
+  {
+    "id": "C15",
+    "scope": "I1；资源读取I1a不适用",
+    "input_and_control": "服务主体分型、aud/expiry/rotation/revoke",
+    "expected": "机器不伪装成员、不换运行票，期限和轮换有效",
+    "actual": "分型、错aud、过期、显式撤销符合；零重叠轮换旧token仍activeF11",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-internal-principals.jsonl",
+      "independent-expiry-surface.jsonl"
+    ]
+  },
+  {
+    "id": "C16",
+    "scope": "I1",
+    "input_and_control": "普通到期、续期CAS/并发/回退",
+    "expected": "绝对/空闲界限、不可复活、期限不回退",
+    "actual": "一致到期和撤销renew拒绝；浏览器缺CAS、旧事务晚提交回退F08/F21",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-session-timer-boundaries.jsonl",
+      "independent-renew-transaction-order.jsonl",
+      "browser-smoke-r2.jsonl"
+    ]
+  },
+  {
+    "id": "C17",
+    "scope": "I1基础；原前端I2/I3不适用",
+    "input_and_control": "合成双BFF SSO、cookie/CSRF/Origin",
+    "expected": "严格回调/state/一次消费/过期，中央退出下次拒绝",
+    "actual": "白名单/重放/真实30s/Secure属性符合；中央退出两应用仍200F12",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-sso-boundaries.jsonl",
+      "independent-sso-real-expiry.jsonl",
+      "independent-final-http-boundaries.jsonl"
+    ]
+  },
+  {
+    "id": "C18",
+    "scope": "I1a",
+    "input_and_control": "entitlement生命周期",
+    "expected": "不要求I1提前提供；资源权限默认不可用",
+    "actual": "独立服务账号资源授权400；本阶段不实现开通",
+    "verdict": "不适用（I1默认拒绝已测）",
+    "evidence_files": [
+      "independent-internal-principals.jsonl"
+    ]
+  },
+  {
+    "id": "C19",
+    "scope": "I3",
+    "input_and_control": "知识库all/混合无权库",
+    "expected": "不切原KB",
+    "actual": "未切换或操作KB数据库/服务",
+    "verdict": "不适用",
+    "evidence_files": [
+      "source-and-author-evidence-inventory.json"
+    ]
+  },
+  {
+    "id": "C20",
+    "scope": "I3",
+    "input_and_control": "remote故障/local分离",
+    "expected": "不切原KB",
+    "actual": "未宣称KB remote已接入",
+    "verdict": "不适用",
+    "evidence_files": [
+      "source-and-author-evidence-inventory.json"
+    ]
+  },
+  {
+    "id": "C21",
+    "scope": "I2",
+    "input_and_control": "六图真实模型",
+    "expected": "本阶段不运行原六图",
+    "actual": "未用合成调用者冒充生产模型",
+    "verdict": "不适用",
+    "evidence_files": [
+      "source-and-author-evidence-inventory.json"
+    ]
+  },
+  {
+    "id": "C22",
+    "scope": "I2/I4",
+    "input_and_control": "3/5业务回归",
+    "expected": "本阶段不改原业务",
+    "actual": "未操作原业务服务",
+    "verdict": "不适用",
+    "evidence_files": [
+      "source-and-author-evidence-inventory.json"
+    ]
+  },
+  {
+    "id": "C23",
+    "scope": "I4",
+    "input_and_control": "旧数据/偏好/外键/混合审计",
+    "expected": "本阶段不迁真实用户",
+    "actual": "只在自建数据库使用合成UUID",
+    "verdict": "不适用",
+    "evidence_files": [
+      "input-baseline.json"
+    ]
+  },
+  {
+    "id": "C24",
+    "scope": "I4",
+    "input_and_control": "真实拆库灾备回退",
+    "expected": "I1自有库恢复不等于C24",
+    "actual": "已做真实dump/restore/replay，但不冒称源库拆库",
+    "verdict": "不适用",
+    "evidence_files": [
+      "independent-recovery-drill.jsonl",
+      "independent-upgrade-migrations.jsonl"
+    ]
+  },
+  {
+    "id": "C25",
+    "scope": "I1；消费者性能不适用",
+    "input_and_control": "900暖样本+顺序5次+故障/等待",
+    "expected": "P50<=10/P95<=30、单核验<=50、deadline500ms、授权结果正确",
+    "actual": "c30三轮超标；错aud900/900；真实锁等待1.214s仍200，F10/F17",
+    "verdict": "不通过",
+    "evidence_files": [
+      "independent-c25-r2.jsonl",
+      "independent-final-http-boundaries.jsonl",
+      "independent-request-deadline-r2.jsonl"
+    ]
+  },
+  {
+    "id": "C26",
+    "scope": "I1",
+    "input_and_control": "真实Vue建档/组织/授权/审计/改密",
+    "expected": "保存刷新持久化、无权API拒绝、完整首用户流程",
+    "actual": "多数CRUD点击持久化；停用400/首管理员缺入口/改密留会话F04/F14/F20",
+    "verdict": "不通过",
+    "evidence_files": [
+      "browser-independent-workflows-r2.jsonl",
+      "browser-followups-r2.jsonl",
+      "independent-fixture-setup.jsonl"
+    ]
+  },
+  {
+    "id": "C27",
+    "scope": "I1",
+    "input_and_control": "Vue构建/同源history/未知资源",
+    "expected": "干净安装build/类型通过，深链有效，API/缺JS不回HTML",
+    "actual": "干净build与真实深链、未知API/资源404符合",
+    "verdict": "符合已测范围",
+    "evidence_files": [
+      "clean-npm-ci.json",
+      "clean-vue-build.json",
+      "browser-smoke-r2.jsonl",
+      "independent-initial-http.jsonl"
+    ]
+  },
+  {
+    "id": "C28",
+    "scope": "I1",
+    "input_and_control": "Java句柄/存储/续期/CSRF",
+    "expected": "人类Bearer不进JS/URL/storage；写保护；会话完整",
+    "actual": "cookie/CSRF/Origin/JS边界符合；实际续期400F08",
+    "verdict": "不通过",
+    "evidence_files": [
+      "browser-smoke-r2.jsonl",
+      "independent-final-http-boundaries.jsonl"
+    ]
+  },
+  {
+    "id": "C29",
+    "scope": "I1",
+    "input_and_control": "旧代次、ABA、换账号、草稿",
+    "expected": "旧结果不能污染新上下文",
+    "actual": "新标记物ABA列表守卫通过；旧草稿写B、旧切换覆盖新账号F02/F15",
+    "verdict": "不通过",
+    "evidence_files": [
+      "browser-response-races-r2.jsonl",
+      "browser-independent-workflows-r2.jsonl"
+    ]
+  },
+  {
+    "id": "C30",
+    "scope": "I1",
+    "input_and_control": "中文桌面/390x844/键盘/IME/失败",
+    "expected": "真实可操作、空/错/409/503/过期反馈、刷新持久化",
+    "actual": "CDP组合输入/窄弹窗/下拉/焦点/冲突/恢复已测；必需流程故障F08/F14，物理IME未声称",
+    "verdict": "不通过",
+    "evidence_files": [
+      "browser-followups-r2.jsonl",
+      "browser-failure-states.jsonl",
+      "browser-independent-workflows-r2.jsonl"
+    ]
+  }
+]

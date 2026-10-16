@@ -1,0 +1,48 @@
+{
+  "rows": [
+    {
+      "case": "positive-before-fault",
+      "status": 200,
+      "elapsed_ms": 5.486,
+      "request_id_matches": true
+    },
+    {
+      "case": "Redis-paused-beyond-total-budget",
+      "status": 503,
+      "elapsed_ms": 454.144,
+      "request_id_matches": true
+    },
+    {
+      "case": "redis-recovery",
+      "status": 503,
+      "elapsed_ms": 462.75,
+      "request_id_matches": true
+    },
+    {
+      "case": "redis-recovery",
+      "status": 200,
+      "elapsed_ms": 51.453,
+      "request_id_matches": true
+    },
+    {
+      "case": "PostgreSQL-stopped-first-request",
+      "status": 503,
+      "elapsed_ms": 265.651,
+      "request_id_matches": true
+    },
+    {
+      "case": "postgres-recovery",
+      "status": 503,
+      "elapsed_ms": 263.028,
+      "request_id_matches": true
+    },
+    {
+      "case": "postgres-recovery",
+      "status": 200,
+      "elapsed_ms": 40.886,
+      "request_id_matches": true
+    }
+  ],
+  "only_owned_container_stopped": "iam-independent-20261015-5ohaeo-pg",
+  "container_restarted": true
+}

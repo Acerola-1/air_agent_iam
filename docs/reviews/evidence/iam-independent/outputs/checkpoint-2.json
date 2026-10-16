@@ -1,0 +1,70 @@
+{
+  "state": "IN_PROGRESS; full acceptance unfinished; draft verdict FAIL due independently reproduced mandatory security defects",
+  "prior_checkpoint": "checkpoint-1.json",
+  "new_report": "docs/reviews/iam-independent-acceptance.md",
+  "progress_classification": "progress: new real HTTP/PG concurrency, lifecycle, RLS and 900 performance samples; report drafted",
+  "new_evidence": [
+    "independent-tenant-boundaries.jsonl",
+    "independent-db-boundaries.jsonl",
+    "independent-rls-scope-detail.jsonl",
+    "independent-revocation-lifecycle.jsonl",
+    "independent-session-timer-boundaries.jsonl",
+    "independent-c25-r2.jsonl",
+    "input-checkpoint-2.json"
+  ],
+  "new_confirmed": [
+    "builtin tenant_admin permission escalation",
+    "arbitrary global user membership association",
+    "stale A department write persisted in B",
+    "password change keeps current session and permits renew",
+    "A context sees B departments via RLS",
+    "password column SELECT/UPDATE granted to request role",
+    "human introspection audience mismatch",
+    "c30 P95 37.986/35.838/33.190ms above 30ms"
+  ],
+  "positive_controls": [
+    "CAS 200/409 real concurrency",
+    "tenant last admin concurrency 200/409 final effective count1",
+    "FK and cycle rejection",
+    "commit/error/cancel same-connection GUC reset",
+    "reset/logout-all/account/member/tenant revocations",
+    "consistent idle expiry and absolute expiry renew401"
+  ],
+  "qualification": [
+    "membership own-row enumeration not itself claimed as cross-tenant data defect; departments separately prove issue",
+    "idle-only inconsistent timestamp injection not a normal-path expiry bypass",
+    "future10day idle renew shortens7day, synthetic state reachability pending",
+    "first perf403 attempt invalidated and retained; r2 900 active matches session/permissions but 900 audience mismatches"
+  ],
+  "environment": {
+    "private_root": "/tmp/iam-independent-20261015-5ohAEo",
+    "primary_java_pid": 15859,
+    "http": 29100,
+    "pg": 29132,
+    "redis": 29179,
+    "owned_containers_still_running": true,
+    "dedicated_perf_jvms_stopped": true
+  },
+  "product_integrity": "282 files, no added/removed/changed/sensitive metadata vs baseline at checkpoint2; later edits only audit outputs",
+  "next_work_required": [
+    "补完整读取http-contract、两specs、tasks、contracts、作者报告与原始证据，建立C01–C30适用性及全部用户要求映射；Gate0/合同作者脚本不能未审查就执行",
+    "读取迁移、AdminSupport/管理服务/控制器、SSO与服务账号实现；以真实API创建全新A/B企业、双成员用户、低权用户夹具",
+    "执行多租户ID替换/部门环/列权限/FK/GUC清理与取消/池复用/最后管理员真实并发/平台权限可授边界",
+    "执行全部撤销生命周期、CAS并发、A→B→A、续期期限/并发/不可复活、client/服务账号分型/受众/范围/期限/轮换/verification_ref绑定与撤销",
+    "补独立bcrypt固定向量真实Java/Python双向；rt-v1 HTTP签票与原消费者核验；保留原模块只读与未真实接入边界",
+    "故障仅注入自建容器：PG/Redis异常、提交窗口、审计同事务/outbox重试、恢复后撤销重放；新空库已测，升级和备份恢复还未测",
+    "真实浏览器完整用户/企业/部门/成员/角色/审计/改密/退出CRUD及刷新；空态失败403/409/503/过期/IME/焦点/Escape/双标签/迟到/在飞写操作",
+    "独立SSO双合成客户端、Origin/CORS/CSRF/Secure cookie、白名单及ticket一次性消费",
+    "C25暖连接至少100样本×3轮×并发1/10/30，原始授权结果和P50/P95/P99/错误/开销/等待分开；阈值P50≤10ms/P95≤30ms，单核验P95≤50ms，不放宽不缓存",
+    "最终报告docs/reviews/iam-independent-acceptance.md，逐条漏洞与未验证风险和修复顺序；prompt-to-artifact逐项完成审计；秘密扫描；资源停止确认；原源码指纹最终核对；仅全部交付后UpdateGoal complete"
+  ],
+  "fixture_state_changes": [
+    "outsider linked A",
+    "rolewriter_A now tenant_admin after proof; use fresh least-privilege fixture for further tests",
+    "reader_A disabled",
+    "last tenant now has one active member-admin",
+    "B tenant restored active",
+    "new synthetic department/member records left for evidence"
+  ],
+  "notice": "Do not re-run exclusive-output probes unchanged; preserve originals. Do not print container inspect environment or credentials. Secret scan final still required."
+}

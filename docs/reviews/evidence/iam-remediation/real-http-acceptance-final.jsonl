@@ -1,0 +1,38 @@
+{"case": "login", "status": 200, "expected": 200, "elapsed_ms": 329.1, "passed": true}
+{"case": "unknown-login-uniform-401", "status": 401, "expected": 401, "elapsed_ms": 11.423, "passed": true}
+{"case": "new-enterprise-initial-admin", "status": 201, "expected": 201, "elapsed_ms": 84.7, "passed": true}
+{"case": "new-enterprise-B", "status": 201, "expected": 201, "elapsed_ms": 31.321, "passed": true}
+{"case": "creator-can-enter-new-enterprise", "status": 200, "expected": 200, "elapsed_ms": 21.166, "passed": true}
+{"case": "select-A", "status": 200, "expected": 200, "elapsed_ms": 33.643, "passed": true}
+{"case": "select-B", "status": 200, "expected": 200, "elapsed_ms": 19.997, "passed": true}
+{"case": "old-A-form-rejected-in-B", "status": 409, "expected": 409, "elapsed_ms": 10.721, "passed": true}
+{"case": "unbound-department-form-rejected", "status": 400, "expected": 400, "elapsed_ms": 8.398, "passed": true}
+{"case": "return-to-A", "status": 200, "expected": 200, "elapsed_ms": 18.617, "passed": true}
+{"case": "create-bound-department", "status": 201, "expected": 201, "elapsed_ms": 15.057, "passed": true}
+{"case": "numeric-string-context-rejected", "status": 400, "expected": 400, "elapsed_ms": 9.762, "passed": true}
+{"case": "string-boolean-rejected", "status": 400, "expected": 400, "elapsed_ms": 6.396, "passed": true}
+{"case": "registered-client-Bearer", "status": 200, "expected": 200, "elapsed_ms": 31.955, "passed": true}
+{"case": "runtime-audience-excludes-platform-authority", "passed": true}
+{"case": "real-runtime-ticket", "status": 200, "expected": 200, "elapsed_ms": 23.891, "passed": true}
+{"case": "HTTP-Java-ticket-accepted-by-original-Python", "segments": 2, "passed": true}
+{"case": "create-limited-writer-role", "status": 201, "expected": 201, "elapsed_ms": 41.267, "passed": true}
+{"case": "create-probe-user", "status": 201, "expected": 201, "elapsed_ms": 100.588, "passed": true}
+{"case": "associate-probe-member", "status": 201, "expected": 201, "elapsed_ms": 34.583, "passed": true}
+{"case": "login", "status": 200, "expected": 200, "elapsed_ms": 140.009, "passed": true}
+{"case": "limited-select-A", "status": 200, "expected": 200, "elapsed_ms": 19.877, "passed": true}
+{"case": "limited-writer-cannot-self-promote", "status": 403, "expected": 403, "elapsed_ms": 25.004, "passed": true}
+{"case": "limited-writer-cannot-create-admin", "status": 403, "expected": 403, "elapsed_ms": 92.668, "passed": true}
+{"case": "limited-writer-cannot-attach-global-user", "status": 409, "expected": 409, "elapsed_ms": 48.869, "passed": true}
+{"case": "issue-reference-before-role-revoke", "status": 200, "expected": 200, "elapsed_ms": 30.03, "passed": true}
+{"case": "revoke-role-permissions", "status": 200, "expected": 200, "elapsed_ms": 29.28, "passed": true}
+{"case": "old-execution-ref-after-role-revoke", "status": 200, "expected": 200, "elapsed_ms": 21.347, "passed": true}
+{"case": "revoked-role-reference-rejected", "passed": true}
+{"case": "typed-audit-query", "status": 200, "expected": 200, "elapsed_ms": 24.969, "passed": true}
+{"case": "audit-json-is-object", "passed": true}
+{"case": "authority-lock-total-deadline", "status": 503, "elapsed_ms": 412.126, "request_id_matches": true, "passed": true}
+{"case": "dependency-recovery-positive-control", "status": 200, "expected": 200, "elapsed_ms": 8.361, "passed": true}
+{"case": "login", "status": 200, "expected": 200, "elapsed_ms": 97.658, "passed": true}
+{"case": "logout-once", "status": 204, "expected": 204, "elapsed_ms": 15.497, "passed": true}
+{"case": "logout-repeat-idempotent", "status": 204, "expected": 204, "elapsed_ms": 2.159, "passed": true}
+{"case": "logged-out-subject-rejected", "status": 401, "expected": 401, "elapsed_ms": 2.782, "passed": true}
+{"case": "completed", "passed_cases": 37}

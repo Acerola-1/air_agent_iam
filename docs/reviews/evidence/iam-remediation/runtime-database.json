@@ -1,0 +1,8 @@
+{
+  "database": "iam_remediation",
+  "owner": "iam_migrate",
+  "request_role": "iam_app",
+  "container": "iam-independent-20261015-5ohaeo-pg",
+  "purpose": "persistent isolated delivery runtime; integration tests remain in iam_test",
+  "created_by_this_task": true
+}

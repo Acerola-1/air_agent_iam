@@ -1,0 +1,84 @@
+[INFO] Scanning for projects...
+[INFO] Loaded 24086 auto-discovered prefixes for remote repository central (prefixes-central.txt)
+[INFO] 
+[INFO] ----------------------< com.airagent:iam-server >-----------------------
+[INFO] Building air-agent-iam-server 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] Loaded 74 auto-discovered prefixes for remote repository apache.snapshots (prefixes-apache.snapshots.txt)
+[INFO] Loaded 24086 auto-discovered prefixes for remote repository maven-central (prefixes-maven-central.txt)
+[WARNING] Could not transfer metadata /.meta/prefixes.txt from/to flyway-community-db-support (https://maven.pkg.github.com/flyway/flyway-community-db-support): HTTP Status: 401
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ iam-server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 13 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ iam-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ iam-server ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ iam-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ iam-server ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.airagent.iam.db.DbIsolationIntegrationTest
+12:47:50.811 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.airagent.iam.db.DbIsolationIntegrationTest]: DbIsolationIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:47:51.138 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.airagent.iam.IamApplication for test class com.airagent.iam.db.DbIsolationIntegrationTest
+12:47:51.328 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.airagent.iam.db.DbIsolationIntegrationTest]: DbIsolationIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:47:51.329 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.airagent.iam.IamApplication for test class com.airagent.iam.db.DbIsolationIntegrationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.8)
+
+2026-10-15 12:47:52.021 INFO  [main] c.a.i.db.DbIsolationIntegrationTest - Starting DbIsolationIntegrationTest using Java 21.0.12.1 with PID 69328 (started by acerola in /Users/acerola/Dev/Java/air_agent_iam/server)
+2026-10-15 12:47:52.022 INFO  [main] c.a.i.db.DbIsolationIntegrationTest - The following 1 profile is active: "it"
+2026-10-15 12:47:53.159 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-15 12:47:53.161 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-10-15 12:47:53.197 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 20 ms. Found 0 Redis repository interfaces.
+2026-10-15 12:47:53.941 INFO  [main] org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://127.0.0.1:19132/iam_test?ApplicationName=iam-it-flyway (PostgreSQL 17.10)
+2026-10-15 12:47:54.001 INFO  [main] o.f.core.internal.command.DbValidate - Successfully validated 12 migrations (execution time 00:00.031s)
+2026-10-15 12:47:54.049 INFO  [main] o.f.core.internal.command.DbMigrate - Current version of schema "iam": 11
+2026-10-15 12:47:54.051 INFO  [main] o.f.core.internal.command.DbMigrate - Schema "iam" is up to date. No migration necessary.
+2026-10-15 12:47:54.237 WARN  [main] i.n.r.d.DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+____ ____    ___ ____ _  _ ____ _  _ 
+[__  |__| __  |  |  | |_/  |___ |\ | 
+___] |  |     |  |__| | \_ |___ | \| 
+https://sa-token.com (v1.46.0)
+2026-10-15 12:47:54.870 INFO  [main] c.a.i.db.DbIsolationIntegrationTest - Started DbIsolationIntegrationTest in 3.39 seconds (process running for 5.584)
+2026-10-15 12:47:54.880 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource - iam-it-hikari - Starting...
+2026-10-15 12:47:54.904 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource - iam-it-hikari - Start completed.
+2026-10-15 12:47:54.958 INFO  [main] c.airagent.iam.auth.BootstrapRunner - SSO 客户端处理完成 client_id=air-agent-local created=true
+2026-10-15 12:47:54.960 INFO  [main] c.airagent.iam.auth.BootstrapRunner - SSO 客户端处理完成 client_id=knowledge-local created=true
+2026-10-15 12:47:55.057 INFO  [main] c.airagent.iam.auth.BootstrapRunner - Bootstrap 账号处理完成 account=platform_boot created=true
+2026-10-15 12:47:55.061 INFO  [main] c.airagent.iam.auth.BootstrapRunner - 内部 runtime 客户端处理完成 client_id=runtime-local created=true revision=1
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/Users/acerola/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.715 s -- in com.airagent.iam.db.DbIsolationIntegrationTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.156 s
+[INFO] Finished at: 2026-10-15T12:47:57+08:00
+[INFO] ------------------------------------------------------------------------

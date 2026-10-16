@@ -1,0 +1,22 @@
+PY  ascii                    $2b$10$86sNiWmwUpB13rh3OdKpu.wgRVV9HfP1UGIKACH9D0Ro81lpJ1v5y
+PY  chinese                  $2b$10$0Tfl.emyuQWnpCetJnoatORfO0n8lfFc/zOSjKcsoGqSo9L/aGNgK
+PY  multibyte-mixed          $2b$10$F5FvLyFAffHynQlpRCnXw.WVrGXSc3kdUBBdDUclBGfGJSImErAki
+PY  exactly-72-bytes         $2b$10$pox8JuGaxP4oIuZitufC2ucFj5QK1Jf8iAAg1cvC6NgMLOyoRJS8y
+PY  73-bytes-truncated-to-72 $2b$10$M3HW8pCZHfkRxVMwm2.epuHUqDVhahrlZYbo7TIx47bUV6TTGyGHi
+PY  empty                    $2b$10$hKSQGF9aioTd5imd/XfU3eDxrlxkVPUhLjcYhC1vjGXPr5V9Za0fK
+written: /Users/acerola/Dev/Java/air_agent_iam/tools/bcrypt-vectors/out/bcrypt-py-vectors.json
+PY  valid                      -> ok [OK]
+PY  wrong-audience             -> bad_audience [OK]
+PY  wrong-kid                  -> bad_kid [OK]
+PY  expired                    -> expired [OK]
+PY  wrong-secret-signature     -> bad_signature [OK]
+PY  mutated-signature          -> bad_signature [OK]
+written: /Users/acerola/Dev/Java/air_agent_iam/tools/rt-v1/out/rt-v1-py-vectors.json
+java vectors: checked=6 failures=0
+JAVA valid                      -> ok [OK]
+JAVA wrong-audience             -> bad_audience [OK]
+JAVA wrong-kid                  -> bad_kid [OK]
+JAVA expired                    -> expired [OK]
+JAVA wrong-secret-signature     -> bad_signature [OK]
+JAVA mutated-signature          -> bad_signature [OK]
+java tickets: checked=6 failures=0

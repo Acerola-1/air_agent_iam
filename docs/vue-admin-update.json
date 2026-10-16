@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-15",
+  "status": "planning_updated_not_implemented",
+  "change": "establish-shared-iam-service",
+  "frontend": [
+    "Vue 3",
+    "TypeScript",
+    "Vite",
+    "Vue Router",
+    "Pinia",
+    "Element Plus"
+  ],
+  "browser_server": "Spring Boot /web-api",
+  "tasks_total": 36,
+  "tasks_done": 0,
+  "original_reference_files_preserved": [
+    "docs/reference/full-extraction-design.md",
+    "docs/reference/source-audit.md",
+    "docs/reference/agent-source-baseline.json",
+    "docs/reference/cross-service-acceptance.md",
+    "docs/reference/agent-identity-specs/tenant-mcp-authorization/spec.md",
+    "docs/reference/agent-identity-specs/tenant-resource-isolation/spec.md",
+    "docs/reference/agent-identity-specs/tenant-membership-access/spec.md",
+    "docs/reference/agent-identity-specs/agent-runtime-performance/spec.md",
+    "docs/reference/agent-identity-specs/tenant-identity-migration/spec.md",
+    "docs/reference/agent-identity-specs/unified-revocable-session/spec.md",
+    "openspec/specs/.gitkeep",
+    "openspec/changes/archive/.gitkeep",
+    "openspec/changes/establish-shared-iam-service/.openspec.yaml"
+  ],
+  "updated_files": {
+    "README.md": "7a47d6a9403147eaffbd2ddbfbdfe898f7509eed708e65980f754a72e5323c2b",
+    "openspec/config.yaml": "ba231eddb33e5b7611a8018402651b8f219d0b0f3f2060eb41709fbd5f0f27df",
+    "openspec/changes/establish-shared-iam-service/proposal.md": "8a89c04485d4782cc9310afd19694fec8bf23e22833c3a8a07e38cd548497c19",
+    "openspec/changes/establish-shared-iam-service/design.md": "444154fb3c84e2a5d55b9bec561bccf3513c0cc1afd23f75823db30ddd7bfe50",
+    "openspec/changes/establish-shared-iam-service/http-contract.md": "f5936b938a9570360fca6e1e1de17b0edc1da9640b24f784ee7ee387c35e3d81",
+    "START-GOAL.md": "d1317d6fbe904b6fac00c09ce872e23eb9140482057dabc6e07ed9f085423f2a",
+    "openspec/changes/establish-shared-iam-service/tasks.md": "d7a49ebd5278b15cbf8c50bedd7c8cda34e83b34ddf786c470936d86818e6401",
+    "openspec/changes/establish-shared-iam-service/specs/iam-tenant-administration/spec.md": "e3df02812dc2a5ef8d1a1c6239daa8ac111a50157530d4c6db4ab2ea5664bcde",
+    "docs/vue-admin-plan.md": "ce0e3015993888f0e51defa09865add11869a1c7e8ef77cb2c9f4a37ec90ff05",
+    "openspec/changes/establish-shared-iam-service/specs/shared-iam-http-contract/spec.md": "b4ac8987c31d6555f9ebb6fdf9870df093af9256a3ce1473eadd2031ac103412",
+    "docs/reference/provenance.json": "f59fc006c148e9238c0e355138380946cce3a212180e700214e16074b4bac533"
+  },
+  "implementation_created": false,
+  "source_repositories_modified": false,
+  "git_initialized": false
+}

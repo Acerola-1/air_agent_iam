@@ -1,0 +1,29 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "sidebarHiddenBeforeToggle": true,
+  "hamburgerVisible": true,
+  "drawerVisible": true,
+  "drawerHasTenantMenus": true,
+  "maskVisible": true,
+  "drawerClosedByEsc": true,
+  "dialogFitsNarrow": true,
+  "dialogChineseInput": true,
+  "escDiagnostics": {
+    "visAfterEsc": [],
+    "overlaysAfterEsc": 0
+  },
+  "dialogClosedByEsc": true,
+  "drawerClosedAfterRoute": true,
+  "urlAfterMenuNav": "http://127.0.0.1:19100/admin/tenant/departments",
+  "narrowDepartmentSaved": "already-exists",
+  "storage": {
+    "ls": [],
+    "ss": [],
+    "cookie": "air_iam_dev_csrf=<redacted>"
+  },
+  "noTokenStorage": true,
+  "ok": true
+}

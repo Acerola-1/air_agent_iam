@@ -1,0 +1,4 @@
+{"case": "real-two-tabs-old-enterprise-form", "status": 409, "passed": true}
+{"case": "real-menu-renewal", "status": 200, "expected_context_sent": true, "passed": true}
+{"case": "real-held-switch-after-new-login", "identity_preserved": true, "old_tenant_discarded": true, "boundary": "Held delivery of a genuine committed HTTP response; no application state injection", "passed": true}
+{"case": "browser-no-token-storage", "storage": {"local": [], "session": []}, "passed": true}

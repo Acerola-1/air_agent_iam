@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/tmp/iam-independent-20261015-5ohAEo/venv/bin/pip",
+    "install",
+    "bcrypt==4.3.0",
+    "httpx==0.28.1",
+    "psycopg[binary]==3.2.6",
+    "redis==5.2.1",
+    "jsonschema==4.23.0",
+    "PyYAML==6.0.2",
+    "playwright==1.51.1"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:05:36.433612+00:00",
+  "elapsed_seconds": 4.669,
+  "exit_code": 1,
+  "stdout": "Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple\nCollecting bcrypt==4.3.0\n  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/6e/c1/3fa0e9e4e0bfd3fd77eb8b52ec198fd6e1fd7e9402052e43f23483f956dd/bcrypt-4.3.0-cp39-abi3-macosx_10_12_universal2.whl (498 kB)\nCollecting httpx==0.28.1\n  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl (73 kB)\nCollecting psycopg==3.2.6 (from psycopg[binary]==3.2.6)\n  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/d7/7d/0ba52deff71f65df8ec8038adad86ba09368c945424a9bd8145d679a2c6a/psycopg-3.2.6-py3-none-any.whl (199 kB)\nCollecting redis==5.2.1\n  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/3c/5f/fa26b9b2672cbe30e07d9a5bdf39cf16e3b80b42916757c5f92bca88e4ba/redis-5.2.1-py3-none-any.whl (261 kB)\nCollecting jsonschema==4.23.0\n  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/69/4a/4f9dbeb84e8850557c02365a0eee0649abe5eb1d84af92a25731c6c0f922/jsonschema-4.23.0-py3-none-any.whl (88 kB)\nCollecting PyYAML==6.0.2\n  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/a8/0c/38374f5bb272c051e2a69281d71cba6fdb983413e6758b84482905e29a5d/PyYAML-6.0.2-cp312-cp312-macosx_11_0_arm64.whl (173 kB)\n",
+  "stderr": "ERROR: Could not find a version that satisfies the requirement playwright==1.51.1 (from versions: 1.9.0, 1.9.1, 1.9.2, 1.10.0, 1.11.0, 1.11.1, 1.11.2, 1.12.0, 1.12.1, 1.13.0, 1.13.1, 1.14.0, 1.14.1, 1.15.0, 1.15.1, 1.15.2, 1.15.3, 1.16.0, 1.16.1, 1.17.0, 1.17.1, 1.17.2, 1.18.0, 1.18.1, 1.18.2, 1.19.0, 1.19.1, 1.20.0, 1.20.1, 1.21.0, 1.22.0, 1.23.0, 1.23.1, 1.24.0, 1.24.1, 1.25.0, 1.25.1, 1.25.2, 1.26.0, 1.26.1, 1.27.0, 1.27.1, 1.28.0, 1.29.0, 1.29.1, 1.30.0, 1.31.0, 1.31.1, 1.32.0, 1.32.1, 1.33.0, 1.34.0, 1.35.0, 1.36.0, 1.37.0, 1.38.0, 1.39.0, 1.40.0, 1.41.0, 1.41.1, 1.41.2, 1.42.0, 1.43.0, 1.44.0, 1.45.0, 1.45.1, 1.46.0, 1.47.0, 1.48.0, 1.49.0, 1.49.1, 1.50.0, 1.51.0, 1.52.0, 1.53.0, 1.54.0, 1.55.0, 1.56.0, 1.57.0, 1.58.0, 1.59.0, 1.60.0, 1.61.0, 1.62.0, 1.63.0, 1.64.0)\n\n[notice] A new release of pip is available: 24.2 -> 26.2.1\n[notice] To update, run: python3.12 -m pip install --upgrade pip\nERROR: No matching distribution found for playwright==1.51.1\n"
+}

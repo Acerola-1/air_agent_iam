@@ -1,0 +1,4 @@
+{"case": "real-db-empty-list", "time_utc": "2026-10-15T12:48:33.764813+00:00", "actual": "暂无用户"}
+{"case": "real-redis-outage-browser-load-error", "time_utc": "2026-10-15T12:48:35.145706+00:00", "status": 503, "actual": {"alert": "身份依赖暂不可用", "url": "http://127.0.0.1:29100/admin/platform/users"}, "expected": "503, Chinese failure, no false success or anonymous fallback"}
+{"case": "real-browser-recovery-retry", "time_utc": "2026-10-15T12:48:36.942035+00:00", "status": 200}
+{"case": "real-expired-session-browser-refresh", "time_utc": "2026-10-15T12:48:37.057115+00:00", "actual": "http://127.0.0.1:29100/login?redirect=/admin/platform/users"}

@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/usr/local/bin/container",
+    "exec",
+    "-i",
+    "iam-independent-20261015-5ohaeo-pg",
+    "psql",
+    "-X",
+    "-v",
+    "ON_ERROR_STOP=1",
+    "-U",
+    "postgres",
+    "-d",
+    "iam"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:05:11.020250+00:00",
+  "elapsed_seconds": 0.132,
+  "exit_code": 0,
+  "stdout": "CREATE ROLE\nCREATE ROLE\nALTER DATABASE\nCREATE DATABASE\n",
+  "stderr": ""
+}

@@ -1,0 +1,20 @@
+{
+  "pid": 87010,
+  "jar": "/tmp/iam-remediation-20261015-ugpg7l0a/server/target/iam-server.jar",
+  "jar_sha256": "be3f96bd6a735ca70478e97aa48ab8d2cd9e60ea708c8cbea6c790b78d8d7de8",
+  "http_port": 29107,
+  "postgres_port": 29132,
+  "database": "iam_test",
+  "redis_port": 29179,
+  "redis_database": 2,
+  "private_log": "/tmp/iam-remediation-20261015-ugpg7l0a/runtime-1792117968021139000.log",
+  "status": "stopped",
+  "rate_limit": "disabled only for independent counterexample/performance probes; production default remains enabled",
+  "health": {
+    "status": "ok",
+    "issuer": "air-agent-iam",
+    "postgres": true,
+    "redis": true
+  },
+  "reason": "Separate delivery database from integration-test iam_test and tune connection release"
+}

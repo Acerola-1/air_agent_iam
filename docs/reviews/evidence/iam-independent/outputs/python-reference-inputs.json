@@ -1,0 +1,14 @@
+[
+  {
+    "source": "/Users/acerola/Dev/Python/air_agent/src/common/identity/ticket.py",
+    "private_copy": "/tmp/iam-independent-20261015-5ohAEo/reference/agent_ticket.py",
+    "sha256": "4a344bbf2aade5f2a459865712fb534d95497ea5a8a53ace71843efa17c9b225",
+    "modified": false
+  },
+  {
+    "source": "/Users/acerola/Dev/Python/air_agent/admin/api/app/security.py",
+    "private_copy": "/tmp/iam-independent-20261015-5ohAEo/reference/agent_security.py",
+    "sha256": "cbbe030c6887585c5173771a7d15e871a69ce5bf2d2717b995fdae7b01cbeee7",
+    "modified": false
+  }
+]

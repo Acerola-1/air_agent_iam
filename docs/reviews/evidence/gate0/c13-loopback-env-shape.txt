@@ -1,0 +1,60 @@
+== 1. 监听地址必须全部回环 ==
+PASS :19100 -> 127.0.0.1:19100
+PASS :19132 -> 127.0.0.1:19132
+PASS :19179 -> 127.0.0.1:19179
+
+== 2. 配置只发布回环，无 0.0.0.0 / 通配凭证 ==
+PASS server/scripts/contracts 无 0.0.0.0 或通配 Origin
+  2:# 启动 IAM 自有隔离 PG17/Redis7（Apple Container），仅发布到 127.0.0.1。
+  19:  if nc -z 127.0.0.1 "$p" 2>/dev/null; then
+  21:    echo "提示：127.0.0.1:$p 已在监听"
+  42:  -p "127.0.0.1:${IAM_PG_PORT}:5432" \
+  50:  -p "127.0.0.1:${IAM_REDIS_PORT}:6379" \
+  119:  psql -v ON_ERROR_STOP=1 -U "${IAM_PG_MIGRATE_USER}" -d "$IAM_PG_DB" -h 127.0.0.1 < "$SQL_FILE"
+  130:echo "  PG    jdbc:postgresql://127.0.0.1:${IAM_PG_PORT}/${IAM_PG_DB}"
+  131:echo "  Redis 127.0.0.1:${IAM_REDIS_PORT}"
+
+== 3. application.yml 口令只允许环境变量占位，无硬编码 ==
+PASS application.yml 无硬编码口令/秘密
+
+== 4. .env.local 权限 600；.env.example 不含真实秘密 ==
+PASS .env.local 权限 600
+PASS .env.example 秘密类变量全部为空占位
+
+== 5. 本项目可执行代码不引用两 Python 源仓库绝对路径，不读取其 .env ==
+PASS 代码/脚本无 Python 源仓库绝对路径引用
+PASS 无读取源仓库 .env 的引用
+
+== 6. 源仓库只读核实（HEAD 必须不变；工作区漂移仅记录）==
+  本包命令在写沙箱内执行，源仓库路径不在可写目录中（物理上无法写入）。
+  源仓库存在外部并发活动时工作区可能自行变化，漂移只记录不归因于本包。
+-- /Users/acerola/Dev/Python/air_agent
+HEAD=8620cf78b22cb7234fe650fa5c9f032359e0d70d
+PASS HEAD 与 Gate0 基线一致（无新提交/重置）: /Users/acerola/Dev/Python/air_agent
+  INFO 相对基线消失的未提交条目（外部活动还原/提交）:
+    -  M src/common/middleware/tenant_runtime_guard_middleware.py
+  现存未提交条目数: 54
+-- /Users/acerola/Dev/Python/RAG/env-rag-final
+HEAD=1aa52b04976a94ad6e969775ced07cf1828ca81e
+PASS HEAD 与 Gate0 基线一致（无新提交/重置）: /Users/acerola/Dev/Python/RAG/env-rag-final
+  现存未提交条目数: 0
+
+== 7. 容器清单（证明仅创建自有 iam-* 容器，其余为既有共享服务，未停未改）==
+  ID                             IMAGE                                         OS     ARCH   STATE    IP                CPUS  MEMORY   STARTED
+  air-agent-langfuse-worker      docker.io/langfuse/langfuse-worker:4          linux  arm64  running  192.168.66.8/24   4     1024 MB  2026-10-14T05:12:20Z
+  lightrag-water                 ghcr.io/hkuds/lightrag:latest                 linux  arm64  running  192.168.65.4/24   4     1024 MB  2026-10-14T09:11:48Z
+  lightrag-neo4j                 docker.io/library/neo4j:5                     linux  arm64  running  192.168.66.17/24  4     1024 MB  2026-10-14T09:07:15Z
+  iam-redis7                     docker.io/library/redis:7-alpine              linux  arm64  running  192.168.66.26/24  4     1024 MB  2026-10-14T16:51:54Z
+  lightrag-coastal               ghcr.io/hkuds/lightrag:latest                 linux  arm64  running  192.168.65.5/24   4     1024 MB  2026-10-14T09:12:04Z
+  aa-sel05-pg                    docker.io/library/postgres:17-alpine          linux  arm64  running  192.168.66.23/24  4     1024 MB  2026-10-14T16:35:50Z
+  air-agent-langfuse-clickhouse  docker.io/clickhouse/clickhouse-server:25.12  linux  arm64  running  192.168.66.6/24   4     2048 MB  2026-10-14T05:11:11Z
+  air-agent-langfuse-redis       docker.io/library/redis:7                     linux  arm64  running  192.168.66.5/24   4     1024 MB  2026-10-14T05:11:10Z
+  lightrag-qdrant                docker.io/qdrant/qdrant:latest                linux  arm64  running  192.168.66.16/24  4     1024 MB  2026-10-14T09:07:13Z
+  air-agent-langfuse-postgres    docker.io/library/postgres:17-alpine          linux  arm64  running  192.168.66.4/24   4     1024 MB  2026-10-14T05:11:03Z
+  lightrag-postgres              docker.io/library/postgres:17-alpine          linux  arm64  running  192.168.65.2/24   4     2048 MB  2026-10-14T09:07:13Z
+  air-agent-langfuse-minio       cgr.dev/chainguard/minio:latest               linux  arm64  running  192.168.66.7/24   4     1024 MB  2026-10-14T05:11:11Z
+  aa-sel05-redis                 docker.io/library/redis:7-alpine              linux  arm64  running  192.168.66.24/24  4     1024 MB  2026-10-14T16:35:56Z
+  iam-pg17                       docker.io/library/postgres:17-alpine          linux  arm64  running  192.168.66.27/24  4     1024 MB  2026-10-14T16:53:28Z
+  lightrag-air                   ghcr.io/hkuds/lightrag:latest                 linux  arm64  running  192.168.65.3/24   4     1024 MB  2026-10-14T09:09:10Z
+
+GATE0-ENV ALL PASS

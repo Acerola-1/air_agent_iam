@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.auth.mapper.InfrastructureMapper">
+    <resultMap id="BootstrapUserDO" type="com.airagent.iam.auth.entity.BootstrapUserDO">
+        <constructor>
+            <arg column="user_id" javaType="java.util.UUID"/>
+            <arg column="was_created" javaType="_boolean"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="ProvisionResultDO" type="com.airagent.iam.auth.entity.ProvisionResultDO">
+        <constructor>
+            <arg column="was_created" javaType="_boolean"/>
+            <arg column="revision" javaType="_long"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="OutboxEventDO" type="com.airagent.iam.auth.entity.OutboxEventDO">
+        <constructor>
+            <idArg column="id" javaType="_long"/>
+            <arg column="kind" javaType="String"/>
+            <arg column="payload_json" javaType="String"/>
+            <arg column="attempts" javaType="_int"/>
+        </constructor>
+    </resultMap>
+    <select id="ensureUser" resultMap="BootstrapUserDO" useCache="false" affectData="true" flushCache="true">
+        SELECT user_id, was_created FROM iam_auth.ensure_bootstrap_user(#{account}, #{displayName}, #{passwordHash}, #{roleId})
+    </select>
+    <select id="ensureRuntimeClient" resultMap="ProvisionResultDO" useCache="false" affectData="true" flushCache="true">
+        SELECT was_created, revision FROM iam_auth.ensure_internal_client(#{clientId}, '合成 runtime 内部客户端（本机）', #{secretDigest}, ARRAY['identity:introspect', 'runtime-ticket:issue'], ARRAY['langgraph-runtime'])
+    </select>
+    <select id="ensureSsoClient" resultType="boolean" useCache="false" affectData="true" flushCache="true">
+        SELECT was_created FROM iam_auth.ensure_sso_client(#{clientId}, #{name}, #{secretDigest}, #{callbackUrl}, #{origins,jdbcType=ARRAY,typeHandler=com.airagent.iam.common.typehandler.TextArrayTypeHandler}, #{audience})
+    </select>
+    <select id="claimOutbox" resultMap="OutboxEventDO" useCache="false" affectData="true" flushCache="true">
+        SELECT id, kind, payload::text AS payload_json, attempts FROM iam_auth.claim_due_outbox(#{batchSize})
+    </select>
+    <select id="completeOutbox" resultType="int" useCache="false" affectData="true" flushCache="true">
+        SELECT 1 FROM iam_auth.complete_outbox(#{id}, false)
+    </select>
+    <select id="requeueOutbox" resultType="int" useCache="false" affectData="true" flushCache="true">
+        SELECT 1 FROM iam_auth.requeue_outbox(#{id}, #{maxAttempts})
+    </select>
+</mapper>

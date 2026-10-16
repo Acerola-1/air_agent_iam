@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://air-agent.local/contracts/schemas/introspection-inactive.schema.json",
+  "title": "iam.introspection.v1 无效/撤销/停用响应（不含身份详情）",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "active", "reason", "evaluated_at"],
+  "properties": {
+    "schema_version": { "const": "iam.introspection.v1" },
+    "active": { "const": false },
+    "reason": {
+      "enum": ["invalid_or_revoked", "account_disabled", "tenant_suspended", "membership_disabled", "context_required"]
+    },
+    "evaluated_at": { "type": "string", "format": "date-time" }
+  },
+  "not": {
+    "anyOf": [
+      { "required": ["user"] },
+      { "required": ["session"] },
+      { "required": ["permissions"] },
+      { "required": ["revisions"] }
+    ]
+  }
+}

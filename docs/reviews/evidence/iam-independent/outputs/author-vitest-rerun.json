@@ -1,0 +1,12 @@
+{
+  "command": [
+    "npm",
+    "test"
+  ],
+  "cwd": "/tmp/iam-independent-20261015-5ohAEo/source/web",
+  "time_utc": "2026-10-15T07:05:56.638322+00:00",
+  "elapsed_seconds": 2.293,
+  "exit_code": 0,
+  "stdout": "\n RUN  v3.2.7 /private/tmp/iam-independent-20261015-5ohAEo/source/web\n\n ✓ src/stores/auth.spec.ts (3 tests) 62ms\n ✓ src/api/scope.spec.ts (8 tests) 1ms\n ✓ src/views/LoginView.spec.ts (3 tests) 166ms\n ✓ src/composables/usePagedList.spec.ts (3 tests) 5ms\n\n Test Files  4 passed (4)\n      Tests  17 passed (17)\n   Start at  15:05:54\n   Duration  1.36s (transform 160ms, setup 0ms, collect 262ms, tests 234ms, environment 573ms, prepare 95ms)\n\n",
+  "stderr": "npm notice run air-agent-iam-web@0.1.0 test\nnpm notice run vitest run --pool=forks --poolOptions.forks.singleFork=true\n(node:15228) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.\n(Use `node --trace-warnings ...` to show where the warning was created)\nstderr | src/composables/usePagedList.spec.ts > usePagedList 作用域/纪元守卫（C29） > A 企业在途响应在切到 B 后返回时被丢弃，不写入列表\n[Vue warn]: onBeforeUnmount is called when there is no active component instance to be associated with. Lifecycle injection APIs can only be used during execution of setup(). If you are using async setup(), make sure to register lifecycle hooks before the first await statement.\n\nstderr | src/composables/usePagedList.spec.ts > usePagedList 作用域/纪元守卫（C29） > A→B→A：首个 A 的迟到响应即使作用域再次相同也因纪元落后被丢弃\n[Vue warn]: onBeforeUnmount is called when there is no active component instance to be associated with. Lifecycle injection APIs can only be used during execution of setup(). If you are using async setup(), make sure to register lifecycle hooks before the first await statement.\n\nstderr | src/composables/usePagedList.spec.ts > usePagedList 作用域/纪元守卫（C29） > 新请求自动 abort 上一个在途请求\n[Vue warn]: onBeforeUnmount is called when there is no active component instance to be associated with. Lifecycle injection APIs can only be used during execution of setup(). If you are using async setup(), make sure to register lifecycle hooks before the first await statement.\n\n"
+}

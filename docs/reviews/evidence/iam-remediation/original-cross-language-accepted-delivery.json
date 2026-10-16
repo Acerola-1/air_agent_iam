@@ -1,0 +1,28 @@
+{
+  "jar_sha256": "f4345c8dcdfab2e1f81fda3325e36a3d4cd93d94c4156cf79565405e85514496",
+  "reference_files": [
+    {
+      "name": "agent_security.py",
+      "sha256": "cbbe030c6887585c5173771a7d15e871a69ce5bf2d2717b995fdae7b01cbeee7"
+    },
+    {
+      "name": "agent_ticket.py",
+      "sha256": "4a344bbf2aade5f2a459865712fb534d95497ea5a8a53ace71843efa17c9b225"
+    }
+  ],
+  "java_to_original_python": true,
+  "original_python_to_java": {
+    "ok": true,
+    "reason": "ok"
+  },
+  "wrong_audience": {
+    "ok": false,
+    "reason": "bad_audience"
+  },
+  "expiry_boundary": {
+    "ok": false,
+    "reason": "expired"
+  },
+  "segments": 2,
+  "raw_tickets_and_keys": "not published"
+}

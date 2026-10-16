@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/usr/local/bin/container",
+    "exec",
+    "-i",
+    "iam-independent-20261015-5ohaeo-pg",
+    "psql",
+    "-X",
+    "-v",
+    "ON_ERROR_STOP=1",
+    "-U",
+    "postgres",
+    "-d",
+    "iam_test"
+  ],
+  "cwd": null,
+  "time_utc": "2026-10-15T07:05:11.221766+00:00",
+  "elapsed_seconds": 0.096,
+  "exit_code": 0,
+  "stdout": "GRANT\nGRANT\nREVOKE\nCREATE SCHEMA\nCREATE SCHEMA\nGRANT\nALTER DEFAULT PRIVILEGES\nALTER DEFAULT PRIVILEGES\nALTER DEFAULT PRIVILEGES\n",
+  "stderr": ""
+}

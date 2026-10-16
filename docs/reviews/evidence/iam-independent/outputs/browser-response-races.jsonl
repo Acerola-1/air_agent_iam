@@ -1,0 +1,2 @@
+{"case": "A-B-A-real-old-list-response", "time_utc": "2026-10-15T12:40:03.907355+00:00", "expected": "old generation response discarded", "actual": {"table_unchanged": false, "current_tenant": "独立验收企业-A（independent-a）"}}
+{"case": "old-switch-after-logout-and-new-login", "time_utc": "2026-10-15T12:40:06.610428+00:00", "expected": {"account": "audit.root", "tenant": null}, "actual": {"account": "audit.dual", "tenant": "独立验收企业-B", "active": true, "epoch": 5}, "boundary": "Only held network delivery of real response; no product state mutations"}

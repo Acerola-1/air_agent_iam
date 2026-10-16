@@ -1,0 +1,99 @@
+{
+  "run_id": "iam-independent-20261015-5ohaeo",
+  "private_root": "/tmp/iam-independent-20261015-5ohAEo",
+  "copy_root": "/tmp/iam-independent-20261015-5ohAEo/source",
+  "ports": {
+    "http": 29100,
+    "vite": 29101,
+    "pg": 29132,
+    "redis": 29179
+  },
+  "created_containers": [
+    "iam-independent-20261015-5ohaeo-pg",
+    "iam-independent-20261015-5ohaeo-redis"
+  ],
+  "network": null,
+  "processes": [
+    {
+      "kind": "java",
+      "pid": 15859,
+      "label": "primary",
+      "jar": "/tmp/iam-independent-20261015-5ohAEo/source/server/target/iam-server.jar",
+      "created_utc": "2026-10-15T07:07:34.077733+00:00",
+      "log": "/tmp/iam-independent-20261015-5ohAEo/server-primary.log",
+      "stopped": true,
+      "stopped_reason": "Original audit artifact frozen; delivery runs at isolated 29107"
+    },
+    {
+      "kind": "java",
+      "pid": 3064,
+      "label": "independent-c25",
+      "jar": "/tmp/iam-independent-20261015-5ohAEo/source/server/target/iam-server.jar",
+      "port": 29103,
+      "stopped": true,
+      "exit_code": 143,
+      "stopped_utc": "2026-10-15T12:09:35.328549+00:00"
+    },
+    {
+      "kind": "java",
+      "pid": 3183,
+      "label": "independent-c25",
+      "jar": "/tmp/iam-independent-20261015-5ohAEo/source/server/target/iam-server.jar",
+      "port": 29103,
+      "stopped": true,
+      "exit_code": 143,
+      "stopped_utc": "2026-10-15T12:10:25.697650+00:00"
+    },
+    {
+      "kind": "java",
+      "label": "independent-restore",
+      "pid": 7222,
+      "jar": "/tmp/iam-independent-20261015-5ohAEo/source/server/target/iam-server.jar",
+      "port": 29104,
+      "stopped": true,
+      "exit_code": 143
+    },
+    {
+      "kind": "java",
+      "label": "independent-hikari",
+      "pid": 11890,
+      "port": 29106,
+      "jar": "/tmp/iam-independent-20261015-5ohAEo/source/server/target/iam-server.jar",
+      "stopped": true,
+      "exit_code": 143
+    },
+    {
+      "kind": "java",
+      "label": "independent-hikari",
+      "pid": 12054,
+      "port": 29106,
+      "jar": "/tmp/iam-independent-20261015-5ohAEo/source/server/target/iam-server.jar",
+      "stopped": true,
+      "exit_code": 143
+    },
+    {
+      "kind": "java",
+      "label": "independent-secure-cookie",
+      "pid": 12925,
+      "port": 29105,
+      "jar": "/tmp/iam-independent-20261015-5ohAEo/source/server/target/iam-server.jar",
+      "stopped": true,
+      "exit_code": 143
+    }
+  ],
+  "source_modified": false,
+  "credentials": "Fresh synthetic values; only in mode-0600 files below private_root; never published",
+  "copy_policy": "Product source byte-identical, no prior build outputs/dependency directories; original .env.local not read",
+  "created_databases": [
+    {
+      "name": "iam_restore",
+      "cluster": "iam-independent-20261015-5ohaeo-pg",
+      "stopped": false
+    },
+    {
+      "name": "iam_upgrade",
+      "purpose": "independent V5->V11 migration",
+      "stopped": false
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "npm",
+    "test"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 1.7830762090161443,
+  "stdout": "\n RUN  v3.2.7 /Users/acerola/Dev/Java/air_agent_iam/web\n\n ✓ src/stores/auth.spec.ts (5 tests) 57ms\n ✓ src/views/LoginView.spec.ts (3 tests) 23ms\n ✓ src/composables/usePagedList.spec.ts (3 tests) 1ms\n ✓ src/api/scope.spec.ts (8 tests) 0ms\n\n Test Files  4 passed (4)\n      Tests  19 passed (19)\n   Start at  09:50:26\n   Duration  667ms (transform 82ms, setup 0ms, collect 136ms, tests 82ms, environment 248ms, prepare 46ms)\n\n",
+  "stderr": "npm notice run air-agent-iam-web@0.1.0 test\nnpm notice run vitest run --pool=forks --poolOptions.forks.singleFork=true\n(node:73018) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.\n(Use `node --trace-warnings ...` to show where the warning was created)\nstderr | src/composables/usePagedList.spec.ts > usePagedList 作用域/纪元守卫（C29） > A 企业在途响应在切到 B 后返回时被丢弃，不写入列表\n[Vue warn]: onBeforeUnmount is called when there is no active component instance to be associated with. Lifecycle injection APIs can only be used during execution of setup(). If you are using async setup(), make sure to register lifecycle hooks before the first await statement.\n\nstderr | src/composables/usePagedList.spec.ts > usePagedList 作用域/纪元守卫（C29） > A→B→A：首个 A 的迟到响应即使作用域再次相同也因纪元落后被丢弃\n[Vue warn]: onBeforeUnmount is called when there is no active component instance to be associated with. Lifecycle injection APIs can only be used during execution of setup(). If you are using async setup(), make sure to register lifecycle hooks before the first await statement.\n\nstderr | src/composables/usePagedList.spec.ts > usePagedList 作用域/纪元守卫（C29） > 新请求自动 abort 上一个在途请求\n[Vue warn]: onBeforeUnmount is called when there is no active component instance to be associated with. Lifecycle injection APIs can only be used during execution of setup(). If you are using async setup(), make sure to register lifecycle hooks before the first await statement.\n\n"
+}
