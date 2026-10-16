@@ -23,29 +23,65 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
 /**
- * 自定义角色、权限目录与可授权限树。
+ * {@link RoleAdminService} 实现：角色建档、局部更新、权限集合替换与权限目录（Service 层）。
  *
- * <p>平台/企业可授分离：企业管理员只见 grant_scope=tenant 且 grantable_to_tenants 的非资源权限；
- * 资源型权限（resource_code 非空）在 I1a 前不出现在可授树中，DB 触发器同时硬拒。
+ * <p>统一编排模式：先按会话权限快照裁决（{@link AdminSupport#requirePermission}），
+ * 再经 {@link TransactionTemplate} 开启事务；事务第一步调用 {@link AdminSupport#setContext}
+ * 写入 PostgreSQL 请求上下文，行可见性交由 iam.roles / iam.role_permissions 的 RLS 策略裁决。
+ * 数据库约束冲突由 {@link PgErrorTranslator} 翻译为对应 HTTP 语义，审计与业务变更同事务。
+ *
+ * <p>平台/企业两条授权面严格分离：平台线（{@code platform:role:*}）以平台上下文操作全部角色，
+ * 企业线（{@code tenant:role:*}）只能操作内置全局模板与本租户自定义角色，且必须先选择企业上下文。
+ * 可授范围也是分层的：企业管理员只能看见并使用 {@code grant_scope} 为 tenant 且
+ * {@code grantable_to_tenants} 为真的非资源权限；资源型权限（绑定了资源编码者）在资源开通能力
+ * 落地前既不出现在目录与可授树中，也被数据库触发器硬拒授予。
+ *
+ * <p>关键边界：角色与其权限集合的任何变化都由数据库触发器推进引用主体
+ * （账号 auth_revision、成员 revision）的授权代次，旧权限快照立即失效，因此本类不需要
+ * 显式撤销会话；内置角色一律拒绝修改；角色没有修订列，故本接口不接受乐观并发基线。
+ *
+ * @author Acerola
  */
 @Service
 public class RoleAdminServiceImpl implements RoleAdminService {
 
+    /** 平台角色读取权限码：可见全部角色与完整权限目录。 */
     static final String PERM_PLATFORM_ROLE_READ = "platform:role:read";
+    /** 平台角色写权限码：创建/修改平台域角色与任意角色的权限集合（平台线）。 */
     static final String PERM_PLATFORM_ROLE_WRITE = "platform:role:write";
+    /** 企业角色读取权限码：仅可见内置模板与本租户角色。 */
     static final String PERM_TENANT_ROLE_READ = "tenant:role:read";
+    /** 企业角色写权限码：仅能维护本租户自定义角色的企业域权限集合。 */
     static final String PERM_TENANT_ROLE_WRITE = "tenant:role:write";
 
+    /** 角色与权限数据访问。 */
     private final RoleMapper roleMapper;
+    /** 编程式事务边界。 */
     private final TransactionTemplate tx;
+    /** 权限裁决/上下文/审计共用组件。 */
     private final AdminSupport support;
 
+    /**
+     * 构造实现，全部依赖经 Spring 构造注入。
+     *
+     * @param roleMapper 角色与权限目录数据访问
+     * @param tx         编程式事务边界（本类不使用声明式 @Transactional）
+     * @param support    权限裁决、上下文、游标与审计的共用组件
+     */
     public RoleAdminServiceImpl(RoleMapper roleMapper, TransactionTemplate tx, AdminSupport support) {
         this.roleMapper = roleMapper;
         this.tx = tx;
         this.support = support;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>实现细节：授权面二选一在事务外判定，平台读权限优先（决定上下文为平台线）；
+     * 仅有企业读权限时改用企业上下文并要求已选择企业。scope 过滤值在校验 lambda 内才判定，
+     * 因此非法 scope 会在事务内抛 400 并整体回滚（无写入，副作用仅为上下文设置）。
+     * 分页以多取一行（limit+1）探测 {@code hasMore}，每行的权限码逐行查询装配。
+     */
     @Override
     public PageVO<RoleVO> listRoles(CurrentSession actor, String scopeRaw, Integer limitRaw,
                                     String cursorRaw) {
@@ -76,6 +112,14 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>实现细节：scope 缺失时不猜测默认值，直接 400；两条授权面各自先判权限再决定租户，
+     * 企业角色把租户写死为会话当前企业（客户端无法指定归属）。
+     * 角色插入与权限集合写入在同一事务内完成，权限校验不通过则角色不残留；
+     * 审计 admin.role.create 落在角色自身租户（平台角色为 {@code null}）。
+     */
     @Override
     public RoleVO createRole(CurrentSession actor, CreateRoleDTO req) {
         if (req == null || req.code() == null || !req.code().matches("[a-z][a-z0-9_-]{2,63}")) {
@@ -118,6 +162,13 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>实现细节：先经 {@link #loadRoleRow} 设置上下文、按角色自身 scope 裁决权限并确认存在，
+     * 内置角色在此之后立即拒绝（403）。SQL 更新走 COALESCE 局部更新，返回值不再检查——
+     * 存在性已由同事务的前置读取保证。审计的租户维度取角色自身归属租户。
+     */
     @Override
     public RoleVO updateRole(CurrentSession actor, String roleIdRaw, UpdateRoleDTO req) {
         UUID roleId = AdminSupport.parseUuid(roleIdRaw, "role_id");
@@ -144,6 +195,13 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>实现细节：权限码经 {@link AdminSupport#sanitizeCodes} 消毒（{@code null} 载荷等价空集合，
+     * 即清空角色权限）；作用域与可授性校验、越界授予校验与 delete-then-insert 全在
+     * {@link #replacePermissionRows} 内完成，触发器会使引用主体授权代次前进。
+     */
     @Override
     public RoleVO replacePermissions(CurrentSession actor, String roleIdRaw,
                                        RolePermissionsDTO req) {
@@ -162,7 +220,12 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         });
     }
 
-    /** 权限目录：平台看全部；企业主体不返回平台专属权限。 */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>实现细节：读权限二选一决定上下文（平台优先），目录查询已过滤资源型权限；
+     * 结果不分页，由控制器包装为 items 数组。
+     */
     @Override
     public List<PermissionVO> listPermissions(CurrentSession actor) {
         boolean platform = actor.snapshot().permissions().contains(PERM_PLATFORM_ROLE_READ);
@@ -184,8 +247,11 @@ public class RoleAdminServiceImpl implements RoleAdminService {
     }
 
     /**
-     * 当前主体可授权限树：仅含可分配到角色的非资源权限；
-     * 企业主体不出现平台组，资源型权限在 I1a 前整组缺席。
+     * {@inheritDoc}
+     *
+     * <p>实现细节：读或写权限任一即可见（授权界面需要写权限但可能无读权限）；
+     * 平台上下文优先；平台组仅在有平台面权限时出现，企业组对两条授权面都返回，
+     * 叶子再按 actor 自身权限快照裁剪。
      */
     @Override
     public GrantableTreeVO grantableTree(CurrentSession actor) {
@@ -213,8 +279,20 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         });
     }
 
-    // ---------------------------------------------------------------- 辅助
+    // ---------------------------------------------------------------- 内部辅助
 
+    /**
+     * 读取指定授权面的可授权限并裁剪为 actor 可用叶子。
+     *
+     * <p>数据源为 {@link RoleMapper#selectGrantable}（活跃、非资源型，企业面还要求可下放）；
+     * 非平台超级管理员只会看到自己已持有的码，因此界面无法越权勾选。
+     * 调用前必须已设置好事务上下文。
+     *
+     * @param actor 当前会话快照（提供权限快照与超管身份）
+     * @param scope 授权面，仅 {@code platform} / {@code tenant}
+     * @param name  分组显示名（界面文案，不参与判定）
+     * @return 分组视图；actor 无任何该面可授码时叶子为空列表
+     */
     private GrantableTreeVO.Group loadGroup(CurrentSession actor, String scope, String name) {
         List<GrantableTreeVO.Leaf> leaves = roleMapper.selectGrantable(scope).stream()
                 .filter(permission -> actor.snapshot().hasPlatformRole("platform_super_admin")
@@ -224,7 +302,20 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         return new GrantableTreeVO.Group(scope, name, leaves);
     }
 
-    /** 载入角色行并按 scope 做操作者权限/租户匹配，同时设置事务上下文。 */
+    /**
+     * 载入角色行，按角色自身 scope 裁决操作者权限与租户归属，并副作用地设置事务上下文。
+     *
+     * <p>上下文设置发生在读取之前：具备该面（读或写）权限时走平台上下文，否则走企业上下文，
+     * 因此本方法只能在事务内调用。企业角色若归属他企业则 403；
+     * 内置企业模板（归属为空）允许读取，但写路径仍受 RLS 与业务裁决约束。
+     *
+     * @param actor  当前会话快照
+     * @param roleId 角色 UUID
+     * @param write  {@code true} 表示写路径（改用 {@code *:role:write} 判定），{@code false} 表示读路径
+     * @return 角色行（已处于匹配的上下文下）
+     * @throws ApiException 403 缺对应面权限、或角色属他企业；404 角色不存在或 RLS 不可见；
+     *                      400 企业路径下 actor 未选择企业上下文
+     */
     private RoleDO loadRoleRow(CurrentSession actor, UUID roleId, boolean write) {
         boolean canPlatform = actor.snapshot().permissions().contains(
                 write ? PERM_PLATFORM_ROLE_WRITE : PERM_PLATFORM_ROLE_READ);
@@ -258,7 +349,21 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         return role;
     }
 
-    /** 角色权限必须在操作者自身可授集合内；数据库同时约束权限域。 */
+    /**
+     * 把角色的权限集合全量替换为给定码集合，并逐层校验可授范围。
+     *
+     * <p>三道校验有固定先后：未知权限码 400（按码解析的命中数与入参不等）；
+     * 权限不在该角色可授范围 409（资源型权限一律拒绝，企业角色还要求权限可下放企业）；
+     * 越出 actor 自身权限集合 403（平台超级管理员豁免）。删除与批量插入连续执行，
+     * 中途失败由事务整体回滚；数据库触发器 role_permissions_boundary 是同规则的最后一道兜底。
+     * 空集合是合法的“清空”语义，此时不会调用按码查询与批量插入（避免生成非法 SQL）。
+     *
+     * @param actor  当前会话快照（提供权限快照与 granted_by 审计列取值）
+     * @param roleId 角色 UUID，须已由调用方确认存在且可写
+     * @param codes  已消毒去重的权限码列表；空列表表示清空该角色权限
+     * @throws ApiException 400 存在未知权限码；403 越界授予；409 权限不在该角色可授范围
+     *                      （批量插入触发的约束违例同样经 {@link PgErrorTranslator} 归入 409）
+     */
     private void replacePermissionRows(CurrentSession actor, UUID roleId, List<String> codes) {
         List<PermissionDO> permissions = codes.isEmpty() ? List.of() : roleMapper.selectPermissionsByCodes(codes);
         if (permissions.size() != codes.size()) {
@@ -283,6 +388,13 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         }
     }
 
+    /**
+     * 读取并装配角色视图（含其权限码列表）。
+     *
+     * @param id 角色 UUID
+     * @return 角色视图
+     * @throws ApiException 404 当行不存在或当前上下文 RLS 不可见
+     */
     private RoleVO roleView(UUID id) {
         RoleDO role = roleMapper.selectById(id);
         if (role == null) {
@@ -291,6 +403,12 @@ public class RoleAdminServiceImpl implements RoleAdminService {
         return toView(role);
     }
 
+    /**
+     * DO 到 VO 的转换：UUID 统一转字符串文本，额外查询该角色的权限码。
+     *
+     * @param role 角色持久化行
+     * @return 对外视图（权限码按 code 升序，无权限时为空列表）
+     */
     private RoleVO toView(RoleDO role) {
         return new RoleVO(role.id().toString(), role.code(), role.scope(),
                 role.tenantId() == null ? null : role.tenantId().toString(), role.name(),

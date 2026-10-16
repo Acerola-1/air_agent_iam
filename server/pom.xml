@@ -81,6 +81,13 @@
       <artifactId>spring-security-crypto</artifactId>
     </dependency>
 
+    <!-- OpenAPI 3 / Swagger UI：springdoc 3.x 官方声明兼容 Spring Boot 4（springdoc.org FAQ） -->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>3.1.1</version>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>

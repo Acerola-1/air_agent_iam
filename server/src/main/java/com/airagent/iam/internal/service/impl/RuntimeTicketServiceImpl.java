@@ -28,19 +28,52 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
 /**
- * rt-v1 运行票据签发：PG 权威实时核验后签发 ≤60s 短入口票据，受会话有效期再取小。
- * 票据本身不入审计/日志；target/ctx 不符 409，未选企业或停用 403。
+ * {@link RuntimeTicketService} 实现：rt-v1 运行票据签发。
+ *
+ * <p>分层位置：Service 层，主体有效性完全复用 {@link IntrospectionService#loadHumanSnapshot(String)}
+ * （PG 权威快照 + Redis 存活双检），本类不引入第二权威、不自行判断会话是否可用；
+ * 签名交给无状态的 {@link RtV1Codec}，审计经 {@link AdminEventMapper} 在独立事务内写入。
+ *
+ * <p>票据语义：一张严格限定 {@code langgraph-runtime} 受众的短入口凭据，有效期取
+ * 配置 TTL（钳制在 1..60 秒）与"会话 idle/绝对到期的最早上界"的较小值。签票不延长会话，
+ * 票据到期也不代表会话失效——原会话仍有效时可重新核验再签。
+ *
+ * <p>失败关闭：受众/必填项不合法 400，主体或凭据无效 401，企业上下文不可用 403，
+ * 目标企业与上下文代次不符 409，签名密钥缺失或依赖故障 503；审计写入失败整体回滚，
+ * 绝不返回"已签出但无审计"的票据。
+ *
+ * <p>秘密边界：票据原文与签名密钥都不进入审计、日志与响应以外的任何通道；审计 detail 只记
+ * 受众、目标企业与 TTL 秒数。原始 {@code subject_token} 只在本方法内存活，仅取其
+ * SHA-256 摘要查库。
+ *
+ * @author Acerola
  */
 @Service
 public class RuntimeTicketServiceImpl implements RuntimeTicketService {
 
+    /** 事务内写入 PostgreSQL 请求上下文（RLS 用），使审计行落在正确企业可见域。 */
     private final RequestContextMapper requestContextMapper;
+    /** 审计事件写入（与业务变更同事务，失败整体回滚）。 */
     private final AdminEventMapper eventMapper;
+    /** 编程式事务边界：仅包裹审计写入。 */
     private final TransactionTemplate tx;
+    /** 人类主体实时核验入口（PG 权威 + Redis 存活）。 */
     private final IntrospectionService introspection;
+    /** {@code iam.*} 配置：签票 TTL（秒）与 rt-v1 当前密钥 {@code kid}/secret。 */
     private final IamProperties props;
+    /** Jackson 实例：审计 detail 序列化（全局 SNAKE_CASE 策略）。 */
     private final ObjectMapper mapper;
 
+    /**
+     * 构造实现，全部依赖经 Spring 构造注入。
+     *
+     * @param requestContextMapper 请求上下文写入组件
+     * @param eventMapper          审计事件写入组件
+     * @param tx                   编程式事务边界（本类不使用声明式 {@code @Transactional}）
+     * @param introspection        主体实时核验服务
+     * @param props                配置属性（{@code iam.internal.*}、{@code iam.rt.*}）
+     * @param mapper               JSON 序列化组件
+     */
     public RuntimeTicketServiceImpl(RequestContextMapper requestContextMapper, AdminEventMapper eventMapper, TransactionTemplate tx,
                                 IntrospectionService introspection, IamProperties props,
                                 ObjectMapper mapper) {
@@ -52,6 +85,31 @@ public class RuntimeTicketServiceImpl implements RuntimeTicketService {
         this.mapper = mapper;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>实现顺序（每一步都是失败关闭的前置门槛）：
+     * <ol>
+     *   <li>入参与受众校验：{@code audience} 必须恰为
+     *       {@link IntrospectionService#RUNTIME_AUDIENCE}，客户端必须已注册该受众；</li>
+     *   <li>密钥就绪校验：{@code iam.rt.kid} 或 {@code iam.rt.secret} 缺失即 503，
+     *       不签"无密钥可用"的降级票；</li>
+     *   <li>主体实时核验（含 Redis 存活），并按快照状态给出协议语义：不存在/已撤销/已过期与
+     *       账号停用为 401，企业与成员关系不可用为 403；机器令牌在此步必然是 401；</li>
+     *   <li>上下文一致性：会话必须已选企业，且企业 id 与上下文代次同时等于请求值，否则 409；
+     *       成员关系节点缺失为 403；</li>
+     *   <li>有效期取小后签名（见 {@link #earliestSessionBound}），剩余不足即 403；</li>
+     *   <li>事务内以租户线上下文（{@code app.is_platform = off}）写审计
+     *       {@code auth.runtime_ticket_issue}，对象类型 {@code auth_session}、对象 id 为会话 UUID。</li>
+     * </ol>
+     *
+     * <p>票据正文（rt-v1 的 {@code p} 段）固定 12 个字段：
+     * {@code typ=rt-v1}、{@code sid}=会话、{@code uid}=用户、{@code tid}=当前企业、
+     * {@code mid}=成员关系、{@code aud}=langgraph-runtime、{@code iat}/{@code exp} 为
+     * Unix 秒（UTC 纪元秒）、{@code crev}=会话上下文代次、{@code urev}=用户授权代次、
+     * {@code trev}=企业授权代次、{@code mrev}=成员关系代次。消费方据此三项修订与
+     * {@code crev} 判旧，但票据本身不是授权快照。
+     */
     @Override
     public RuntimeTicketVO issue(InternalClient client, RuntimeTicketDTO req) {
         if (req == null || req.subjectToken() == null || req.subjectToken().isBlank()) {
@@ -153,7 +211,17 @@ public class RuntimeTicketServiceImpl implements RuntimeTicketService {
                 RtV1Codec.FORMAT);
     }
 
-    /** 取会话 idle/absolute 到期的最早上界（秒）；缺失则只受 60s TTL 约束。 */
+    /**
+     * 取会话三个到期字段的最早上界（Unix 秒），用于把票据有效期压到不超过原会话。
+     *
+     * <p>依次取 {@code session.absolute_expires_at}、{@code session.idle_expires_at}、
+     * {@code session.expires_at} 中可解析项的最小值（ISO-8601 带偏移文本，按 UTC 纪元秒比较）。
+     * 三者都缺失或都无法解析时返回"约一年后"的哨兵上界——此时票据事实上只受 60 秒
+     * TTL 钳制，绝不因此把有效期放宽到超过 TTL。
+     *
+     * @param snapshot 已判为可用的权威快照
+     * @return 票据到期时刻的上界（Unix 秒，UTC 纪元）
+     */
     private long earliestSessionBound(AuthoritySnapshot snapshot) {
         JsonNode session = snapshot.raw().path("session");
         long bound = Long.MAX_VALUE;
@@ -163,6 +231,13 @@ public class RuntimeTicketServiceImpl implements RuntimeTicketService {
         return bound == Long.MAX_VALUE ? Instant.now().getEpochSecond() + 365 * 24 * 3600L : bound;
     }
 
+    /**
+     * 用候选 ISO-8601 时间文本收窄上界。
+     *
+     * @param current 当前已知上界（Unix 秒）
+     * @param iso     待比较的时间文本；{@code null}、空白或无法解析时视为"该维度不构成上界"
+     * @return 两者的较小值；无法解析时原样返回 {@code current}（不因脏数据放宽有效期）
+     */
     private static long minEpoch(long current, String iso) {
         if (iso == null || iso.isBlank()) {
             return current;
