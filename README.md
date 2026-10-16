@@ -61,6 +61,10 @@ npm run build
 
 部门创建/修改必须提交表单打开时的 `tenant_id` 和 `expected_ctx_version`，过期表单返回 409。内部端点以登记的客户端 Bearer 凭据认证调用服务，`subject_token` 表示待核验主体；保留 Basic 兼容入口。原 rt-v1 采用 `{kid,p}` 信封的两段格式。
 
+## 测试凭据在哪里
+
+真实账号与密钥一律只存本地、不入库（入库前由 `scripts/verify-secret-scan.sh` 强制零命中）。日常开发环境凭据在 `.env.local`；2026-10-15 独立验收环境（HTTP 29100 / PG 29132 / Redis 29179，bootstrap 账号 `audit.root`）的凭据保存在项目根目录被忽略的本地文件 `iam-audit-20261015.local`（匹配 `*.local` 规则）。若该文件缺失，它最初来自验收 harness 的 `/tmp` 临时目录，可能已被系统清理，只能重建环境后重新生成。
+
 ## 设计与证据
 
 - [HTTP 契约](openspec/changes/establish-shared-iam-service/http-contract.md)
