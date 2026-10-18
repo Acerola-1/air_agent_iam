@@ -30,4 +30,7 @@
     <select id="loadServiceIdentity" resultType="String" useCache="false">
         SELECT iam_auth.load_service_identity(#{digest})::text
     </select>
+    <select id="tenantIsActive" resultType="boolean" useCache="false">
+        SELECT iam_auth.tenant_is_active(#{tenantId})
+    </select>
 </mapper>

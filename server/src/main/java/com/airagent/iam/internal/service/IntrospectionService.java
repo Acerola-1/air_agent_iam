@@ -3,6 +3,7 @@ package com.airagent.iam.internal.service;
 import com.airagent.iam.auth.AuthoritySnapshot;
 import com.airagent.iam.internal.dto.IntrospectDTO;
 import com.airagent.iam.security.internal.InternalClient;
+import java.util.UUID;
 
 /**
  * 内部双主体身份核验业务（Service 接口层）。
@@ -91,4 +92,7 @@ public interface IntrospectionService {
      *         {@link AuthoritySnapshot#usable()} 判定，本方法不抛未授权异常
      */
     AuthoritySnapshot loadHumanSnapshot(String digest);
+
+    /** Read the current IAM tenant status for internal service reconciliation; this is not authorization. */
+    boolean tenantIsActive(UUID tenantId);
 }

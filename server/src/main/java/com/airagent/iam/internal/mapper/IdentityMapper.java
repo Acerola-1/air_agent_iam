@@ -111,4 +111,7 @@ public interface IdentityMapper {
      *         时不含 {@code service_account} 等节点，由调用方按 {@code status} 分支
      */
     String loadServiceIdentity(@Param("digest") String digest);
+
+    /** IAM authoritative tenant availability; does not grant tenant access. */
+    boolean tenantIsActive(@Param("tenantId") UUID tenantId);
 }

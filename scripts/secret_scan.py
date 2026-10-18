@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 import os
 import shlex
+import subprocess
 import sys
 
 root = Path(__file__).resolve().parents[1]
@@ -29,25 +30,30 @@ for config in configs:
             values[(key, value)] = True
 if not values:
     raise SystemExit('没有可比对的秘密配置，不能声明PASS')
-ignored = {'node_modules', '.venv', 'target', '__pycache__', '.git', 'out'}
 binary = {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.pdf', '.jar', '.zip'}
 hits = []
-for folder in ('server/src', 'scripts', 'contracts', 'web/src', 'web', 'openspec', 'docs', 'tools', 'server/logs'):
-    path = root / folder
-    if not path.exists():
+# Scan tracked files (even if later ignored) and unignored additions. Private
+# backups and local configuration are not delivery files; tracked secrets still
+# fail the gate. -z preserves filenames containing whitespace or newlines.
+inventory = subprocess.run(
+    ['git', '-c', 'core.fsmonitor=false', 'ls-files', '-z', '--cached',
+     '--others', '--exclude-standard'],
+    cwd=root, check=True, stdout=subprocess.PIPE,
+).stdout
+files = sorted(set(os.fsdecode(name) for name in inventory.split(b'\0') if name))
+for name in files:
+    file = root / name
+    if not file.is_file() or file.is_symlink():
         continue
-    for parent, dirs, files in os.walk(path):
-        dirs[:] = [d for d in dirs if d not in ignored]
-        for name in files:
-            file = Path(parent) / name
-            if file.suffix.lower() in binary or file.resolve() == output:
-                continue
-            data = file.read_bytes()
-            for key, value in values:
-                if value.encode() in data:
-                    hits.append((key, str(file.relative_to(root))))
+    if file.suffix.lower() in binary or file.resolve() == output:
+        continue
+    data = file.read_bytes()
+    for key, value in values:
+        if value.encode() in data:
+            hits.append((key, str(file.relative_to(root))))
 lines = [f'秘密扫描 {datetime.now(timezone.utc).isoformat()}',
-         f'配置文件数：{len(configs)}；比对秘密数：{len(values)}（值不打印）']
+         f'配置文件数：{len(configs)}；比对秘密数：{len(values)}（值不打印）',
+         f'交付文件范围：Git tracked + unignored additions，共{len(files)}个路径']
 lines.extend(f'HIT {key}: {file}' for key, file in sorted(set(hits)))
 lines.append('结果：FAIL' if hits else '结果：PASS，交付物中真实秘密零命中')
 output.parent.mkdir(parents=True, exist_ok=True)

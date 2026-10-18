@@ -1,0 +1,35 @@
+{
+  "recorded_at": "2026-10-16T14:33:30.553087+00:00",
+  "scope": "documentation only; no implementation or runtime tests",
+  "cli_implementation_workflow": "instructions apply; no achieve command in local CLI",
+  "checks": [
+    {
+      "project": "/Users/acerola/Dev/Python/air_agent",
+      "change": "switch-agent-to-remote-iam",
+      "strict_exit_code": 0,
+      "apply_state": "ready",
+      "progress": {
+        "total": 15,
+        "complete": 0,
+        "remaining": 15
+      },
+      "product_sources_unchanged": true,
+      "broken_links": [],
+      "contract_sha256": "18faf2d90dbaf38c684940d15017361cfb9acdb4715d04c87207709de5a48eb3"
+    },
+    {
+      "project": "/Users/acerola/Dev/Python/RAG/env-rag-final",
+      "change": "connect-knowledge-remote-iam",
+      "strict_exit_code": 0,
+      "apply_state": "ready",
+      "progress": {
+        "total": 14,
+        "complete": 0,
+        "remaining": 14
+      },
+      "product_sources_unchanged": true,
+      "broken_links": [],
+      "contract_sha256": "18faf2d90dbaf38c684940d15017361cfb9acdb4715d04c87207709de5a48eb3"
+    }
+  ]
+}

@@ -18,6 +18,9 @@ import com.airagent.iam.internal.vo.RecheckActiveVO;
 import com.airagent.iam.internal.vo.RecheckInactiveVO;
 import com.airagent.iam.internal.dto.RevisionsDTO;
 import com.airagent.iam.internal.dto.RuntimeTicketDTO;
+import com.airagent.iam.internal.dto.TenantStatusDTO;
+import com.airagent.iam.internal.controller.InternalApiController;
+import com.airagent.iam.internal.vo.TenantStatusVO;
 import com.airagent.iam.internal.vo.RuntimeTicketVO;
 import com.airagent.iam.internal.vo.InactiveIntrospectionVO;
 import com.airagent.iam.internal.vo.ServiceIdentityVO;
@@ -55,6 +58,7 @@ import java.sql.Statement;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.util.concurrent.TimeUnit;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +102,7 @@ class InternalClientIntegrationTest {
             "01930000-0000-4000-8000-000000000312");
     private static final UUID T_A = UUID.fromString("01931000-0000-4100-8100-000000001001");
     private static final UUID T_B = UUID.fromString("01931000-0000-4100-8100-000000001002");
+    private static final UUID UNKNOWN_TENANT = UUID.fromString("01931000-0000-4100-8100-000000009999");
     private static final UUID M_ADMIN_A = UUID.fromString("01931000-0000-4300-8300-000000003001");
     private static final UUID M_MEMBER_A = UUID.fromString("01931000-0000-4300-8300-000000003002");
     private static final UUID M_ADMIN_A_IN_B = UUID.fromString("01931000-0000-4300-8300-000000003006");
@@ -116,6 +121,8 @@ class InternalClientIntegrationTest {
     private InternalClientAuthenticator authenticator;
     @Autowired
     private InternalClientInterceptor interceptor;
+    @Autowired
+    private InternalApiController internalApiController;
     @Autowired
     private PasswordHasher passwordHasher;
     @Autowired
@@ -167,7 +174,7 @@ class InternalClientIntegrationTest {
                 seedUsers(con, hash);
                 seedTenantsAndMembers(con);
                 seedInternalClient(con, RT_CLIENT, OpaqueTokens.digest(RT_SECRET),
-                        new String[]{"identity:introspect", "runtime-ticket:issue"},
+                        new String[]{"identity:introspect", "runtime-ticket:issue", "tenant:status:read"},
                         new String[]{RUNTIME_AUD});
                 seedInternalClient(con, READ_CLIENT, OpaqueTokens.digest(READ_SECRET),
                         new String[]{"identity:introspect"},
@@ -182,7 +189,8 @@ class InternalClientIntegrationTest {
             }
         }
         rt = new InternalClient(RT_CLIENT, "rt",
-                List.of("identity:introspect", "runtime-ticket:issue"), List.of(RUNTIME_AUD), "active");
+                List.of("identity:introspect", "runtime-ticket:issue", "tenant:status:read"),
+                List.of(RUNTIME_AUD), "active");
         read = new InternalClient(READ_CLIENT, "read",
                 List.of("identity:introspect"), List.of("air-agent"), "active");
         knowledge = new InternalClient(KNOWLEDGE_CLIENT, "knowledge",
@@ -215,6 +223,42 @@ class InternalClientIntegrationTest {
         ApiException ex = assertThrows(ApiException.class, () ->
                 interceptor.preHandle(request, new MockHttpServletResponse(), new Object()));
         assertEquals(403, ex.status());
+    }
+
+    @Test
+    void tenantStatusEndpointRequiresDedicatedScopeAndReadsLiveIamState() throws Exception {
+        String path = "/v1/internal/tenants/status";
+        MockHttpServletRequest denied = new MockHttpServletRequest("POST", path);
+        denied.addHeader("Authorization", basic(READ_CLIENT, READ_SECRET));
+        ApiException forbidden = assertThrows(ApiException.class, () ->
+                interceptor.authenticateAndAuthorize(denied.getHeader("Authorization"), path));
+        assertEquals(403, forbidden.status());
+
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", path);
+        request.addHeader("Authorization", basic(RT_CLIENT, RT_SECRET));
+        var activeResult = internalApiController.tenantStatus(request, new TenantStatusDTO(T_A));
+        long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(2);
+        while (!activeResult.hasResult() && System.nanoTime() < deadline) {
+            Thread.sleep(5);
+        }
+        assertTrue(activeResult.hasResult(), "IAM tenant status endpoint should complete");
+        TenantStatusVO active = (TenantStatusVO) activeResult.getResult();
+        assertEquals("iam.tenant-status.v1", active.schemaVersion());
+        assertEquals(T_A.toString(), active.tenantId());
+        assertTrue(active.active());
+
+        MockHttpServletRequest unknownRequest = new MockHttpServletRequest("POST", path);
+        unknownRequest.addHeader("Authorization", basic(RT_CLIENT, RT_SECRET));
+        var unknownResult = internalApiController.tenantStatus(
+                unknownRequest, new TenantStatusDTO(UNKNOWN_TENANT));
+        deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(2);
+        while (!unknownResult.hasResult() && System.nanoTime() < deadline) {
+            Thread.sleep(5);
+        }
+        assertTrue(unknownResult.hasResult(), "unknown IAM tenant status should complete");
+        TenantStatusVO unknown = (TenantStatusVO) unknownResult.getResult();
+        assertEquals(UNKNOWN_TENANT.toString(), unknown.tenantId());
+        assertFalse(unknown.active());
     }
 
     @Test

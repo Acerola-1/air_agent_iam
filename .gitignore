@@ -2,6 +2,7 @@
 .env.local
 *.local
 server/logs/
+logs/
 docs/reviews/evidence/run/
 tools/bcrypt-vectors/out/
 tools/rt-v1/out/

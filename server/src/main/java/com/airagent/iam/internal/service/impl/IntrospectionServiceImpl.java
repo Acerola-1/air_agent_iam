@@ -438,6 +438,11 @@ public class IntrospectionServiceImpl implements IntrospectionService {
         return snapshot;
     }
 
+    @Override
+    public boolean tenantIsActive(UUID tenantId) {
+        return tenantId != null && identityMapper.tenantIsActive(tenantId);
+    }
+
     /**
      * 校验令牌摘要在 Redis 中的 Sa-Token 存活记录是否仍指向快照里的同一用户。
      *

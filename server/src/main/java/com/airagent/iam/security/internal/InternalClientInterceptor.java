@@ -120,6 +120,9 @@ public class InternalClientInterceptor implements HandlerInterceptor {
         if (uri.endsWith("/v1/internal/runtime-tickets")) {
             return "runtime-ticket:issue";
         }
+        if (uri.endsWith("/v1/internal/tenants/status")) {
+            return "tenant:status:read";
+        }
         return null;
     }
 }

@@ -2,9 +2,11 @@ package com.airagent.iam.internal.controller;
 
 import com.airagent.iam.internal.dto.IntrospectDTO;
 import com.airagent.iam.internal.dto.RuntimeTicketDTO;
+import com.airagent.iam.internal.dto.TenantStatusDTO;
 import com.airagent.iam.internal.service.IntrospectionService;
 import com.airagent.iam.internal.service.RuntimeTicketService;
 import com.airagent.iam.internal.vo.RuntimeTicketVO;
+import com.airagent.iam.internal.vo.TenantStatusVO;
 import com.airagent.iam.security.internal.InternalClientInterceptor;
 import com.airagent.iam.web.RequestIdFilter;
 import com.airagent.iam.web.async.IdentityDeadlineExecutor;
@@ -153,6 +155,30 @@ public class InternalApiController {
         String uri = request.getRequestURI();
         return deadlineExecutor.execute(started(request), () -> runtimeTicketService.issue(
                 clientAuthorization.authenticateAndAuthorize(authorization, uri), body));
+    }
+
+    /** Trusted internal status lookup used for reconciliation gates; the result grants no access. */
+    @Operation(summary = "查询 IAM 企业当前可用状态",
+            description = "需要内部客户端 scope tenant:status:read；只返回指定 UUID 的实时 active 状态，不接受业务库引用投影作为授权依据。",
+            security = {@SecurityRequirement(name = "internalClient")})
+    @ApiResponse(responseCode = "200", description = "返回 iam.tenant-status.v1 实时状态")
+    @ApiResponse(responseCode = "400", description = "请求体或 tenant_id 缺失")
+    @ApiResponse(responseCode = "401", description = "内部客户端凭据无效")
+    @ApiResponse(responseCode = "403", description = "客户端缺少 tenant:status:read scope")
+    @ApiResponse(responseCode = "503", description = "IAM PostgreSQL 不可用")
+    @PostMapping("/tenants/status")
+    public DeferredResult<TenantStatusVO> tenantStatus(HttpServletRequest request,
+            @RequestBody(required = false) TenantStatusDTO body) {
+        if (body == null || body.tenantId() == null) {
+            throw com.airagent.iam.web.error.ApiException.badRequest("tenant_id 必填");
+        }
+        String authorization = request.getHeader("Authorization");
+        String uri = request.getRequestURI();
+        return deadlineExecutor.execute(started(request), () -> {
+            clientAuthorization.authenticateAndAuthorize(authorization, uri);
+            boolean active = introspectionService.tenantIsActive(body.tenantId());
+            return new TenantStatusVO("iam.tenant-status.v1", body.tenantId().toString(), active);
+        });
     }
 
     /**
