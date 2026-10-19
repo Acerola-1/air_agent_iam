@@ -1,7 +1,7 @@
 # iam-physical-separation Specification
 
 ## Purpose
-TBD - created by archiving change separate-iam-business-databases. Update Purpose after archive.
+将 Java IAM 身份权威与 Agent 业务存储分离，在保持 UUID、业务约束和撤销/删除状态的前提下，提供默认只读盘点、显式迁移、单写冻结、真实目标校验与保全新写的恢复门禁。远程业务仅保留最小身份引用，知识库资料与索引不因身份服务切换而重建。
 
 ## Requirements
 
