@@ -46,9 +46,10 @@ public record GrantableTreeVO(
     /**
      * 可授权限分组中的一个权限叶子。
      *
-     * @param code         权限码（授予角色时提交的就是它），形如 {@code tenant:member:read}
-     * @param name         权限中文名（对应目录的 name_zh 列）
-     * @param resourceCode 资源型权限的资源标识；可授树只收录非资源型权限，故当前恒为 {@code null}
+     * @param code           权限码（授予角色时提交的就是它），形如 {@code tenant:member:read}
+     * @param name           权限中文名（对应目录的 name_zh 列）
+     * @param resourceCode   资源型权限的资源标识；非资源权限为 {@code null}
+     * @param resourceNameZh 资源中文名；非资源权限为 {@code null}
      * @author Acerola
      */
     @Schema(description = "可授权限叶子")
@@ -57,8 +58,10 @@ public record GrantableTreeVO(
             String code,
             @Schema(description = "权限中文名", requiredMode = Schema.RequiredMode.REQUIRED)
             String name,
-            @Schema(description = "资源标识；可授树不含资源型权限，当前恒为 null")
-            String resourceCode
+            @Schema(description = "资源标识；非资源权限为 null")
+            String resourceCode,
+            @Schema(description = "资源中文名；非资源权限为 null")
+            String resourceNameZh
     ) {
     }
 }

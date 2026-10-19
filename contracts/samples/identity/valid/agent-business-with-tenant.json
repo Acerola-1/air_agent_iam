@@ -1,0 +1,34 @@
+{
+  "schema_version": "iam.identity.v1",
+  "active": true,
+  "issuer": "air-agent-iam",
+  "audience": "air-agent",
+  "principal": {"type": "human", "id": "11111111-1111-4111-8111-111111111111", "realm": "workforce"},
+  "user": {"id": "11111111-1111-4111-8111-111111111111", "account": "member_a", "display_name": "演示成员", "status": "active"},
+  "session": {
+    "id": "22222222-2222-4222-8222-222222222222",
+    "ctx_version": 8,
+    "created_at": "2026-10-19T00:00:00Z",
+    "expires_at": "2026-10-26T01:00:00Z",
+    "absolute_expires_at": "2026-11-18T00:00:00Z",
+    "idle_expires_at": "2026-10-26T01:00:00Z"
+  },
+  "current_tenant": {"id": "33333333-3333-4333-8333-333333333333", "code": "tenant-a", "name": "演示企业", "status": "active"},
+  "membership": {"id": "44444444-4444-4444-8444-444444444444", "tenant_id": "33333333-3333-4333-8333-333333333333", "department_id": null, "status": "active", "revision": 4},
+  "platform_roles": [],
+  "tenant_roles": [{"code": "tenant_agent_test_admin", "name": "Agent 测试管理员"}],
+  "permissions": [
+    "agent:business:basic-qa:use",
+    "agent:business:data-analysis:use",
+    "agent:business:intelligent-tracing:use",
+    "agent:operations:read",
+    "agent:metrics:read",
+    "agent:content:read"
+  ],
+  "revisions": {"user_auth_revision": 2, "tenant_auth_revision": 6, "membership_revision": 4, "session_ctx_version": 8},
+  "context_version": 8,
+  "platform_admin": false,
+  "context_usable": true,
+  "needs_tenant_selection": false,
+  "evaluated_at": "2026-10-19T01:00:00Z"
+}

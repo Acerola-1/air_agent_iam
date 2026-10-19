@@ -35,7 +35,7 @@ PG内部保留postgres/template0/template1系统维护库，它们不是第二�
 
 ## 账号与知识目录
 
-独立IAM管理员凭据在Agent`.local/i4-live/credentials.md`；知识账号/机器凭据在RAG`.local/remote-iam-live/credentials.md`。root短口令按用户选择保留，暂不符合IAM登录长度要求；未重置或扩权。
+独立IAM管理员凭据在Agent`.local/i4-live/credentials.md`；知识账号/机器凭据在RAG`.local/remote-iam-live/credentials.md`。root已于2026-10-19通过19100正常登录及四个有效企业的Agent权限读回；本轮核查未改口令，目标业务与查看权限已明确配置。root口令不写入本清单；早期“短口令无法登录”的记录不再代表当前已验证状态。
 
 知识`.local/workspace-access/registry.json`仅保留技术目录，旧principals/grants及本地凭据清单已移除；正式权限每次由IAM裁决。记录仅写`.local/remote-iam-live/records`，旧local记录不是正式身份可读取的数据源。PDF、MinerU原文、PG public/rag/env_rag资料、向量和图不因环境清理而重建。
 

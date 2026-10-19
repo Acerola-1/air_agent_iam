@@ -331,7 +331,9 @@ public class RoleAdminServiceImpl implements RoleAdminService {
                     return actor.snapshot().permissions().contains(permission.code());
                 })
                 .map(permission -> new GrantableTreeVO.Leaf(permission.code(), permission.nameZh(),
-                        permission.resourceCode())).toList();
+                        permission.resourceCode(),
+                        permission.resourceCode() == null ? null
+                                : grants.resourceNameZh(permission.resourceCode()))).toList();
         return new GrantableTreeVO.Group(scope, name, leaves);
     }
 

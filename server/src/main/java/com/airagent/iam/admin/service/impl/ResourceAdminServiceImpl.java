@@ -380,6 +380,7 @@ public class ResourceAdminServiceImpl implements ResourceAdminService {
         return new EntitlementVO(
                 tenantId.toString(),
                 res.code(),
+                res.nameZh(),
                 entStatus,
                 exists ? ent.revision() : 0,
                 exists,

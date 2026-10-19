@@ -121,6 +121,12 @@ async function doEdit() {
       <el-table :data="resources.items.value" v-loading="resources.loading.value" stripe empty-text="暂无资源">
         <el-table-column prop="code" label="资源编码" min-width="200" />
         <el-table-column prop="name_zh" label="中文名" min-width="120" />
+        <el-table-column label="类型" width="110">
+          <template #default="{ row }">
+            <el-tag v-if="row.code.startsWith('agent:business:')" size="small" type="success">Agent 业务</el-tag>
+            <span v-else>资源</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="status" label="状态" width="90">
           <template #default="{ row }">
             <el-tag :type="row.status === 'active' ? 'success' : 'info'">{{ row.status === 'active' ? '启用' : '停用' }}</el-tag>

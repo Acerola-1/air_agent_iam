@@ -27,19 +27,56 @@
         :closable="false"
         class="builtin-hint"
       />
-      <div v-for="group in scopedGroups" :key="group.scope + group.name" class="grant-group">
-        <h4>{{ group.name }}</h4>
-        <el-checkbox-group v-model="form.permissionCodes">
-          <el-checkbox
-            v-for="leaf in group.permissions"
-            :key="leaf.code"
-            :value="leaf.code"
-            :disabled="role?.builtin"
-          >
-            {{ leaf.name }}<span class="leaf-code">（{{ leaf.code }}）</span>
-          </el-checkbox>
-        </el-checkbox-group>
-      </div>
+      <template v-if="scope === 'platform'">
+        <div v-if="platformLeaves.length" class="grant-group">
+          <h4>平台权限</h4>
+          <el-checkbox-group v-model="form.permissionCodes">
+            <el-checkbox
+              v-for="leaf in platformLeaves"
+              :key="leaf.code"
+              :value="leaf.code"
+              :disabled="role?.builtin"
+            >
+              {{ leaf.name }}<span class="leaf-code">（{{ leaf.code }}）</span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </div>
+      </template>
+      <template v-else>
+        <div class="grant-group">
+          <h4>Agent 业务（仅显示本企业已开通业务）</h4>
+          <el-alert
+            v-if="!tenantSplit.businesses.length"
+            title="当前企业没有可授予的 Agent 业务：可能尚未开通，或当前账号缺少资源授权管理资格。平台开通且账号具备资格后，此处才会出现可选业务。"
+            type="info"
+            :closable="false"
+            class="business-empty"
+          />
+          <el-checkbox-group v-else v-model="form.permissionCodes">
+            <el-checkbox
+              v-for="leaf in tenantSplit.businesses"
+              :key="leaf.code"
+              :value="leaf.code"
+              :disabled="role?.builtin"
+            >
+              {{ businessDisplayName(leaf) }}
+            </el-checkbox>
+          </el-checkbox-group>
+        </div>
+        <div v-if="tenantSplit.others.length" class="grant-group">
+          <h4>其他企业权限</h4>
+          <el-checkbox-group v-model="form.permissionCodes">
+            <el-checkbox
+              v-for="leaf in tenantSplit.others"
+              :key="leaf.code"
+              :value="leaf.code"
+              :disabled="role?.builtin"
+            >
+              {{ leaf.name }}<span class="leaf-code">（{{ leaf.code }}）</span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </div>
+      </template>
       <div v-if="unavailable.length" class="grant-group">
         <h4>已配置但当前不可新增（可保留或取消勾选以删除）</h4>
         <el-checkbox-group v-model="form.permissionCodes">
@@ -48,7 +85,7 @@
           </el-checkbox>
         </el-checkbox-group>
       </div>
-      <el-empty v-if="!loading && !scopedGroups.length" description="当前范围没有可授予权限" :image-size="64" />
+      <el-empty v-if="!loading && !scopedLeaves.length" description="当前范围没有可授予权限" :image-size="64" />
     </div>
     <template #footer>
       <el-button @click="$emit('update:modelValue', false)">取消</el-button>
@@ -61,6 +98,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { rolesApi } from '@/api/endpoints'
+import { businessDisplayName, splitTenantLeaves } from '@/api/business'
 import { ApiError } from '@/api/http'
 import { useWriteScope, type WriteScope } from '@/composables/useWriteScope'
 import type { GrantableTree, RoleView } from '@/api/types'
@@ -92,7 +130,13 @@ const form = reactive({
   permissionCodes: [] as string[]
 })
 
-const scopedGroups = computed(() => tree.value.groups.filter((group) => group.scope === props.scope))
+const platformLeaves = computed(() =>
+  tree.value.groups.find((group) => group.scope === 'platform')?.permissions ?? [])
+const tenantLeaves = computed(() =>
+  tree.value.groups.find((group) => group.scope === 'tenant')?.permissions ?? [])
+const tenantSplit = computed(() => splitTenantLeaves(tenantLeaves.value))
+const scopedLeaves = computed(() =>
+  props.scope === 'platform' ? platformLeaves.value : tenantLeaves.value)
 
 watch(
   () => props.role,
@@ -180,5 +224,9 @@ async function save(): Promise<void> {
 
 .builtin-hint {
   margin-bottom: 10px;
+}
+
+.business-empty {
+  margin-bottom: 8px;
 }
 </style>

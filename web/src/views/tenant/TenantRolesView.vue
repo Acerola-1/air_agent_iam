@@ -5,7 +5,7 @@
       <el-button @click="roles.reload()">刷新</el-button>
     </div>
     <el-alert
-      title="企业角色只能授予企业可授权限；平台权限码越界将被后端 409 拒绝。"
+      title="企业角色只能授予本企业已开通的 Agent 业务及其他可授权限；未开通业务不会出现在可选列表，越界授予将被后端 409 拒绝。"
       type="info"
       :closable="false"
       class="hint"

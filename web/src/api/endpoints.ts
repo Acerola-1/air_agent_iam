@@ -225,6 +225,7 @@ export interface ResourceView {
 export interface EntitlementView {
   tenant_id: string
   resource_code: string
+  resource_name_zh: string
   status: string
   revision: number
   exists: boolean

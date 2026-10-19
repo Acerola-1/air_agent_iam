@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airagent.iam.ops.mapper.OpsMapper">
+
+    <resultMap id="user" type="com.airagent.iam.ops.entity.OpsUserDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="account" javaType="String"/>
+            <arg column="display_name" javaType="String"/>
+            <arg column="status" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="tenant" type="com.airagent.iam.ops.entity.OpsTenantDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="code" javaType="String"/>
+            <arg column="name" javaType="String"/>
+            <arg column="status" javaType="String"/>
+            <arg column="auth_revision" javaType="_long"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="membership" type="com.airagent.iam.ops.entity.OpsMembershipDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="status" javaType="String"/>
+            <arg column="revision" javaType="_long"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="role" type="com.airagent.iam.ops.entity.OpsRoleDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="code" javaType="String"/>
+            <arg column="is_builtin" javaType="_boolean"/>
+            <arg column="status" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="permission" type="com.airagent.iam.ops.entity.OpsPermissionDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="code" javaType="String"/>
+            <arg column="resource_code" javaType="String"/>
+            <arg column="status" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="entitlement" type="com.airagent.iam.ops.entity.OpsEntitlementDO">
+        <constructor>
+            <arg column="status" javaType="String"/>
+            <arg column="revision" javaType="_long"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="businessResource" type="com.airagent.iam.ops.entity.OpsBusinessResourceDO">
+        <constructor>
+            <idArg column="code" javaType="String"/>
+            <arg column="name_zh" javaType="String"/>
+            <arg column="sort" javaType="_int"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="legacyPermission" type="com.airagent.iam.ops.entity.OpsLegacyPermissionDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="code" javaType="String"/>
+            <arg column="scope" javaType="String"/>
+            <arg column="status" javaType="String"/>
+            <arg column="role_edges" javaType="_int"/>
+            <arg column="service_account_edges" javaType="_int"/>
+        </constructor>
+    </resultMap>
+
+    <select id="selectUser" resultMap="user" useCache="false">
+        SELECT id, account, display_name, status FROM iam.users WHERE id = #{id}
+    </select>
+
+    <select id="selectTenant" resultMap="tenant" useCache="false">
+        SELECT id, code, name, status, auth_revision FROM iam.tenants WHERE id = #{id}
+    </select>
+
+    <select id="selectTenantForUpdate" resultMap="tenant" useCache="false">
+        SELECT id, code, name, status, auth_revision FROM iam.tenants WHERE id = #{id} FOR UPDATE
+    </select>
+
+    <select id="selectActiveTenants" resultMap="tenant" useCache="false">
+        SELECT id, code, name, status, auth_revision FROM iam.tenants
+         WHERE status = 'active' ORDER BY code, id
+    </select>
+
+    <select id="selectMembership" resultMap="membership" useCache="false">
+        SELECT id, status, revision FROM iam.tenant_memberships
+         WHERE tenant_id = #{tenantId} AND user_id = #{userId}
+    </select>
+
+    <select id="selectMembershipForUpdate" resultMap="membership" useCache="false">
+        SELECT id, status, revision FROM iam.tenant_memberships
+         WHERE tenant_id = #{tenantId} AND user_id = #{userId} FOR UPDATE
+    </select>
+
+    <select id="insertMembership" resultType="java.util.UUID" affectData="true" flushCache="true" useCache="false">
+        INSERT INTO iam.tenant_memberships(tenant_id, user_id, status, revision, created_by)
+        VALUES (#{tenantId}, #{userId}, 'active', 1, #{createdBy})
+        RETURNING id
+    </select>
+
+    <select id="selectTenantRole" resultMap="role" useCache="false">
+        SELECT id, code, is_builtin, status FROM iam.roles
+         WHERE scope = 'tenant' AND tenant_id = #{tenantId} AND code = #{code}
+    </select>
+
+    <select id="selectTenantRoleForUpdate" resultMap="role" useCache="false">
+        SELECT id, code, is_builtin, status FROM iam.roles
+         WHERE scope = 'tenant' AND tenant_id = #{tenantId} AND code = #{code} FOR UPDATE
+    </select>
+
+    <select id="insertTenantRole" resultType="java.util.UUID" affectData="true" flushCache="true" useCache="false">
+        INSERT INTO iam.roles(scope, tenant_id, code, name, description, is_builtin)
+        VALUES ('tenant', #{tenantId}, #{code}, #{name}, #{description}, false)
+        RETURNING id
+    </select>
+
+    <select id="selectPermissionByCode" resultMap="permission" useCache="false">
+        SELECT id, code, resource_code, status FROM iam.permissions WHERE code = #{code}
+    </select>
+
+    <select id="selectPermissionsByCodes" resultMap="permission" useCache="false">
+        SELECT id, code, resource_code, status FROM iam.permissions
+         WHERE code IN
+        <foreach collection="codes" item="code" open="(" separator="," close=")">#{code}</foreach>
+         ORDER BY code
+    </select>
+
+    <select id="selectActiveBusinessResources" resultMap="businessResource" useCache="false">
+        SELECT code, name_zh, sort FROM iam.resource_catalog
+         WHERE code LIKE 'agent:business:%' AND status = 'active' AND kind = 'leaf'
+         ORDER BY sort, code
+    </select>
+
+    <select id="selectRolePermissionCodes" resultType="String" useCache="false">
+        SELECT p.code FROM iam.role_permissions rp
+          JOIN iam.permissions p ON p.id = rp.permission_id
+         WHERE rp.role_id = #{roleId} ORDER BY p.code
+    </select>
+
+    <insert id="insertRolePermission" flushCache="true">
+        INSERT INTO iam.role_permissions(role_id, permission_id, granted_by)
+        VALUES (#{roleId}, #{permissionId}, #{grantedBy})
+        ON CONFLICT DO NOTHING
+    </insert>
+
+    <select id="countMembershipRole" resultType="int" useCache="false">
+        SELECT COUNT(*) FROM iam.membership_roles
+         WHERE membership_id = #{membershipId} AND role_id = #{roleId}
+    </select>
+
+    <insert id="insertMembershipRole" flushCache="true">
+        INSERT INTO iam.membership_roles(tenant_id, membership_id, role_id, granted_by)
+        VALUES (#{tenantId}, #{membershipId}, #{roleId}, #{grantedBy})
+        ON CONFLICT DO NOTHING
+    </insert>
+
+    <select id="selectEntitlement" resultMap="entitlement" useCache="false">
+        SELECT status, revision FROM iam.tenant_entitlements
+         WHERE tenant_id = #{tenantId} AND resource_code = #{resourceCode}
+    </select>
+
+    <update id="activateEntitlement" flushCache="true">
+        INSERT INTO iam.tenant_entitlements(tenant_id, resource_code, status, revision, granted_at, revoked_at, updated_by)
+        VALUES (#{tenantId}, #{resourceCode}, 'active', 1, now(), NULL, #{updatedBy})
+        ON CONFLICT (tenant_id, resource_code) DO UPDATE SET
+            status = 'active',
+            revision = iam.tenant_entitlements.revision + 1,
+            granted_at = now(),
+            revoked_at = NULL,
+            updated_by = #{updatedBy}
+        WHERE iam.tenant_entitlements.status &lt;&gt; 'active'
+    </update>
+
+    <select id="selectTenantAuthRevision" resultType="long" useCache="false">
+        SELECT auth_revision FROM iam.tenants WHERE id = #{tenantId}
+    </select>
+
+    <select id="selectMembershipRevision" resultType="long" useCache="false">
+        SELECT revision FROM iam.tenant_memberships WHERE id = #{membershipId}
+    </select>
+
+    <select id="selectLegacyPermissions" resultMap="legacyPermission" useCache="false">
+        SELECT p.id, p.code, p.scope, p.status,
+               (SELECT COUNT(*) FROM iam.role_permissions rp WHERE rp.permission_id = p.id) AS role_edges,
+               (SELECT COUNT(*) FROM iam.service_account_permissions sap WHERE sap.permission_id = p.id) AS service_account_edges
+          FROM iam.permissions p
+         WHERE p.code IN
+        <foreach collection="codes" item="code" open="(" separator="," close=")">#{code}</foreach>
+         ORDER BY p.code
+    </select>
+
+    <delete id="deleteRolePermissionsByPermission" flushCache="true">
+        DELETE FROM iam.role_permissions WHERE permission_id = #{permissionId}
+    </delete>
+
+    <delete id="deleteServiceAccountPermissionsByPermission" flushCache="true">
+        DELETE FROM iam.service_account_permissions WHERE permission_id = #{permissionId}
+    </delete>
+
+    <delete id="deletePermission" flushCache="true">
+        DELETE FROM iam.permissions WHERE id = #{permissionId}
+    </delete>
+
+    <select id="selectExistingTables" resultType="String" useCache="false">
+        SELECT n.nspname || '.' || c.relname
+          FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+         WHERE c.relkind IN ('r','p')
+           AND (n.nspname || '.' || c.relname) IN
+        <foreach collection="names" item="name" open="(" separator="," close=")">#{name}</foreach>
+         ORDER BY 1
+    </select>
+</mapper>

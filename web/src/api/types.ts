@@ -161,11 +161,18 @@ export interface PermissionView {
   resource_type: string | null
 }
 
+export interface GrantableLeaf {
+  code: string
+  name: string
+  resource_code: string | null
+  resource_name_zh?: string | null
+}
+
 export interface GrantableTree {
   groups: Array<{
     scope: string
     name: string
-    permissions: Array<{ code: string; name: string; resource_code: string | null }>
+    permissions: GrantableLeaf[]
   }>
 }
 

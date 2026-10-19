@@ -67,6 +67,12 @@ public class ResourceGrantSupport {
         }
     }
 
+    /** 资源中文名；目录不存在时返回 null（不把编码冒充为业务名）。 */
+    public String resourceNameZh(String resourceCode) {
+        var resource = resources.selectByCode(resourceCode);
+        return resource == null ? null : resource.nameZh();
+    }
+
     /** 当前资源可授资格：权限/目录启用、可下放、企业启用且已开通。 */
     public boolean resourceAvailable(UUID tenant, ResourcePermissionDO permission) {
         return permission.grantableToTenants() && resourceInvalidReason(tenant, permission) == null;

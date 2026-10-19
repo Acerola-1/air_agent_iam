@@ -1634,6 +1634,7 @@ components:
       required:
       - tenant_id
       - resource_code
+      - resource_name_zh
       - status
       - revision
       - exists
@@ -1651,6 +1652,9 @@ components:
           format: uuid
         resource_code:
           type: string
+        resource_name_zh:
+          type: string
+          description: 资源目录中文名，用于中文管理界面的业务/资源展示
         status:
           enum:
           - active
@@ -1806,7 +1810,13 @@ components:
         tenant_roles:
           type: array
           items: { type: object, required: [code, name], properties: { code: { type: string }, name: { type: string } } }
-        permissions: { type: array, items: { type: string } }
+        permissions:
+          type: array
+          items: { type: string }
+          description: >-
+            当前企业上下文中的实时有效权限码，精确字符串匹配。Agent 业务使用码为
+            agent:business:&lt;code&gt;:use，必须同时满足企业开通与本人企业角色授予；
+            非资源型 Agent 查看码（如 agent:operations:read）按原分级授予，不以业务前缀推断。
         revisions: { $ref: "#/components/schemas/Revisions" }
         context_version: { type: integer, minimum: 1 }
         platform_admin: { type: boolean }
@@ -2217,7 +2227,8 @@ components:
                   properties:
                     code: { type: string }
                     name: { type: string }
-                    resource_code: { type: ["string", "null"], description: 资源型权限 I1 整组缺席可授树 }
+                    resource_code: { type: ["string", "null"], description: 资源型权限的资源码；非资源权限为 null }
+                    resource_name_zh: { type: ["string", "null"], description: 资源中文名；非资源权限为 null }
 
     AuditView:
       type: object

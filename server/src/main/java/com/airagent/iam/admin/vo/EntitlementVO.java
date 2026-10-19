@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @param tenantId           目标企业 UUID
  * @param resourceCode       资源编码
+ * @param resourceNameZh     资源中文名（目录名，用于中文管理界面）
  * @param status             active/revoked
  * @param revision           开通记录修订号，无记录为 0
  * @param exists             是否存在开通记录
@@ -26,6 +27,8 @@ public record EntitlementVO(
         String tenantId,
         @Schema(description = "资源编码", requiredMode = Schema.RequiredMode.REQUIRED)
         String resourceCode,
+        @Schema(description = "资源中文名", requiredMode = Schema.RequiredMode.REQUIRED)
+        String resourceNameZh,
         @Schema(description = "状态", requiredMode = Schema.RequiredMode.REQUIRED, allowableValues = {"active", "revoked"})
         String status,
         @Schema(description = "开通记录修订号，无记录为 0", requiredMode = Schema.RequiredMode.REQUIRED)

@@ -72,6 +72,10 @@ server 测试 profile `it` 固定连接独立的 `iam_test` 及 Redis DB1；`iam
 
 真实账号与密钥一律只存本地、不入库（入库前由 `scripts/verify-secret-scan.sh` 强制零命中）。正式本机环境凭据在 `.env.local`；历史 `iam-audit-20261015.local` 对应已退役的 `291xx` 验收环境，不是现行配置，不再建议恢复或重建该环境。
 
+## Agent 业务授权
+
+当前三项 Agent 业务（基础问答、数据分析、智能溯源）复用企业资源开通与企业角色授权；有效许可为企业开通与本人企业角色授予的交集。中文配置路径、root 一次性授权命令及第二阶段发布检查/清理/复验命令见 [Agent 业务授权](docs/agent-business-entitlements.md)。
+
 ## 设计与证据
 
 - [HTTP 契约](openspec/changes/establish-shared-iam-service/http-contract.md)
