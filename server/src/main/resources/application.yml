@@ -8,7 +8,7 @@ spring:
   application:
     name: air-agent-iam
   datasource:
-    url: jdbc:postgresql://${IAM_PG_HOST:127.0.0.1}:${IAM_PG_PORT:19132}/${IAM_PG_DB:iam}?ApplicationName=iam-server&connectTimeout=3&socketTimeout=10&options=-c%20search_path%3Diam%2Ciam_auth%20-c%20statement_timeout%3D300ms
+    url: jdbc:postgresql://${IAM_PG_HOST:127.0.0.1}:${IAM_PG_PORT:19132}/${IAM_PG_DB:iam_identity}?ApplicationName=iam-server&connectTimeout=3&socketTimeout=10&options=-c%20search_path%3Diam%2Ciam_auth%20-c%20statement_timeout%3D300ms
     username: ${IAM_PG_APP_USER}
     password: ${IAM_PG_APP_PASSWORD}
     hikari:
@@ -22,7 +22,7 @@ spring:
         ssl: false
   flyway:
     enabled: true
-    url: jdbc:postgresql://${IAM_PG_HOST:127.0.0.1}:${IAM_PG_PORT:19132}/${IAM_PG_DB:iam}?ApplicationName=iam-flyway
+    url: jdbc:postgresql://${IAM_PG_HOST:127.0.0.1}:${IAM_PG_PORT:19132}/${IAM_PG_DB:iam_identity}?ApplicationName=iam-flyway
     user: ${IAM_PG_MIGRATE_USER}
     password: ${IAM_PG_MIGRATE_PASSWORD}
     schemas: iam_auth,iam

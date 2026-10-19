@@ -1,0 +1,77 @@
+{
+  "status": "canonical",
+  "identity_authority": "Java IAM only",
+  "applications": {
+    "iam": {
+      "http_port": 19100,
+      "ui_port": 19101,
+      "database_host": "127.0.0.1",
+      "database_port": 19132,
+      "database": "iam_identity",
+      "container": "iam-pg17",
+      "volume": "iam-pg17-data"
+    },
+    "agent": {
+      "http_port": 2024,
+      "admin_port": 8100,
+      "ui_ports": [
+        3000,
+        3100
+      ],
+      "database_host": "127.0.0.1",
+      "database_port": 15432,
+      "database": "air_agent_business",
+      "container": "air-agent-postgres",
+      "volume": "air-agent_pgdata"
+    },
+    "knowledge": {
+      "http_port": 8099,
+      "auth_mode": "remote",
+      "database_host": "127.0.0.1",
+      "database_port": 5432,
+      "database": "rag",
+      "container": "lightrag-postgres",
+      "volume": "lightrag_pg",
+      "qdrant_container": "lightrag-qdrant",
+      "neo4j_container": "lightrag-neo4j",
+      "workspaces": [
+        "air",
+        "water",
+        "coastal"
+      ]
+    }
+  },
+  "keep_containers": [
+    "air-agent-langfuse-clickhouse",
+    "air-agent-langfuse-minio",
+    "air-agent-langfuse-postgres",
+    "air-agent-langfuse-redis",
+    "air-agent-langfuse-web",
+    "air-agent-langfuse-worker",
+    "air-agent-langgraph-api",
+    "air-agent-postgres",
+    "air-agent-redis",
+    "buildkit",
+    "iam-pg17",
+    "iam-redis7",
+    "lightrag-air",
+    "lightrag-coastal",
+    "lightrag-neo4j",
+    "lightrag-postgres",
+    "lightrag-qdrant",
+    "lightrag-water"
+  ],
+  "keep_volumes": [
+    "air-agent_langfuse_clickhouse_data",
+    "air-agent_langfuse_clickhouse_logs",
+    "air-agent_langfuse_minio_data",
+    "air-agent_langfuse_postgres_data",
+    "air-agent_langfuse_redis_data",
+    "air-agent_pgdata",
+    "iam-pg17-data",
+    "iam-redis7-data",
+    "lightrag_pg"
+  ],
+  "launcher": "Agent deployment/run_separated_local.py start|status",
+  "disposable_tests": "Create explicit empty test resources; delete after validation. No standing legacy clones."
+}

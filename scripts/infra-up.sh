@@ -7,6 +7,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 test -f .env.local || { echo "缺少 .env.local（可由 .env.example 复制并填入合成随机值）"; exit 1; }
 set -a; . ./.env.local; set +a
+: "${IAM_PG_DB:=iam_identity}"
 
 PG_CONTAINER=iam-pg17
 REDIS_CONTAINER=iam-redis7
@@ -84,10 +85,6 @@ END
 \$\$;
 GRANT CONNECT, CREATE ON DATABASE ${IAM_PG_DB} TO ${IAM_PG_MIGRATE_USER};
 GRANT CONNECT ON DATABASE ${IAM_PG_DB} TO ${IAM_PG_APP_USER};
-SELECT 'CREATE DATABASE ${IAM_PG_DB}_test OWNER ${IAM_PG_MIGRATE_USER}'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '${IAM_PG_DB}_test')\gexec
-GRANT CONNECT, CREATE ON DATABASE ${IAM_PG_DB}_test TO ${IAM_PG_MIGRATE_USER};
-GRANT CONNECT ON DATABASE ${IAM_PG_DB}_test TO ${IAM_PG_APP_USER};
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 DO \$\$
 BEGIN

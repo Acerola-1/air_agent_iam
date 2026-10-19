@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# 已退役：旧在线验收入口；原主体仅保留为历史参考。
+printf '%s\n' '已退役：禁止在正式环境运行旧在线验收；现行入口和隔离测试见 README.md。' >&2
+exit 2
+
 # C05/C06/C07/C11/C16：会话/修订/实时核验证据（可复跑）。
 # A 段：真实 PG iam_test + 真实 Redis 逻辑库1 的 JUnit 集成测试（16 用例，含并发 CAS 与同事务回滚反例）。
 # B 段：对运行中的 IAM 服务做真实 HTTP 黑盒：错口令/登录/me/menus/tenants/续期/CAS 反例/

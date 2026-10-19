@@ -1,5 +1,7 @@
 # Air Agent IAM
 
+正式本机环境由 Agent 仓的 `deployment/run_separated_local.py start` 统一管理三仓（Agent、IAM、RAG）。IAM 后端/管理前端为 `19100` / `19101`，PostgreSQL 为 `19132/iam_identity`，schema 仍是 `iam` / `iam_auth`。原 `291xx` 验收环境、I4 评测容器及旧 `iam` 数据库已退役，不再重建；下方历史报告、链接与评分仅供追溯。
+
 用于学习企业账号、组织与鉴权的独立项目，提供中文管理后台、人类会话、企业/成员/部门、角色权限、审计、服务账号与 SSO。
 
 后端采用 **JDK 21 + Spring Boot 4 MVC + MyBatis + Boot starter 4.0.0 + PostgreSQL + HikariCP + Flyway + Sa-Token + Redis**；前端采用 Vue 3、TypeScript、Vite、Pinia 和 Element Plus。MyBatis 负责 SQL 映射，HikariCP 管理连接池，PostgreSQL 保存身份及修订权威状态，Flyway 管理增量迁移。
@@ -37,33 +39,38 @@ Controller 不访问数据库，Service 不编写 SQL；SQL 使用绑定参数�
 
 ## 本地运行
 
-需要 JDK 21、Node.js 20.19+、PostgreSQL 17 和 Redis 7。按 `.env.example` 在本机配置 `.env.local`，分别设置请求与迁移数据库角色；账号和密钥只放本地配置。已有基础设施时：
+需要 JDK 21、Node.js 20.19+、PostgreSQL 17 和 Redis 7。按 `.env.example` 在本机配置 `.env.local`，分别设置请求与迁移数据库角色；账号和密钥只放本地配置。正式三仓启动入口（在 Agent 仓根目录执行）：
 
 ```sh
-cd web
-npm ci
-npm run build
-cd ..
-bash scripts/run-server.sh --build
+.venv/bin/python deployment/run_separated_local.py start
 ```
 
-默认服务地址为 `http://127.0.0.1:19100`，后台路径为 `/admin`，健康检查为 `/healthz`。首次管理员由本机 `IAM_BOOTSTRAP_ACCOUNT` / `IAM_BOOTSTRAP_PASSWORD` 配置创建。新企业默认以创建人为首位企业管理员，可在建立后切换企业继续管理。
+默认服务地址为 `http://127.0.0.1:19100`，管理前端为 `http://127.0.0.1:19101`，后台路径为 `/admin`，健康检查为 `/healthz`。首次管理员由本机 `IAM_BOOTSTRAP_ACCOUNT` / `IAM_BOOTSTRAP_PASSWORD` 配置创建。新企业默认以创建人为首位企业管理员，可在建立后切换企业继续管理。
+
+`infra-up.sh` 默认仅配置正式库，不创建持久测试库。需要集成测试时，在 IAM 仓按需执行以下步骤；`test-db.sh` 只使用既有 `iam-pg17` 容器，并从本机 `.env.local` 核对迁移属主 `iam_migrate` / 请求角色 `iam_app`，只创建空库及 schema/必要授权，表由 Maven 测试启动的 Flyway 构建：
 
 ```sh
-cd server
-./mvnw test
-cd ../web
-npm test
-npm run build
+bash scripts/test-db.sh create
+(
+  set -a
+  . ./.env.local
+  set +a
+  cd server
+  IAM_REDIS_TEST_DB=1 ./mvnw test -Dspring.profiles.active=it
+)
+# 测试连接结束后显式清理（失败后也需清理）
+bash scripts/test-db.sh drop
+
+(cd web && npm test && npm run build)
 ```
 
-数据库集成测试使用 `it` 配置，连接独立的 `iam_test` 数据库及 Redis DB1；只对专用测试环境执行，端口可通过 `IAM_PG_PORT` / `IAM_REDIS_PORT` 设置。跨语言固定向量见 `scripts/verify-crypto-vectors.sh`。
+server 测试 profile `it` 固定连接独立的 `iam_test` 及 Redis DB1；`iam_test` 只存可丢弃测试数据，不作为正式数据源。创建时若库已存在则失败；删除仅限 `iam_test`，拒绝活跃连接，不使用 FORCE。脚本不会自动执行，也不接受其他库名。旧在线 `verify-{dr-restore,perf-introspection,session-authority,internal-principals,admin-apis,web-session,acceptance-matrix}.sh` 已在读取配置及任何在线操作前退出 2，主体保留为历史参考。离线契约、密钥扫描、加密向量及 Gate 检查继续保留。
 
 部门创建/修改必须提交表单打开时的 `tenant_id` 和 `expected_ctx_version`，过期表单返回 409。内部端点以登记的客户端 Bearer 凭据认证调用服务，`subject_token` 表示待核验主体；保留 Basic 兼容入口。原 rt-v1 采用 `{kid,p}` 信封的两段格式。
 
 ## 测试凭据在哪里
 
-真实账号与密钥一律只存本地、不入库（入库前由 `scripts/verify-secret-scan.sh` 强制零命中）。日常开发环境凭据在 `.env.local`；2026-10-15 独立验收环境（HTTP 29100 / PG 29132 / Redis 29179，bootstrap 账号 `audit.root`）的凭据保存在项目根目录被忽略的本地文件 `iam-audit-20261015.local`（匹配 `*.local` 规则）。若该文件缺失，它最初来自验收 harness 的 `/tmp` 临时目录，可能已被系统清理，只能重建环境后重新生成。
+真实账号与密钥一律只存本地、不入库（入库前由 `scripts/verify-secret-scan.sh` 强制零命中）。正式本机环境凭据在 `.env.local`；历史 `iam-audit-20261015.local` 对应已退役的 `291xx` 验收环境，不是现行配置，不再建议恢复或重建该环境。
 
 ## 设计与证据
 
@@ -75,4 +82,4 @@ npm run build
 - [I1a资源授权HTTP契约与I2/I3边界](openspec/changes/add-tenant-resource-entitlements/http-contract.md)
 - [原设计与阶段划分](openspec/changes/establish-shared-iam-service/design.md)
 
-I1a通用资源开通、角色/成员及服务账号资源授权已实现，核心流程复验通过；完整资源负载性能、兼容回退版本及部分竞争矩阵仍待验证，详见I1a复验报告。Python消费者切换（I2/I3）与物理拆库仍属于后续阶段。
+以上报告记录 I1a 阶段结论：通用资源开通、角色/成员及服务账号资源授权已实现，核心流程复验通过；当时完整资源负载性能、兼容回退版本及部分竞争矩阵仍待验证，Python 消费者切换（I2/I3）与物理拆库属于后续阶段。历史范围不代表现行部署状态，当前运行入口以上方三仓管理脚本为准。

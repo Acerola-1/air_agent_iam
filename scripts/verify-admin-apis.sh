@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# 已退役：旧在线验收入口；原主体仅保留为历史参考。
+printf '%s\n' '已退役：禁止在正式环境运行旧在线验收；现行入口和隔离测试见 README.md。' >&2
+exit 2
+
 # 第5组黑盒证据：平台用户/企业/成员/部门/角色权限/审计/服务账号停用（可复跑）。
 # A 段：AdminApiIntegrationTest(8) 真实 PG iam_test + Redis。
 # B 段：对自管 jar 实例做真实 HTTP 黑盒（平台超管 Bearer + 企业管理员登录切企业）：

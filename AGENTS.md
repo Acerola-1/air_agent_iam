@@ -1,5 +1,10 @@
 # Air Agent IAM
 
+## 正式运行态（始终适用）
+
+- IAM19132/iam_identity为唯一正式身份库，旧iam与评测库已退役。唯一权威清单见[正式环境](docs/CURRENT-RUNTIME.md)；历史评审/评分/归档不得当作现用DSN或启动说明。
+- 统一使用Agent的`deployment/run_separated_local.py start/status`；不重建已退役原库、评测容器或本地账号源。新测试只用空临时资源，完成后回收。
+
 独立 IAM 服务：中文管理后台、人类会话、企业/成员/部门、角色权限、审计、服务账号与 SSO。技术栈见 [README.md](README.md)。
 
 ## 分支规范

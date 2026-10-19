@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# 已退役：旧在线验收入口；原主体仅保留为历史参考。
+printf '%s\n' '已退役：禁止在正式环境运行旧在线验收；现行入口和隔离测试见 README.md。' >&2
+exit 2
+
 # C12/C13/C03/C15/C14：内部客户端/verification_ref/rt-v1/服务账号/限流/依赖故障证据（可复跑）。
 # A 段：真实 PG iam_test + 真实 Redis 逻辑库1 的 JUnit 集成测试（InternalClient 23 + RateLimit 2）。
 # B 段：对自管 jar 实例做真实 HTTP 黑盒（curl Basic 认证 + Python 跨语言验票）：

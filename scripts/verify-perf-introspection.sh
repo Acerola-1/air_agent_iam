@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# 已退役：旧在线验收入口；原主体仅保留为历史参考。
+printf '%s\n' '已退役：禁止在正式环境运行旧在线验收；现行入口和隔离测试见 README.md。' >&2
+exit 2
+
 # 7.2 C25 暖连接 introspection 性能/并发/依赖故障证据（可复跑）。
 # 真实 HTTP + PG iam + Redis，回环；不接入两 Python 仓库。
 # 性能采集打到专用实例 19103（同 PG、Redis 逻辑库4、关闭准入限流以测核验开销本身），

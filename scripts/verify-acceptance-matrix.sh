@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# 已退役：旧在线验收入口；原主体仅保留为历史参考。
+printf '%s\n' '已退役：禁止在正式环境运行旧在线验收；现行入口和隔离测试见 README.md。' >&2
+exit 2
+
 # 7.1 I1 首期验收矩阵 C01–C17：真实 HTTP + PG + Redis，逐脚本正反证据汇总。
 # 不接入两 Python 仓库（只读约束）；合成消费者/合成 A-B 企业由各脚本自管夹具。
 # 产物：docs/reviews/evidence/group7/matrix/matrix-<UTC时间戳>.txt 与各脚本原始日志。
