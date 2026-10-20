@@ -66,6 +66,43 @@ public class IdentityAssembler {
     }
 
     /**
+     * 知识委托内省专用投影：复用 {@code iam.identity.v1} 结构，但权限只保留
+     * 实时有效的 {@code knowledge:lib:<code>:read}，并继续剔除平台管理标记。
+     *
+     * <p>四个 operation（query/record/source/document）必须得到完全相同的知识权限投影，
+     * 否则同一源会话在不同 operation 下会看到不同记录，破坏稳定 auth_binding。
+     *
+     * @param snapshot 已通过实时核验的快照
+     * @param issuer   配置签发方
+     * @return 仅含知识库读权限的身份视图
+     */
+    public IdentityVO toKnowledgeDelegationIdentity(AuthoritySnapshot snapshot, String issuer) {
+        IdentityVO base = build(snapshot, issuer, true, "knowledge");
+        List<String> permissions = base.permissions().stream()
+                .filter(code -> code.startsWith("knowledge:lib:") && code.endsWith(":read"))
+                .toList();
+        return new IdentityVO(
+                base.schemaVersion(),
+                base.active(),
+                base.issuer(),
+                base.audience(),
+                base.principal(),
+                base.user(),
+                base.session(),
+                base.currentTenant(),
+                base.membership(),
+                base.platformRoles(),
+                base.tenantRoles(),
+                permissions,
+                base.revisions(),
+                base.contextVersion(),
+                base.platformAdmin(),
+                base.contextUsable(),
+                base.needsTenantSelection(),
+                base.evaluatedAt());
+    }
+
+    /**
      * 共用装配：读取快照各节点，判定企业上下文可用性，再按受众裁剪权限与平台角色。
      *
      * <p>企业上下文可用（{@code tenantUsable}）要求企业与成员关系节点都存在且状态均为

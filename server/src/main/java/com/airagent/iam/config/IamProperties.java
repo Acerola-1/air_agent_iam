@@ -54,12 +54,16 @@ public record IamProperties(
     /**
      * 内部端点票据与核验引用参数。
      *
-     * @param ticketTtlSeconds          rt-v1 短入口票据 TTL（固定 60）
-     * @param verificationRefTtlSeconds verification_ref 引用上界（受会话绝对上界再取小）
-     * @param runtimeClient             启动时幂等预置的合成 runtime 内部客户端（秘密仅来自环境）
+     * @param ticketTtlSeconds              rt-v1 短入口票据 TTL（固定 60）
+     * @param verificationRefTtlSeconds     verification_ref 引用上界（受会话绝对上界再取小）
+     * @param runtimeClient                 启动时幂等预置的合成 runtime 内部客户端（秘密仅来自环境）
+     * @param knowledgeDelegationTtlSeconds 知识只读委托 TTL（1..60 秒）
+     * @param knowledgeConsumerClients      获准消费知识委托内省的内部客户端 client_id 列表
      */
     public record Internal(long ticketTtlSeconds, long verificationRefTtlSeconds,
-                           ClientProvision runtimeClient) {
+                           ClientProvision runtimeClient,
+                           long knowledgeDelegationTtlSeconds,
+                           List<String> knowledgeConsumerClients) {
     }
 
     /**

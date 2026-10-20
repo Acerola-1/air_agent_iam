@@ -59,8 +59,29 @@ public record IntrospectDTO(
         @Schema(description = "是否登记并返回执行复查上下文；仅 langgraph-runtime 受众可用，"
                 + "其余受众置 true 返回 400。null 等同 false",
                 defaultValue = "false", example = "true")
-        Boolean includeExecutionContext
+        Boolean includeExecutionContext,
+
+        @Schema(description = "知识委托内省时要求的单一操作；仅 kdl_ 前缀委托令牌必填，"
+                + "普通令牌与服务账号请求保持省略",
+                example = "query")
+        String operation
 ) {
+
+    /**
+     * 兼容旧调用的五参数构造器（不含知识委托 operation）。
+     *
+     * @param subjectToken            被核验主体令牌
+     * @param executionContext        执行复查上下文
+     * @param audience                目标受众
+     * @param expectedContext         企业上下文基线
+     * @param includeExecutionContext 是否返回执行上下文
+     */
+    public IntrospectDTO(String subjectToken, ExecutionContextRefDTO executionContext,
+                         String audience, ExpectedContextDTO expectedContext,
+                         Boolean includeExecutionContext) {
+        this(subjectToken, executionContext, audience, expectedContext,
+                includeExecutionContext, null);
+    }
 
     /**
      * 摘要化字符串，避免 {@code subjectToken} 等敏感原文经 {@code toString()} 进入日志或异常信息。

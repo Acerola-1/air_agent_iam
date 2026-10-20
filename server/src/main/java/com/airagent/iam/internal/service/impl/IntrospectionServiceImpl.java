@@ -9,11 +9,15 @@ import com.airagent.iam.config.IamProperties;
 import com.airagent.iam.internal.dto.IntrospectDTO;
 import com.airagent.iam.internal.dto.RevisionsDTO;
 import com.airagent.iam.internal.entity.IssuedVerificationRefDO;
+import com.airagent.iam.internal.entity.KnowledgeDelegationDO;
 import com.airagent.iam.internal.entity.VerificationRefDO;
 import com.airagent.iam.internal.mapper.IdentityMapper;
 import com.airagent.iam.internal.service.IntrospectionService;
+import com.airagent.iam.internal.service.KnowledgeDelegationService;
 import com.airagent.iam.internal.vo.ExecutionContextVO;
 import com.airagent.iam.internal.vo.InactiveIntrospectionVO;
+import com.airagent.iam.internal.vo.KnowledgeDelegationInactiveVO;
+import com.airagent.iam.internal.vo.KnowledgeDelegationIntrospectionVO;
 import com.airagent.iam.internal.vo.RecheckActiveVO;
 import com.airagent.iam.internal.vo.RecheckInactiveVO;
 import com.airagent.iam.internal.vo.ServiceIdentityVO;
@@ -113,10 +117,111 @@ public class IntrospectionServiceImpl implements IntrospectionService {
         if (!client.hasAudience(req.audience())) {
             throw ApiException.forbidden("客户端未注册该受众: " + req.audience());
         }
+        if (req.subjectToken() != null
+                && req.subjectToken().startsWith(KnowledgeDelegationService.TOKEN_PREFIX)) {
+            return introspectKnowledgeDelegation(client, req, req.subjectToken());
+        }
         if (req.executionContext() != null) {
             return recheckExecutionContext(client, req);
         }
         return introspectSubjectToken(client, req);
+    }
+
+    // ---------------------------------------------------------------- 知识委托模式
+
+    /**
+     * 知识只读委托内省：只允许配置登记的 knowledge consumer 调用，且每次重读源会话、
+     * 四项修订、企业与实时知识权限，绝不依赖签发时的快照。
+     *
+     * @param client   已认证内部客户端（必须是登记的 knowledge consumer）
+     * @param req      内省请求（audience 固定 knowledge，operation 必填）
+     * @param rawToken 委托令牌原文（仅在本方法内计算摘要，不记录）
+     * @return {@link KnowledgeDelegationIntrospectionVO} 或失效信封
+     */
+    private Object introspectKnowledgeDelegation(InternalClient client, IntrospectDTO req,
+                                                 String rawToken) {
+        if (!KnowledgeDelegationService.AUDIENCE.equals(req.audience())) {
+            throw ApiException.forbidden("知识委托只能以 knowledge 受众内省");
+        }
+        List<String> consumers = props.internal() == null
+                ? List.of() : props.internal().knowledgeConsumerClients();
+        if (consumers == null || !consumers.contains(client.clientId())) {
+            throw ApiException.forbidden("客户端不是登记的知识委托消费者");
+        }
+        String digest = OpaqueTokens.digest(rawToken);
+        KnowledgeDelegationDO delegation = identityMapper.findKnowledgeDelegation(digest);
+        if (delegation == null) {
+            return delegationInactive("invalid_or_revoked");
+        }
+        if (!delegation.operation().equals(req.operation())) {
+            return delegationInactive("operation_mismatch");
+        }
+        String sessionDigest = sessionMapper.selectTokenDigest(delegation.sessionId());
+        AuthoritySnapshot snapshot = loadHumanSnapshot(sessionDigest);
+        if (!snapshot.usable()) {
+            return delegationInactive(inactiveReason(snapshot.status()));
+        }
+        RevisionsDTO stored = parseRevisions(delegation.revisionsJson());
+        if (!stored.equals(currentRevisions(snapshot))) {
+            return delegationInactive("context_changed");
+        }
+        if (snapshot.ctxVersion() != delegation.contextVersion()) {
+            return delegationInactive("context_changed");
+        }
+        if (!delegation.tenantId().toString().equals(snapshot.currentTenantId() == null
+                ? "" : snapshot.currentTenantId().toString())) {
+            return delegationInactive("context_changed");
+        }
+        if (!delegation.membershipId().toString().equals(
+                snapshot.raw().path("membership").path("id").asText())) {
+            return delegationInactive("membership_disabled");
+        }
+        IdentityVO identity = assembler.toKnowledgeDelegationIdentity(snapshot, props.issuer());
+        if (identity.permissions().isEmpty()) {
+            return delegationInactive("permission_denied");
+        }
+        identityMapper.touchKnowledgeDelegation(delegation.id());
+        return new KnowledgeDelegationIntrospectionVO(
+                "iam.knowledge-delegation-introspection.v1",
+                true,
+                props.issuer(),
+                KnowledgeDelegationService.AUDIENCE,
+                delegation.operation(),
+                identity,
+                new KnowledgeDelegationIntrospectionVO.Delegation(
+                        delegation.issuingClientId(),
+                        RUNTIME_AUDIENCE,
+                        delegation.sessionId().toString(),
+                        delegation.operation(),
+                        delegation.expiresAt().withOffsetSameInstant(ZoneOffset.UTC)
+                                .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)),
+                evaluatedAt());
+    }
+
+    /**
+     * 构造知识委托失效信封（HTTP 200）。
+     *
+     * @param reason 白名单原因码
+     * @return 固定 schema 的 inactive 信封
+     */
+    private KnowledgeDelegationInactiveVO delegationInactive(String reason) {
+        return new KnowledgeDelegationInactiveVO(
+                "iam.knowledge-delegation-introspection.v1", false, reason, evaluatedAt());
+    }
+
+    /**
+     * 把权威快照状态映射为委托原因码（不泄露内部区分）。
+     *
+     * @param reason 快照状态
+     * @return 白名单原因
+     */
+    private static String inactiveReason(String reason) {
+        return switch (reason == null ? "" : reason) {
+            case "account_disabled" -> "account_disabled";
+            case "tenant_suspended" -> "tenant_suspended";
+            case "membership_disabled" -> "membership_disabled";
+            default -> "invalid_or_revoked";
+        };
     }
 
     // ---------------------------------------------------------------- token 模式
@@ -490,6 +595,19 @@ public class IntrospectionServiceImpl implements IntrospectionService {
         boolean hasRef = req.executionContext() != null;
         if (hasToken == hasRef) {
             throw ApiException.badRequest("subject_token 与 execution_context 必须且只能提供其一");
+        }
+        boolean delegationToken = hasToken
+                && req.subjectToken().startsWith(KnowledgeDelegationService.TOKEN_PREFIX);
+        if (delegationToken) {
+            if (req.operation() == null || req.operation().isBlank()) {
+                throw ApiException.badRequest("知识委托内省必须提供 operation");
+            }
+            if (Boolean.TRUE.equals(req.includeExecutionContext())
+                    || req.expectedContext() != null) {
+                throw ApiException.badRequest("知识委托不支持执行上下文或 expected_context");
+            }
+        } else if (req.operation() != null) {
+            throw ApiException.badRequest("operation 仅用于知识委托令牌");
         }
     }
 

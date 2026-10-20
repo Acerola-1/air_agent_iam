@@ -1,10 +1,13 @@
 package com.airagent.iam.internal.controller;
 
 import com.airagent.iam.internal.dto.IntrospectDTO;
+import com.airagent.iam.internal.dto.KnowledgeDelegationDTO;
 import com.airagent.iam.internal.dto.RuntimeTicketDTO;
 import com.airagent.iam.internal.dto.TenantStatusDTO;
 import com.airagent.iam.internal.service.IntrospectionService;
+import com.airagent.iam.internal.service.KnowledgeDelegationService;
 import com.airagent.iam.internal.service.RuntimeTicketService;
+import com.airagent.iam.internal.vo.KnowledgeDelegationVO;
 import com.airagent.iam.internal.vo.RuntimeTicketVO;
 import com.airagent.iam.internal.vo.TenantStatusVO;
 import com.airagent.iam.security.internal.InternalClientInterceptor;
@@ -55,6 +58,8 @@ public class InternalApiController {
     private final IntrospectionService introspectionService;
     /** rt-v1 运行票据签发用例入口。 */
     private final RuntimeTicketService runtimeTicketService;
+    /** 知识只读用户委托签发用例入口。 */
+    private final KnowledgeDelegationService knowledgeDelegationService;
     /** 内部客户端凭据核验 + scope 裁决 + 按客户端准入限流，在本层显式调用。 */
     private final InternalClientInterceptor clientAuthorization;
     /** 身份核验总预算执行器，把用例放入虚拟线程并保证超时失败关闭。 */
@@ -63,16 +68,19 @@ public class InternalApiController {
     /**
      * 构造内部端点控制器，全部依赖经 Spring 构造注入。
      *
-     * @param introspectionService 主体实时核验服务（人类令牌、服务账号令牌、执行引用复查三种形态）
-     * @param runtimeTicketService rt-v1 运行票据签发服务
-     * @param clientAuthorization  内部客户端凭据核验 + scope 裁决 + 准入限流组件，在异步预算内显式调用
-     * @param deadlineExecutor     身份核验总预算执行器（虚拟线程 + 有界并发，超时失败关闭）
+     * @param introspectionService      主体实时核验服务（人类令牌、服务账号令牌、执行引用复查三种形态）
+     * @param runtimeTicketService      rt-v1 运行票据签发服务
+     * @param knowledgeDelegationService 知识只读委托签发服务
+     * @param clientAuthorization       内部客户端凭据核验 + scope 裁决 + 准入限流组件，在异步预算内显式调用
+     * @param deadlineExecutor          身份核验总预算执行器（虚拟线程 + 有界并发，超时失败关闭）
      */
     public InternalApiController(IntrospectionService introspectionService,
                                  RuntimeTicketService runtimeTicketService,
+                                 KnowledgeDelegationService knowledgeDelegationService,
                                  InternalClientInterceptor clientAuthorization, IdentityDeadlineExecutor deadlineExecutor) {
         this.introspectionService = introspectionService;
         this.runtimeTicketService = runtimeTicketService;
+        this.knowledgeDelegationService = knowledgeDelegationService;
         this.clientAuthorization = clientAuthorization;
         this.deadlineExecutor = deadlineExecutor;
     }
@@ -154,6 +162,38 @@ public class InternalApiController {
         String authorization = request.getHeader("Authorization");
         String uri = request.getRequestURI();
         return deadlineExecutor.execute(started(request), () -> runtimeTicketService.issue(
+                clientAuthorization.authenticateAndAuthorize(authorization, uri), body));
+    }
+
+    /**
+     * 签发知识只读用户委托。
+     *
+     * <p>调用方必须持有 {@code knowledge-delegation:issue} scope、注册 {@code knowledge} 受众，
+     * 并使用自己名下的 runtime 执行引用。委托绑定源用户/会话/企业/成员/四项修订与单一操作，
+     * TTL 最长 60 秒；响应中的原始令牌只出现一次。
+     *
+     * @param request 当前 HTTP 请求，用于取 {@code Authorization} 凭据与请求起始时刻
+     * @param body    签发请求；{@code null} 返回 400
+     * @return 异步结果，成功为 {@link KnowledgeDelegationVO}
+     */
+    @Operation(summary = "签发知识只读用户委托",
+            description = "需要客户端 scope knowledge-delegation:issue，且注册 knowledge 受众。"
+                    + "执行引用必须属于当前客户端与 langgraph-runtime 受众；源用户/会话/企业/成员/四项修订"
+                    + "与实时知识权限全部有效才签发，TTL 1..60 秒。",
+            security = {@SecurityRequirement(name = "internalClient")})
+    @ApiResponse(responseCode = "200", description = "签发成功；delegation_token 仅本次出现")
+    @ApiResponse(responseCode = "400", description = "协议版本/字段/operation 不合法")
+    @ApiResponse(responseCode = "401", description = "客户端凭据无效，或源引用/会话不可用")
+    @ApiResponse(responseCode = "403", description = "缺少 scope、未注册 knowledge 受众或当前无知识读取权限")
+    @ApiResponse(responseCode = "409", description = "source_tenant_id/修订与源会话当前状态不一致")
+    @ApiResponse(responseCode = "503", description = "依赖不可用或 TTL 配置非法")
+    @PostMapping("/knowledge-delegations")
+    public DeferredResult<KnowledgeDelegationVO> issueKnowledgeDelegation(
+            HttpServletRequest request,
+            @RequestBody(required = false) KnowledgeDelegationDTO body) {
+        String authorization = request.getHeader("Authorization");
+        String uri = request.getRequestURI();
+        return deadlineExecutor.execute(started(request), () -> knowledgeDelegationService.issue(
                 clientAuthorization.authenticateAndAuthorize(authorization, uri), body));
     }
 

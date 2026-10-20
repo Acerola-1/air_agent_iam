@@ -1,6 +1,8 @@
 package com.airagent.iam.internal.mapper;
 
+import com.airagent.iam.internal.entity.IssuedKnowledgeDelegationDO;
 import com.airagent.iam.internal.entity.IssuedVerificationRefDO;
+import com.airagent.iam.internal.entity.KnowledgeDelegationDO;
 import com.airagent.iam.internal.entity.VerificationRefDO;
 import java.util.UUID;
 import org.apache.ibatis.annotations.Mapper;
@@ -114,4 +116,40 @@ public interface IdentityMapper {
 
     /** IAM authoritative tenant availability; does not grant tenant access. */
     boolean tenantIsActive(@Param("tenantId") UUID tenantId);
+
+    /**
+     * 以当前客户端自己名下的 runtime 执行引用登记一条知识只读委托。
+     *
+     * <p>数据库在同一函数内完成：引用归属/受众/期限、源会话 active、四项修订一致、
+     * 企业成员关系、至少一项实时有效 {@code knowledge:lib:*:read}，并把有效期收敛到
+     * 60 秒、源引用与会话绝对期限的最小值。任何一项不满足都以 SQLSTATE 28000/42501 拒绝。
+     *
+     * @param clientId    申请委托的 Agent 内部客户端
+     * @param referenceId 源执行引用 UUID
+     * @param operation   单一操作
+     * @param tokenDigest 随机令牌的 SHA-256 摘要（只存摘要）
+     * @param ttlSeconds  TTL（1..60）
+     * @return 到期时刻与源身份快照
+     */
+    IssuedKnowledgeDelegationDO createKnowledgeDelegation(
+            @Param("clientId") String clientId,
+            @Param("referenceId") UUID referenceId,
+            @Param("operation") String operation,
+            @Param("tokenDigest") String tokenDigest,
+            @Param("ttlSeconds") long ttlSeconds);
+
+    /**
+     * 按摘要读取仍有效（未过期、未撤销）的知识委托行。
+     *
+     * @param digest 令牌 SHA-256 摘要
+     * @return 委托行；不存在/过期/撤销时返回 {@code null}
+     */
+    KnowledgeDelegationDO findKnowledgeDelegation(@Param("digest") String digest);
+
+    /**
+     * 记录委托的最近使用时刻（不续期）。
+     *
+     * @param id 委托行 id
+     */
+    int touchKnowledgeDelegation(@Param("id") UUID id);
 }

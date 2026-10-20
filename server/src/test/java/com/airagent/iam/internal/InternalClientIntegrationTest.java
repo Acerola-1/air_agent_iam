@@ -683,6 +683,59 @@ class InternalClientIntegrationTest {
         }
     }
 
+    @Autowired
+    private com.airagent.iam.internal.service.KnowledgeDelegationService knowledgeDelegationService;
+
+    private InternalClient prepareKnowledgeIssuer() {
+        migrateTx("INSERT INTO iam.permissions(id,code,name_zh,scope,grantable_to_tenants,resource_code,sort) VALUES "
+                + "('01930000-0000-4000-8000-000000009981','knowledge:lib:air:read','测试空气资料读取','tenant',true,'knowledge:lib:air',9981) ON CONFLICT (code) DO UPDATE SET resource_code=excluded.resource_code;"
+                + "INSERT INTO iam.tenant_entitlements(tenant_id,resource_code,status) VALUES ('" + T_A + "','knowledge:lib:air','active') ON CONFLICT DO NOTHING;"
+                + "INSERT INTO iam.roles(id,code,scope,tenant_id,name) VALUES ('01930000-0000-4000-8000-000000009982','it_knowledge_reader','tenant','" + T_A + "','测试资料角色');"
+                + "INSERT INTO iam.role_permissions(role_id,permission_id) SELECT '01930000-0000-4000-8000-000000009982',id FROM iam.permissions WHERE code='knowledge:lib:air:read' ON CONFLICT DO NOTHING;"
+                + "INSERT INTO iam.membership_roles(tenant_id,membership_id,role_id) VALUES ('" + T_A + "','" + M_ADMIN_A + "','01930000-0000-4000-8000-000000009982');"
+                + "UPDATE iam.internal_clients SET audiences=ARRAY['langgraph-runtime','knowledge'], scopes=ARRAY['identity:introspect','runtime-ticket:issue','knowledge-delegation:issue'] WHERE client_id='" + RT_CLIENT + "'");
+        return new InternalClient(RT_CLIENT, "test knowledge issuer", List.of("identity:introspect", "knowledge-delegation:issue"), List.of(RUNTIME_AUD, KNOWLEDGE_AUD), "active");
+    }
+
+    private com.airagent.iam.internal.dto.KnowledgeDelegationDTO knowledgeRequest(String token) {
+        JsonNode ec=issueExecutionContext(token);
+        return new com.airagent.iam.internal.dto.KnowledgeDelegationDTO("iam.knowledge-delegation-request.v1",
+                new ExecutionContextRefDTO(ec.path("verification_ref").asText(), parseRevisions(ec.path("revisions"))), T_A.toString(), "query");
+    }
+
+    @Test
+    void knowledgeDelegationPositiveOperationMismatchAndLiveLogout() {
+        InternalClient issuer=prepareKnowledgeIssuer();
+        String token=loginAndSwitch("adminA", T_A);
+        var issued=knowledgeDelegationService.issue(issuer, knowledgeRequest(token));
+        assertTrue(issued.delegationToken().startsWith("kdl_"));
+        Object response=introspectionService.introspect(knowledge,
+                new IntrospectDTO(issued.delegationToken(), null, KNOWLEDGE_AUD, null, false, "query"));
+        JsonNode active=mapper.convertValue(response, JsonNode.class);
+        assertTrue(active.path("active").asBoolean());
+        assertEquals("query", active.path("operation").asText());
+        assertEquals(1, active.path("identity").path("permissions").size());
+        assertEquals("knowledge:lib:air:read", active.path("identity").path("permissions").get(0).asText());
+        JsonNode mismatch=mapper.convertValue(introspectionService.introspect(knowledge,
+                new IntrospectDTO(issued.delegationToken(), null, KNOWLEDGE_AUD, null, false, "source:read")), JsonNode.class);
+        assertFalse(mismatch.path("active").asBoolean());
+        assertEquals("operation_mismatch", mismatch.path("reason").asText());
+        sessionService.logout(token);
+        JsonNode revoked=mapper.convertValue(introspectionService.introspect(knowledge,
+                new IntrospectDTO(issued.delegationToken(), null, KNOWLEDGE_AUD, null, false, "query")), JsonNode.class);
+        assertFalse(revoked.path("active").asBoolean());
+    }
+
+    @Test
+    void knowledgeIssuanceRejectsRedisMissingWhilePgSessionIsActive() {
+        InternalClient issuer=prepareKnowledgeIssuer();
+        String token=loginAndSwitch("adminA", T_A);
+        var request=knowledgeRequest(token);
+        redis.delete("Authorization:login:token:" + OpaqueTokens.digest(token));
+        ApiException denied=assertThrows(ApiException.class, () -> knowledgeDelegationService.issue(issuer, request));
+        assertEquals(401, denied.status());
+    }
+
     // ================================================================ helpers
 
     private void seedUsers(Connection con, String hash) throws SQLException {

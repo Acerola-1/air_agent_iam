@@ -15,6 +15,31 @@
             <arg column="valid_until" javaType="java.time.OffsetDateTime"/>
         </constructor>
     </resultMap>
+    <resultMap id="IssuedKnowledgeDelegationDO" type="com.airagent.iam.internal.entity.IssuedKnowledgeDelegationDO">
+        <constructor>
+            <arg column="expires_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="user_id" javaType="java.util.UUID"/>
+            <arg column="session_id" javaType="java.util.UUID"/>
+            <arg column="tenant_id" javaType="java.util.UUID"/>
+            <arg column="membership_id" javaType="java.util.UUID"/>
+            <arg column="context_version" javaType="java.lang.Long"/>
+            <arg column="revisions_json" javaType="String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="KnowledgeDelegationDO" type="com.airagent.iam.internal.entity.KnowledgeDelegationDO">
+        <constructor>
+            <idArg column="id" javaType="java.util.UUID"/>
+            <arg column="issuing_client_id" javaType="String"/>
+            <arg column="user_id" javaType="java.util.UUID"/>
+            <arg column="session_id" javaType="java.util.UUID"/>
+            <arg column="tenant_id" javaType="java.util.UUID"/>
+            <arg column="membership_id" javaType="java.util.UUID"/>
+            <arg column="operation" javaType="String"/>
+            <arg column="context_version" javaType="java.lang.Long"/>
+            <arg column="revisions_json" javaType="String"/>
+            <arg column="expires_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
     <select id="findReference" resultMap="VerificationRefDO" useCache="false">
         SELECT session_id, user_id, tenant_id, revisions::text AS revisions_json FROM iam_auth.find_verification_ref(#{id}, #{clientId}, #{audience})
     </select>
@@ -32,5 +57,17 @@
     </select>
     <select id="tenantIsActive" resultType="boolean" useCache="false">
         SELECT iam_auth.tenant_is_active(#{tenantId})
+    </select>
+    <select id="createKnowledgeDelegation" resultMap="IssuedKnowledgeDelegationDO" useCache="false" affectData="true" flushCache="true">
+        SELECT expires_at, user_id, session_id, tenant_id, membership_id, context_version, revisions::text AS revisions_json
+          FROM iam_auth.create_knowledge_delegation(#{clientId}, #{referenceId}, #{operation}, #{tokenDigest}, #{ttlSeconds})
+    </select>
+    <select id="findKnowledgeDelegation" resultMap="KnowledgeDelegationDO" useCache="false">
+        SELECT id, issuing_client_id, user_id, session_id, tenant_id, membership_id,
+               operation, context_version, revisions::text AS revisions_json, expires_at
+          FROM iam_auth.find_knowledge_delegation(#{digest})
+    </select>
+    <select id="touchKnowledgeDelegation" resultType="int" useCache="false" affectData="true" flushCache="true">
+        SELECT 1 FROM iam_auth.touch_knowledge_delegation(#{id})
     </select>
 </mapper>
