@@ -384,6 +384,11 @@ public class RoleAdminServiceImpl implements RoleAdminService {
             if (roleTenant != null && !roleTenant.equals(current)) {
                 throw ApiException.forbidden("角色不属于当前企业");
             }
+            // 同时持平台写权限的操作者上面按平台口径读取角色；role_permissions 的
+            // WITH CHECK 要求企业角色写入必须带当前企业上下文，后续写操作前切回企业口径。
+            if (canPlatform) {
+                support.setContext(actor.userId(), roleTenant != null ? roleTenant : current, false);
+            }
         }
         return role;
     }
