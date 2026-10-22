@@ -49,7 +49,7 @@ flowchart LR
   Web["Vue 3 管理后台"] --> API["Spring Boot 4 API<br/>19100"]
   Agent["Air Agent"] --> API
   RAG["env-rag"] --> API
-  API --> PG[("PostgreSQL 17<br/>iam_identity + RLS")]
+  API --> PG[("PostgreSQL 17<br/>身份 / 企业 / 会话<br/>+ RLS")]
   API --> Redis[("Redis 7")]
   API --> Audit["审计 / Outbox"]
   API --> Contracts["HTTP 契约 / OpenAPI"]
