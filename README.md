@@ -25,9 +25,9 @@
 
 # Air Agent IAM
 
-正式本机环境由 Agent 仓的 `deployment/run_separated_local.py start` 统一管理三仓（Agent、IAM、RAG）。IAM 后端/管理前端为 `19100` / `19101`，PostgreSQL 为 `19132/iam_identity`，schema 仍是 `iam` / `iam_auth`。原 `291xx` 验收环境、I4 评测容器及旧 `iam` 数据库已退役，不再重建；下方历史报告、链接与评分仅供追溯。
+一个可独立部署的多租户 IAM 服务，为 Agent、RAG 等业务提供账号、会话、企业、成员、角色、审计与业务授权能力；也可作为 Spring Boot 多租户权限系统的实现参考。
 
-用于学习企业账号、组织与鉴权的独立项目，提供中文管理后台、人类会话、企业/成员/部门、角色权限、审计、服务账号与 SSO。后端采用 **JDK 21 + Spring Boot 4 MVC + MyBatis + PostgreSQL + HikariCP + Flyway + Sa-Token + Redis**；前端采用 Vue 3、TypeScript、Vite、Pinia 和 Element Plus。
+项目提供中文管理后台、人类会话、企业/成员/部门、角色权限、审计、服务账号与 SSO。后端采用 **JDK 21 + Spring Boot 4 MVC + MyBatis + PostgreSQL + HikariCP + Flyway + Sa-Token + Redis**；前端采用 Vue 3、TypeScript、Vite、Pinia 和 Element Plus。
 
 ## 核心能力
 
@@ -103,11 +103,15 @@ Controller 不访问数据库，Service 不编写 SQL；SQL 使用绑定参数�
 
 ## 本地运行
 
-需要 JDK 21、Node.js 20.19+、PostgreSQL 17 和 Redis 7。按 `.env.example` 在本机配置 `.env.local`，分别设置请求与迁移数据库角色；账号和密钥只放本地配置。正式三仓启动入口（在 Agent 仓根目录执行）：
+需要 JDK 21、Node.js 20.19+、PostgreSQL 17 和 Redis 7。按 `.env.example` 在本机配置 `.env.local`，分别设置请求与迁移数据库角色；账号和密钥只放本地配置。
+
+需要与 Agent、RAG 三仓联调时，从 Agent 仓根目录执行统一启动器：
 
 ```sh
 .venv/bin/python deployment/run_separated_local.py start
 ```
+
+仅运行本服务时，使用 `server/` 下的 Maven 与 `web/` 下的 npm 命令。
 
 默认服务地址为 `http://127.0.0.1:19100`，管理前端为 `http://127.0.0.1:19101`，后台路径为 `/admin`，健康检查为 `/healthz`。首次管理员由本机 `IAM_BOOTSTRAP_ACCOUNT` / `IAM_BOOTSTRAP_PASSWORD` 配置创建。新企业默认以创建人为首位企业管理员，可在建立后切换企业继续管理。
 
@@ -128,39 +132,31 @@ bash scripts/test-db.sh drop
 (cd web && npm test && npm run build)
 ```
 
-server 测试 profile `it` 固定连接独立的 `iam_test` 及 Redis DB1；`iam_test` 只存可丢弃测试数据，不作为正式数据源。创建时若库已存在则失败；删除仅限 `iam_test`，拒绝活跃连接，不使用 FORCE。脚本不会自动执行，也不接受其他库名。旧在线 `verify-{dr-restore,perf-introspection,session-authority,internal-principals,admin-apis,web-session,acceptance-matrix}.sh` 已在读取配置及任何在线操作前退出 2，主体保留为历史参考。离线契约、密钥扫描、加密向量及 Gate 检查继续保留。
+server 测试 profile `it` 固定连接独立的 `iam_test` 及 Redis DB1；`iam_test` 只存可丢弃测试数据，不作为正式数据源。创建时若库已存在则失败；删除仅限 `iam_test`，拒绝活跃连接，不使用 FORCE。脚本不会自动执行，也不接受其他库名。
 
-部门创建/修改必须提交表单打开时的 `tenant_id` 和 `expected_ctx_version`，过期表单返回 409。内部端点以登记的客户端 Bearer 凭据认证调用服务，`subject_token` 表示待核验主体；保留 Basic 兼容入口。原 rt-v1 采用 `{kid,p}` 信封的两段格式。
+部门创建/修改必须提交表单打开时的 `tenant_id` 和 `expected_ctx_version`，过期表单返回 409。内部端点以登记的客户端 Bearer 凭据认证调用服务，`subject_token` 表示待核验主体；保留 Basic 兼容入口。
 
-## 测试凭据在哪里
+## 测试账号与密钥
 
-真实账号与密钥一律只存本地、不入库（入库前由 `scripts/verify-secret-scan.sh` 强制零命中）。正式本机环境凭据在 `.env.local`；历史 `iam-audit-20261015.local` 对应已退役的 `291xx` 验收环境，不是现行配置，不再建议恢复或重建该环境。
+测试账号与密钥只放本机 `.env.local`，不提交仓库；提交前由 `scripts/verify-secret-scan.sh` 检查零命中。数据库测试使用独立的空 `iam_test` 库，测试结束后删除。
 
 ## Agent 业务授权
 
-当前三项 Agent 业务（基础问答、数据分析、智能溯源）复用企业资源开通与企业角色授权；有效许可为企业开通与本人企业角色授予的交集。中文配置路径、root 一次性授权命令及第二阶段发布检查/清理/复验命令见 [Agent 业务授权](docs/agent-business-entitlements.md)。
+当前三项 Agent 业务（基础问答、数据分析、智能溯源）复用企业资源开通与企业角色授权；有效许可为企业开通与本人企业角色授予的交集。中文配置路径、管理员授权命令及发布检查/清理/复验命令见 [Agent 业务授权](docs/agent-business-entitlements.md)。
 
 ## 文档
 
 | 文档 | 内容 |
 |---|---|
-| [AGENTS.md](AGENTS.md) | 开发分支、提交前检查与正式运行边界 |
-| [正式环境](docs/CURRENT-RUNTIME.md) | 三仓唯一运行态清单与端口 |
+| [AGENTS.md](AGENTS.md) | 开发分支、提交前检查与运行边界 |
 | [HTTP 契约](openspec/changes/establish-shared-iam-service/http-contract.md) | 会话、内部核验与错误语义 |
 | [Agent 业务授权](docs/agent-business-entitlements.md) | 企业开通、角色授予与权限码 |
-| [openspec/](openspec/) | 规格驱动的变更、设计与归档 |
+| [架构设计](openspec/changes/establish-shared-iam-service/design.md) | 模块划分、数据模型与阶段划分 |
+| [OpenSpec](openspec/) | 规格驱动的变更、设计与归档 |
 
-## 设计与证据
+## 维护者说明
 
-- [HTTP 契约](openspec/changes/establish-shared-iam-service/http-contract.md)
-- [整改前独立审计](docs/reviews/iam-independent-acceptance.md)
-- [分层迁移与整改](docs/reviews/iam-remediation-plan.md)
-- [最新复验与已知性能项](docs/reviews/iam-remediation-validation.md)
-- [I1a资源开通与授权修复复验](docs/reviews/iam-i1a-takeover-validation.md)
-- [I1a资源授权HTTP契约与I2/I3边界](openspec/changes/add-tenant-resource-entitlements/http-contract.md)
-- [原设计与阶段划分](openspec/changes/establish-shared-iam-service/design.md)
-
-以上报告记录 I1a 阶段结论：通用资源开通、角色/成员及服务账号资源授权已实现，核心流程复验通过；当时完整资源负载性能、兼容回退版本及部分竞争矩阵仍待验证，Python 消费者切换（I2/I3）与物理拆库属于后续阶段。历史范围不代表现行部署状态，当前运行入口以上方三仓管理脚本为准。
+本机运行态、端口、容器和数据库清单以 [docs/CURRENT-RUNTIME.md](docs/CURRENT-RUNTIME.md) 为准；README 只保留公开使用与开发说明。历史验收报告仍保存在 [docs/reviews/](docs/reviews/)，用于溯源，不代表当前部署状态。
 
 ## License
 
